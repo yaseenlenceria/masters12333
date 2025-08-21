@@ -141,6 +141,22 @@ body {
     z-index: 2;
 }
 
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        url('attached_assets/herobc.png') right center/cover no-repeat,
+        linear-gradient(45deg, transparent 45%, #9ACD32 47%, #9ACD32 53%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, #7CB342 47%, #7CB342 53%, transparent 55%),
+        linear-gradient(90deg, transparent 75%, rgba(154, 205, 50, 0.3) 77%, rgba(154, 205, 50, 0.3) 83%, transparent 85%);
+    opacity: 0.4;
+    z-index: 1;
+}
+
 .hero-overlay {
     display: none;
 }
@@ -343,28 +359,33 @@ body {
 .services-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0;
+    gap: 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 .service-card {
     background: #222222;
     border: 1px solid #333333;
+    border-radius: 10px;
     padding: 2rem;
     text-align: center;
     transition: all 0.3s ease;
     position: relative;
-    min-height: 200px;
+    min-height: 250px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .service-card:hover {
     background: #2a2a2a;
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    border-color: #9ACD32;
+    box-shadow: 0 8px 25px rgba(154, 205, 50, 0.2);
 }
 
 .service-icon {
@@ -410,6 +431,27 @@ body {
     font-size: 0.85rem;
     margin-bottom: 0.3rem;
     line-height: 1.4;
+}
+
+.service-card .btn-service {
+    margin-top: 1rem;
+    padding: 10px 20px;
+    background: #9ACD32;
+    color: #1a1a1a;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: 2px solid #9ACD32;
+}
+
+.service-card .btn-service:hover {
+    background: transparent;
+    color: #9ACD32;
+    transform: scale(1.05);
 }
 
 .service-card img {
