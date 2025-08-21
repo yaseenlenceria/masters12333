@@ -109,7 +109,7 @@ body {
 .hero {
     height: 100vh;
     background: 
-        linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(45, 45, 45, 0.85) 30%, rgba(35, 35, 35, 0.9) 70%, rgba(50, 50, 50, 0.85) 100%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 30%, rgba(241, 245, 249, 0.95) 70%, rgba(236, 241, 247, 0.9) 100%),
         url('attached_assets/roof masters/2000_67ab8ae4cd3b1.jpg');
     background-size: cover;
     background-position: center;
@@ -129,9 +129,9 @@ body {
     right: 0;
     bottom: 0;
     background: 
-        radial-gradient(circle at 30% 70%, rgba(175, 211, 1, 0.1) 0%, transparent 60%),
-        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.05) 0%, transparent 60%),
-        radial-gradient(circle at 50% 50%, rgba(175, 211, 1, 0.05) 0%, transparent 70%);
+        radial-gradient(circle at 30% 70%, rgba(175, 211, 1, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,0.3) 0%, transparent 60%),
+        radial-gradient(circle at 50% 50%, rgba(175, 211, 1, 0.1) 0%, transparent 70%);
     animation: backgroundShift 10s ease-in-out infinite;
 }
 
@@ -147,15 +147,15 @@ body {
     right: 0;
     bottom: 0;
     background: 
-        linear-gradient(45deg, rgba(26, 26, 26, 0.7) 0%, rgba(35, 35, 35, 0.6) 50%, rgba(45, 45, 45, 0.7) 100%),
-        rgba(0, 0, 0, 0.6);
+        linear-gradient(45deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.7) 50%, rgba(241, 245, 249, 0.8) 100%),
+        rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(2px);
 }
 
 /* Main Hero Content */
 .hero-main-content {
     text-align: center;
-    color: #ffffff;
+    color: #1a1a1a;
     z-index: 5;
     position: relative;
     max-width: 900px;
@@ -208,30 +208,21 @@ body {
     font-size: 4.5rem;
     font-weight: 900;
     margin-bottom: 0.5rem;
-    text-shadow: 4px 4px 8px rgba(0,0,0,0.7), 2px 2px 4px rgba(0,0,0,0.5);
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #1a1a1a;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     line-height: 1.1;
-    animation: titlePulse 3s ease-in-out infinite alternate;
-}
-
-@keyframes titlePulse {
-    from { transform: scale(1); }
-    to { transform: scale(1.02); }
 }
 
 .hero-tagline {
     font-size: 1.8rem;
     font-weight: 600;
-    color: #9ACD32;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    background: rgba(26, 26, 26, 0.8);
+    color: #2d5016;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.9);
     padding: 0.75rem 1.5rem;
     border-radius: 25px;
     backdrop-filter: blur(15px);
-    border: 2px solid rgba(154, 205, 50, 0.6);
+    border: 2px solid rgba(45, 80, 22, 0.6);
     display: inline-block;
 }
 
@@ -244,13 +235,13 @@ body {
 .hero-description p {
     font-size: 1.4rem;
     font-weight: 500;
-    color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    background: rgba(26, 26, 26, 0.7);
+    color: #2d2d2d;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+    background: rgba(255, 255, 255, 0.9);
     padding: 1rem 2rem;
     border-radius: 15px;
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(154, 205, 50, 0.4);
+    border: 1px solid rgba(45, 80, 22, 0.4);
     line-height: 1.6;
 }
 
@@ -342,8 +333,8 @@ body {
     bottom: -40px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.9);
-    color: #afd301;
+    background: rgba(255, 255, 255, 0.95);
+    color: #2d5016;
     padding: 0.5rem 1rem;
     border-radius: 8px;
     font-size: 0.9rem;
@@ -352,7 +343,8 @@ body {
     opacity: 0;
     transition: opacity 0.3s ease;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(175, 211, 1, 0.3);
+    border: 1px solid rgba(45, 80, 22, 0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .sub-logo-container:hover .sub-logo-tooltip {
