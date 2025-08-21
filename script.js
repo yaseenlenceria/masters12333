@@ -43,9 +43,16 @@ function loadComponent(componentPath, containerId) {
         });
 }
 
+// Global error handler for better debugging
+window.addEventListener('error', function(e) {
+    console.error('Global error:', e.error?.message || e.message, e.error?.stack || '');
+});
+
 // Load all components on page load
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, starting component loading...');
+    
+    try {
 
     // Load header and footer (always present)
     loadComponent('header.html', 'header-container');
@@ -88,12 +95,18 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.paddingTop = header.offsetHeight + 'px';
         }
 
-        // Initialize mobile menu and FAQ with extra delay
+        console.log('Component initialization complete');
+    }, 300);
+
+    // Initialize mobile menu and FAQ with longer delay to ensure components are loaded
+    setTimeout(() => {
         ensureMobileMenuWorks();
         ensureFAQWorks();
-
-        console.log('Component initialization complete');
-    }, 500);
+    }, 800);
+    
+    } catch (error) {
+        console.error('Error during component initialization:', error);
+    }
 });
 
 // Legacy function - kept for compatibility but not used with new components
@@ -426,7 +439,7 @@ function createScrollProgressIndicator() {
 }
 
 // Enhanced hover interactions
-function addHoverInteractions() {
+function addSmoothInteractions() {
     const interactiveElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .btn, .nav-link, .testimonial-card');
 
     interactiveElements.forEach(el => {
@@ -461,6 +474,11 @@ function addHoverInteractions() {
             }, 600);
         });
     });
+}
+
+// Legacy function name for compatibility
+function addHoverInteractions() {
+    addSmoothInteractions();
 }
 
 // Enhanced Image Optimization and Lazy Loading
@@ -811,98 +829,121 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // FAQ Dropdown functionality
 function initializeFAQ() {
-    const faqItems = document.querySelectorAll('.faq-item');
+    // Wait for FAQ component to be fully loaded
+    const checkFAQ = () => {
+        const faqContainer = document.getElementById('faq-container');
+        const faqItems = document.querySelectorAll('.faq-item');
 
-    if (faqItems.length === 0) {
-        console.log('No FAQ items found');
-        return;
-    }
+        if (!faqContainer || faqItems.length === 0) {
+            console.log('FAQ not ready, retrying...');
+            return false;
+        }
 
-    faqItems.forEach((item, index) => {
-        const question = item.querySelector('.faq-question');
-        const answer = item.querySelector('.faq-answer');
+        faqItems.forEach((item, index) => {
+            const question = item.querySelector('.faq-question');
+            const answer = item.querySelector('.faq-answer');
 
-        if (question && answer) {
-            // Add smooth transition styles
-            answer.style.transition = 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
-            answer.style.overflow = 'hidden';
+            if (question && answer) {
+                // Remove existing event listeners to prevent duplicates
+                const newQuestion = question.cloneNode(true);
+                question.parentNode.replaceChild(newQuestion, question);
 
-            // Set initial state
-            if (!item.classList.contains('active')) {
-                answer.style.maxHeight = '0px';
-                answer.style.opacity = '0';
-            } else {
-                answer.style.maxHeight = answer.scrollHeight + 'px';
-                answer.style.opacity = '1';
-            }
+                // Add smooth transition styles
+                answer.style.transition = 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+                answer.style.overflow = 'hidden';
 
-            question.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
+                // Set initial state
+                if (!item.classList.contains('active')) {
+                    answer.style.maxHeight = '0px';
+                    answer.style.opacity = '0';
+                } else {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    answer.style.opacity = '1';
+                }
 
-                const isActive = item.classList.contains('active');
+                newQuestion.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                // Close all FAQ items with smooth animation
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        const otherAnswer = otherItem.querySelector('.faq-answer');
-                        if (otherAnswer) {
-                            otherAnswer.style.maxHeight = '0px';
-                            otherAnswer.style.opacity = '0';
+                    const isActive = item.classList.contains('active');
+
+                    // Close all FAQ items with smooth animation
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            const otherAnswer = otherItem.querySelector('.faq-answer');
+                            if (otherAnswer) {
+                                otherAnswer.style.maxHeight = '0px';
+                                otherAnswer.style.opacity = '0';
+                            }
+                            otherItem.classList.remove('active');
                         }
-                        otherItem.classList.remove('active');
+                    });
+
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                        answer.style.opacity = '1';
+                    } else {
+                        item.classList.remove('active');
+                        answer.style.maxHeight = '0px';
+                        answer.style.opacity = '0';
+                    }
+
+                    console.log('FAQ item toggled:', index, !isActive);
+                });
+
+                // Add touch support
+                newQuestion.addEventListener('touchstart', function(e) {
+                    this.style.backgroundColor = 'rgba(154, 205, 50, 0.1)';
+                });
+
+                newQuestion.addEventListener('touchend', function(e) {
+                    this.style.backgroundColor = '';
+                });
+
+                // Add keyboard accessibility
+                newQuestion.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        newQuestion.click();
                     }
                 });
 
-                // Toggle current item
-                if (!isActive) {
-                    item.classList.add('active');
-                    answer.style.maxHeight = answer.scrollHeight + 'px';
-                    answer.style.opacity = '1';
-                } else {
-                    item.classList.remove('active');
-                    answer.style.maxHeight = '0px';
-                    answer.style.opacity = '0';
-                }
+                // Make focusable for keyboard navigation
+                newQuestion.setAttribute('tabindex', '0');
+                newQuestion.setAttribute('role', 'button');
+                newQuestion.setAttribute('aria-expanded', item.classList.contains('active'));
+                newQuestion.style.cursor = 'pointer';
+                newQuestion.style.touchAction = 'manipulation';
 
-                console.log('FAQ item toggled:', index, !isActive);
-            });
+                // Update aria-expanded when item is toggled
+                const observer = new MutationObserver(() => {
+                    const isExpanded = item.classList.contains('active');
+                    newQuestion.setAttribute('aria-expanded', isExpanded);
+                });
 
-            // Add touch support
-            question.addEventListener('touchstart', function(e) {
-                this.style.backgroundColor = 'rgba(154, 205, 50, 0.1)';
-            });
+                observer.observe(item, { attributes: true, attributeFilter: ['class'] });
+            }
+        });
 
-            question.addEventListener('touchend', function(e) {
-                this.style.backgroundColor = '';
-            });
+        console.log('FAQ initialized with', faqItems.length, 'items');
+        return true;
+    };
 
-            // Add keyboard accessibility
-            question.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    question.click();
-                }
-            });
-
-            // Make focusable for keyboard navigation
-            question.setAttribute('tabindex', '0');
-            question.setAttribute('role', 'button');
-            question.setAttribute('aria-expanded', item.classList.contains('active'));
-            question.style.cursor = 'pointer';
-            question.style.touchAction = 'manipulation';
-
-            // Update aria-expanded when item is toggled
-            const observer = new MutationObserver(() => {
-                const isExpanded = item.classList.contains('active');
-                question.setAttribute('aria-expanded', isExpanded);
-            });
-
-            observer.observe(item, { attributes: true, attributeFilter: ['class'] });
+    // Retry mechanism
+    let retries = 0;
+    const maxRetries = 10;
+    
+    const tryInitFAQ = () => {
+        if (checkFAQ() || retries >= maxRetries) {
+            return;
         }
-    });
+        retries++;
+        setTimeout(tryInitFAQ, 300);
+    };
 
-    console.log('FAQ initialized with', faqItems.length, 'items');
+    tryInitFAQ();
 }
 
 // Initialize FAQ when components are loaded
@@ -944,6 +985,7 @@ function initializeMobileMenu() {
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('navMenu');
     const mobileOverlay = document.getElementById('mobileOverlay');
+    const dropdowns = document.querySelectorAll('.dropdown');
 
     if (!hamburger || !navMenu || !mobileOverlay) {
         // Elements not ready yet, try again
@@ -951,33 +993,101 @@ function initializeMobileMenu() {
         return;
     }
 
-    // Remove any existing event listeners to prevent duplicates
-    const newHamburger = hamburger.cloneNode(true);
-    hamburger.parentNode.replaceChild(newHamburger, hamburger);
-
-    // Add click event to new hamburger
-    newHamburger.addEventListener('click', function() {
-        const isActive = newHamburger.classList.contains('active');
-
-        newHamburger.classList.toggle('active');
+    // Add hamburger click event
+    hamburger.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isActive = hamburger.classList.contains('active');
+        
+        hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
         mobileOverlay.classList.toggle('active');
-
+        
         // Update ARIA attributes
-        newHamburger.setAttribute('aria-expanded', !isActive);
-
+        hamburger.setAttribute('aria-expanded', !isActive);
+        
         // Prevent body scroll when menu is open
         document.body.style.overflow = !isActive ? 'hidden' : '';
+        
+        console.log('Mobile menu toggled:', !isActive);
     });
 
     // Close menu when clicking overlay
-    mobileOverlay.addEventListener('click', function() {
-        newHamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-        mobileOverlay.classList.remove('active');
-        newHamburger.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+    mobileOverlay.addEventListener('click', closeMenu);
+
+    // Close menu with escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+            closeMenu();
+        }
     });
+
+    // Handle mobile dropdowns
+    dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        
+        if (toggle) {
+            toggle.addEventListener('click', function(e) {
+                if (window.innerWidth <= 968) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Close other dropdowns
+                    dropdowns.forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    dropdown.classList.toggle('active');
+                    
+                    const isExpanded = dropdown.classList.contains('active');
+                    toggle.setAttribute('aria-expanded', isExpanded);
+                    
+                    console.log('Dropdown toggled:', dropdown, isExpanded);
+                }
+            });
+        }
+    });
+
+    // Handle dropdown links
+    document.querySelectorAll('.dropdown-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Allow normal navigation for dropdown links
+            closeMenu();
+        });
+    });
+
+    // Close menu when clicking regular nav links (not dropdown toggles)
+    document.querySelectorAll('.nav-link:not(.dropdown-toggle)').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Only close menu if it's not a dropdown toggle
+            if (!link.classList.contains('dropdown-toggle')) {
+                closeMenu();
+            }
+        });
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 968) {
+            closeMenu();
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
+
+    function closeMenu() {
+        if (hamburger && navMenu && mobileOverlay) {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+    }
 
     console.log('Mobile menu initialized successfully');
 }
