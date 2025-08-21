@@ -110,7 +110,7 @@ body {
     height: 100vh;
     background: 
         linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(45, 45, 45, 0.85) 30%, rgba(35, 35, 35, 0.9) 70%, rgba(50, 50, 50, 0.85) 100%),
-        url('attached_assets/roof masters/2000_67ab8ae4cd3b1.jpg');
+        url('attached_assets/herobc.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -989,7 +989,7 @@ img[loading="lazy"].loaded {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('attached_assets/roof masters/2000_67ab8ae4cd3b1.jpg');
+    background-image: url('attached_assets/herobc.png');
     background-size: cover;
     background-position: center;
     z-index: -1;
