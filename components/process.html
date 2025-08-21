@@ -1,0 +1,239 @@
+
+<section class="process">
+    <div class="container">
+        <div class="section-header">
+            <h2>How The Masters Group Works</h2>
+            <p>Simple, professional process from quote to completion</p>
+        </div>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Free Consultation</h3>
+                    <p>Contact us for a free, no-obligation quote. We'll assess your property and provide detailed recommendations for your home improvement needs across Galway.</p>
+                    <div class="step-features">
+                        <span><i class="fas fa-check"></i> Free site visit</span>
+                        <span><i class="fas fa-check"></i> Detailed assessment</span>
+                        <span><i class="fas fa-check"></i> Written quote</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Project Planning</h3>
+                    <p>Our experts create a detailed project plan, including timeline, materials, and preparation requirements. We coordinate all aspects to minimize disruption.</p>
+                    <div class="step-features">
+                        <span><i class="fas fa-check"></i> Detailed timeline</span>
+                        <span><i class="fas fa-check"></i> Material selection</span>
+                        <span><i class="fas fa-check"></i> Weather planning</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Professional Execution</h3>
+                    <p>Our skilled teams execute the work with precision, using premium materials and proven techniques. Regular progress updates keep you informed throughout.</p>
+                    <div class="step-features">
+                        <span><i class="fas fa-check"></i> Expert tradesmen</span>
+                        <span><i class="fas fa-check"></i> Premium materials</span>
+                        <span><i class="fas fa-check"></i> Progress updates</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Quality Completion</h3>
+                    <p>Final inspection ensures everything meets our high standards. We provide maintenance advice and warranty coverage for your peace of mind.</p>
+                    <div class="step-features">
+                        <span><i class="fas fa-check"></i> Quality inspection</span>
+                        <span><i class="fas fa-check"></i> Maintenance advice</span>
+                        <span><i class="fas fa-check"></i> Warranty coverage</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="process-cta">
+            <h3>Ready to Start Your Project?</h3>
+            <p>Get your free consultation today - serving all of Galway City & County</p>
+            <a href="contact.html" class="btn btn-primary">Get Free Quote</a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Process Section */
+.process {
+    padding: 5rem 0;
+    background: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+}
+
+.process::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(154, 205, 50, 0.05) 0%, transparent 50%);
+    z-index: 1;
+}
+
+.process .container {
+    position: relative;
+    z-index: 2;
+}
+
+.process .section-header h2 {
+    color: #ffffff;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.process .section-header p {
+    color: #cccccc;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 4rem;
+}
+
+.process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
+.process-step {
+    background: #222222;
+    padding: 2.5rem 2rem;
+    border-radius: 15px;
+    border: 1px solid #333333;
+    transition: all 0.3s ease;
+    position: relative;
+    text-align: center;
+}
+
+.process-step:hover {
+    transform: translateY(-10px);
+    border-color: #9ACD32;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.step-number {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    z-index: 3;
+}
+
+.step-content h3 {
+    color: #ffffff;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.step-content p {
+    color: #cccccc;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.step-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    text-align: left;
+}
+
+.step-features span {
+    color: #9ACD32;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.step-features i {
+    width: 16px;
+    text-align: center;
+}
+
+.process-cta {
+    background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%);
+    padding: 3rem 2rem;
+    border-radius: 15px;
+    text-align: center;
+    color: #1a1a1a;
+}
+
+.process-cta h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.process-cta p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.process-cta .btn {
+    background: #1a1a1a;
+    color: #ffffff;
+    border: 2px solid #1a1a1a;
+    font-size: 1.1rem;
+    padding: 15px 30px;
+}
+
+.process-cta .btn:hover {
+    background: transparent;
+    color: #1a1a1a;
+}
+
+@media (max-width: 768px) {
+    .process-steps {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .process-step {
+        padding: 2rem 1.5rem;
+    }
+    
+    .process .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .process-cta {
+        padding: 2rem 1.5rem;
+    }
+    
+    .process-cta h3 {
+        font-size: 1.5rem;
+    }
+}
+</style>
+</section>

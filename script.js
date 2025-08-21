@@ -16,7 +16,7 @@ function loadComponent(componentPath, containerId) {
         .then(data => {
             if (data && data.trim()) {
                 container.innerHTML = data;
-                
+
                 // Execute any scripts in the loaded component
                 const scripts = container.querySelectorAll('script');
                 scripts.forEach(script => {
@@ -28,7 +28,7 @@ function loadComponent(componentPath, containerId) {
                         }
                     }
                 });
-                
+
                 console.log(`Successfully loaded component: ${componentPath}`);
             } else {
                 console.warn(`Empty content returned for component: ${componentPath}`);
@@ -46,7 +46,7 @@ function loadComponent(componentPath, containerId) {
 // Load all components on page load
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, starting component loading...');
-    
+
     // Load header and footer (always present)
     loadComponent('header.html', 'header-container');
     loadComponent('footer.html', 'footer-container');
@@ -57,9 +57,12 @@ document.addEventListener('DOMContentLoaded', function() {
         'benefits-container': 'components/benefits-banner.html',
         'services-container': 'components/services-overview.html',
         'why-choose-container': 'components/why-choose.html',
-        'service-areas-container': 'components/service-areas.html',
+        'service-areas-container': 'service-areas-container',
         'gallery-container': 'components/gallery.html',
+        'testimonials-container': 'components/testimonials.html',
+        'process-container': 'components/process.html',
         'stats-container': 'components/stats.html',
+        'faq-container': 'components/faq.html',
         'contact-cta-container': 'components/contact-cta.html'
     };
 
@@ -77,13 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeAnimations();
         initializeFormHandling();
         initializeSmoothScrolling();
-        
+
         // Set body padding for fixed header
         const header = document.querySelector('.header');
         if (header) {
             document.body.style.paddingTop = header.offsetHeight + 'px';
         }
-        
+
         console.log('Component initialization complete');
     }, 500);
 });
