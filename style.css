@@ -37,6 +37,13 @@ body {
     justify-content: space-between;
     align-items: center;
     height: 80px;
+    position: relative;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    z-index: 1002;
 }
 
 .logo-link {
@@ -95,6 +102,14 @@ body {
     display: none;
     flex-direction: column;
     cursor: pointer;
+    z-index: 1001;
+    padding: 5px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.hamburger:hover {
+    background: rgba(154, 205, 50, 0.1);
 }
 
 .bar {
@@ -102,7 +117,22 @@ body {
     height: 3px;
     background: #ffffff;
     margin: 3px 0;
-    transition: 0.3s;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.hamburger.active .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+    background: #9ACD32;
+}
+
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+    background: #9ACD32;
 }
 
 /* Hero Section - Dark Design */
@@ -887,16 +917,22 @@ img[loading="lazy"].loaded {
     .hamburger {
         display: flex;
         z-index: 1001;
+        position: relative;
     }
 
     .nav-container {
         height: 70px;
         position: relative;
+        padding: 0 15px;
     }
 
     .main-logo {
         height: 50px;
         margin-right: 10px;
+    }
+
+    .nav-logo {
+        flex: 1;
     }
 
     .logo-text h2 {
@@ -1074,11 +1110,21 @@ img[loading="lazy"].loaded {
 @media (max-width: 480px) {
     .nav-container {
         height: 60px;
-        padding: 0 10px;
+        padding: 0 15px;
     }
 
     .main-logo {
-        height: 40px;
+        height: 45px;
+    }
+
+    .hamburger {
+        padding: 3px;
+    }
+
+    .bar {
+        width: 22px;
+        height: 2.5px;
+        margin: 2.5px 0;
     }
 
     .nav-menu {
