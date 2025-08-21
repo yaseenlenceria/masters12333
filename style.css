@@ -933,10 +933,84 @@ body {
     cursor: not-allowed;
 }
 
-/* Responsive Images */
+/* Responsive Images - Optimized Loading */
 img {
     max-width: 100%;
     height: auto;
+    loading: lazy;
+    decoding: async;
+    transition: opacity 0.3s ease;
+}
+
+/* Critical images that should load immediately */
+.hero-main-logo,
+.main-logo,
+.footer-logo {
+    loading: eager !important;
+}
+
+/* Image loading states */
+img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+img[loading="lazy"].loaded {
+    opacity: 1;
+}
+
+/* Placeholder for loading images */
+.image-placeholder {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Optimize hero background loading */
+.hero {
+    background-image: 
+        linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(45, 45, 45, 0.85) 30%, rgba(35, 35, 35, 0.9) 70%, rgba(50, 50, 50, 0.85) 100%);
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll; /* Changed from fixed for better performance */
+    will-change: transform;
+}
+
+/* Preload critical hero image */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('attached_assets/roof masters/2000_67ab8ae4cd3b1.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.8;
+}
+
+/* Optimize sub-logo loading */
+.sub-logo {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    transform: translateZ(0); /* Hardware acceleration */
+    will-change: transform;
+}
+
+/* Optimize gallery images */
+.gallery-item img,
+.project-item img,
+.service-card img {
+    transform: translateZ(0); /* Hardware acceleration */
+    will-change: transform;
+    image-rendering: -webkit-optimize-contrast;
 }
 
 /* Responsive Design */
