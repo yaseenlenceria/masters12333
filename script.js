@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'benefits-container': 'components/benefits-banner.html',
         'services-container': 'components/services-overview.html',
         'why-choose-container': 'components/why-choose.html',
-        'service-areas-container': 'service-areas-container',
+        'service-areas-container': 'components/service-areas-container',
         'gallery-container': 'components/gallery.html',
         'testimonials-container': 'components/testimonials.html',
         'process-container': 'components/process.html',
@@ -499,8 +499,83 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.style.transform = 'scale(1) rotate(0deg)';
             });
         });
-    }, 1000);
+    }, 100);
 });
+
+// FAQ Dropdown functionality
+function initializeFAQ() {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+
+        if (question) {
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+
+                // Close all FAQ items with smooth animation
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+
+                // Toggle current item
+                if (!isActive) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            // Add keyboard accessibility
+            question.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    question.click();
+                }
+            });
+
+            // Make focusable for keyboard navigation
+            question.setAttribute('tabindex', '0');
+            question.setAttribute('role', 'button');
+            question.setAttribute('aria-expanded', 'false');
+
+            // Update aria-expanded when item is toggled
+            const observer = new MutationObserver(() => {
+                const isExpanded = item.classList.contains('active');
+                question.setAttribute('aria-expanded', isExpanded);
+            });
+
+            observer.observe(item, { attributes: true, attributeFilter: ['class'] });
+        }
+    });
+}
+
+// Initialize FAQ when components are loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Wait for components to load then initialize FAQ
+    setTimeout(initializeFAQ, 500);
+
+    // Also initialize FAQ when new content is dynamically loaded
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1 && (node.classList?.contains('faq') || node.querySelector?.('.faq'))) {
+                        setTimeout(initializeFAQ, 100);
+                    }
+                });
+            }
+        });
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+});
+
 
 // Page speed optimization
 window.addEventListener('load', function() {
