@@ -4,12 +4,14 @@ function loadComponent(componentPath, containerId) {
         .then(response => response.text())
         .then(data => {
             document.getElementById(containerId).innerHTML = data;
-
-            // Re-initialize navigation after header is loaded
-            if (containerId === 'header-container') {
-                initializeNavigation();
-                setActiveNavLink();
-            }
+            
+            // Execute any scripts in the loaded component
+            const scripts = document.getElementById(containerId).querySelectorAll('script');
+            scripts.forEach(script => {
+                if (script.innerHTML) {
+                    eval(script.innerHTML);
+                }
+            });
         })
         .catch(error => console.error('Error loading component:', error));
 }
@@ -23,69 +25,20 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAnimations();
     initializeFormHandling();
     initializeSmoothScrolling();
+    
+    // Set body padding for fixed header
+    setTimeout(() => {
+        const header = document.querySelector('.header');
+        if (header) {
+            document.body.style.paddingTop = header.offsetHeight + 'px';
+        }
+    }, 100);
 });
 
-// Navigation initialization
+// Legacy function - kept for compatibility but not used with new components
 function initializeNavigation() {
-    // Wait a bit for the header to be fully loaded
-    setTimeout(() => {
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-
-        if (hamburger && navMenu) {
-            // Remove any existing event listeners
-            hamburger.replaceWith(hamburger.cloneNode(true));
-            const newHamburger = document.querySelector('.hamburger');
-
-            // Add click event listener for hamburger
-            newHamburger.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                newHamburger.classList.toggle('active');
-                navMenu.classList.toggle('active');
-
-                // Improve accessibility
-                const isExpanded = newHamburger.classList.contains('active');
-                newHamburger.setAttribute('aria-expanded', isExpanded);
-            });
-
-            // Add keyboard support for hamburger
-            newHamburger.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    this.click();
-                }
-            });
-
-            // Close mobile menu when clicking on nav links
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    newHamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    newHamburger.setAttribute('aria-expanded', 'false');
-                });
-            });
-
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!navMenu.contains(e.target) && !newHamburger.contains(e.target)) {
-                    newHamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    newHamburger.setAttribute('aria-expanded', 'false');
-                }
-            });
-
-            // Close menu on escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-                    newHamburger.classList.remove('active');
-                    navMenu.classList.remove('active');
-                    newHamburger.setAttribute('aria-expanded', 'false');
-                }
-            });
-        }
-    }, 500);
+    // This function is no longer needed as navigation is handled within the header component
+    console.log('Navigation initialized via header component');
 }
 
 // Set active navigation link based on current page

@@ -1,48 +1,217 @@
 
-<!-- Global Footer Component -->
 <footer class="footer" itemscope itemtype="http://schema.org/Organization">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-section">
-                <div class="footer-brand">
-                    <img src="attached_assets/mainlogo.png" alt="The Masters Group Galway Logo" class="footer-logo">
-                    <h3 itemprop="name">The Masters Group</h3>
+    <div class="footer-container">
+        <!-- Main Footer Content -->
+        <div class="footer-main">
+            <div class="footer-grid">
+                <!-- Company Info Section -->
+                <div class="footer-section company-info">
+                    <div class="footer-brand">
+                        <img src="attached_assets/mainlogo.png" alt="The Masters Group Galway" class="footer-logo">
+                        <div class="footer-brand-text">
+                            <h3 itemprop="name">The Masters Group</h3>
+                            <span class="footer-tagline">Galway's Premier Home Services</span>
+                        </div>
+                    </div>
+                    <p itemprop="description" class="company-description">
+                        Your trusted partner for all exterior home services across Galway City and County. 
+                        Expert roofing, power washing, painting, and paving contractors with over 20 years of experience.
+                    </p>
+                    
+                    <!-- Service Badges -->
+                    <div class="service-badges">
+                        <div class="badge">
+                            <i class="fas fa-star" aria-hidden="true"></i>
+                            <span>5-Star Rated</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-shield-alt" aria-hidden="true"></i>
+                            <span>Fully Insured</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-award" aria-hidden="true"></i>
+                            <span>20+ Years</span>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="social-links">
+                        <h4>Follow Us</h4>
+                        <div class="social-icons">
+                            <a href="https://www.facebook.com/profile.php?id=61577976021788" 
+                               aria-label="Follow us on Facebook" 
+                               class="social-link facebook">
+                                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@paving.masters.galway" 
+                               aria-label="Follow us on TikTok" 
+                               class="social-link tiktok">
+                                <i class="fab fa-tiktok" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <p itemprop="description">Premier home services across Galway City & County - Expert roofing, power washing, painting & paving contractors</p>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/profile.php?id=61577976021788" itemprop="sameAs" aria-label="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="https://www.tiktok.com/@paving.masters.galway" itemprop="sameAs" aria-label="Follow us on TikTok"><i class="fab fa-tiktok"></i></a>
+
+                <!-- Services Section -->
+                <div class="footer-section services-section">
+                    <h4>Our Services</h4>
+                    <div class="services-grid">
+                        <div class="service-item">
+                            <a href="roofmasters.html" class="service-link">
+                                <div class="service-icon">
+                                    <i class="fas fa-home" aria-hidden="true"></i>
+                                </div>
+                                <div class="service-content">
+                                    <h5>RoofMasters</h5>
+                                    <p>Roofing & Repairs</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="service-item">
+                            <a href="dirtmasters.html" class="service-link">
+                                <div class="service-icon">
+                                    <i class="fas fa-spray-can" aria-hidden="true"></i>
+                                </div>
+                                <div class="service-content">
+                                    <h5>DirtMasters</h5>
+                                    <p>Power Washing</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="service-item">
+                            <a href="paintmasters.html" class="service-link">
+                                <div class="service-icon">
+                                    <i class="fas fa-paint-roller" aria-hidden="true"></i>
+                                </div>
+                                <div class="service-content">
+                                    <h5>PaintMasters</h5>
+                                    <p>Exterior Painting</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="service-item">
+                            <a href="pavingmasters.html" class="service-link">
+                                <div class="service-icon">
+                                    <i class="fas fa-road" aria-hidden="true"></i>
+                                </div>
+                                <div class="service-content">
+                                    <h5>PavingMasters</h5>
+                                    <p>Paving & Landscaping</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="footer-section">
-                <h4>Our Services</h4>
-                <ul>
-                    <li><a href="roofmasters.html">RoofMasters - Galway Roofing</a></li>
-                    <li><a href="dirtmasters.html">DirtMasters - Power Washing</a></li>
-                    <li><a href="paintmasters.html">PaintMasters - Exterior Painting</a></li>
-                    <li><a href="pavingmasters.html">PavingMasters - Paving Contractors</a></li>
-                </ul>
-            </div>
-            <div class="footer-section" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                <h4>Contact Information</h4>
-                <p><i class="fas fa-phone"></i> <span itemprop="telephone">087 717 1524</span> (RoofMasters)</p>
-                <p><i class="fas fa-phone"></i> <span itemprop="telephone">091 707 971</span> (DirtMasters)</p>
-                <p><i class="fas fa-phone"></i> <span itemprop="telephone">087 108 4840</span> (PavingMasters)</p>
-                <p><i class="fas fa-map-marker-alt"></i> <span itemprop="addressLocality">Galway</span>, <span itemprop="addressCountry">Ireland</span></p>
-            </div>
-            <div class="footer-section">
-                <h4>Service Areas in Galway</h4>
-                <p>Galway City, Salthill, Oranmore, Claregalway, Tuam, Loughrea, Athenry, Ballinasloe, Kilcolgan & Surrounding Areas</p>
-                <p><strong>Available:</strong> Mon-Sat 8AM-6PM</p>
-                <p style="color: #ef4444; font-weight: bold;">24/7 Emergency Roofing</p>
+
+                <!-- Contact Info Section -->
+                <div class="footer-section contact-section" itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                    <h4>Contact Information</h4>
+                    
+                    <!-- Emergency Contact Highlight -->
+                    <div class="emergency-contact">
+                        <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                        <div class="emergency-content">
+                            <span class="emergency-label">24/7 Emergency</span>
+                            <a href="tel:0877171524" class="emergency-number">087 717 1524</a>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details -->
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <div class="contact-content">
+                                <span class="contact-label">RoofMasters</span>
+                                <a href="tel:0877171524" itemprop="telephone">087 717 1524</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <div class="contact-content">
+                                <span class="contact-label">DirtMasters</span>
+                                <a href="tel:091707971" itemprop="telephone">091 707 971</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone" aria-hidden="true"></i>
+                            <div class="contact-content">
+                                <span class="contact-label">PavingMasters</span>
+                                <a href="tel:0871084840" itemprop="telephone">087 108 4840</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                            <div class="contact-content">
+                                <span class="contact-label">Location</span>
+                                <span itemprop="addressLocality">Galway City & County</span>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock" aria-hidden="true"></i>
+                            <div class="contact-content">
+                                <span class="contact-label">Hours</span>
+                                <span>Mon-Sat: 8AM-6PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <a href="contact.html" class="footer-cta-btn">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        Get Free Quote
+                    </a>
+                </div>
+
+                <!-- Service Areas Section -->
+                <div class="footer-section areas-section">
+                    <h4>Service Areas</h4>
+                    <div class="areas-content">
+                        <p class="areas-intro">Proudly serving Galway City & County</p>
+                        <div class="areas-list">
+                            <span class="area-item">Galway City</span>
+                            <span class="area-item">Salthill</span>
+                            <span class="area-item">Oranmore</span>
+                            <span class="area-item">Claregalway</span>
+                            <span class="area-item">Tuam</span>
+                            <span class="area-item">Loughrea</span>
+                            <span class="area-item">Athenry</span>
+                            <span class="area-item">Ballinasloe</span>
+                            <span class="area-item">Kilcolgan</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Links -->
+                    <div class="quick-links">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="contact.html">Contact</a></li>
+                            <li><a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Back to Top</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- Footer Bottom -->
         <div class="footer-bottom">
-            <p>&copy; 2025 The Masters Group Galway. All rights reserved. | <a href="#" style="color: #3b82f6;">Privacy Policy</a> | <a href="#" style="color: #3b82f6;">Terms of Service</a></p>
+            <div class="footer-bottom-content">
+                <div class="copyright">
+                    <p>&copy; 2025 The Masters Group Galway. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="sitemap.xml" class="footer-link">Sitemap</a>
+                </div>
+                <div class="footer-credits">
+                    <p>Professional home services across Ireland</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Structured Data for Local Business -->
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -72,48 +241,593 @@
             "geoRadius": "50000"
         },
         "areaServed": ["Galway City", "Salthill", "Oranmore", "Claregalway", "Tuam", "Loughrea", "Athenry", "Ballinasloe", "Kilcolgan"],
-        "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "Home Services",
-            "itemListElement": [
-                {
-                    "@type": "Offer",
-                    "itemOffered": {
-                        "@type": "Service",
-                        "name": "Roofing Services Galway",
-                        "description": "Expert roofing repairs, maintenance, and installations in Galway"
-                    }
-                },
-                {
-                    "@type": "Offer",
-                    "itemOffered": {
-                        "@type": "Service",
-                        "name": "Power Washing Galway",
-                        "description": "Professional power washing and exterior cleaning services"
-                    }
-                },
-                {
-                    "@type": "Offer",
-                    "itemOffered": {
-                        "@type": "Service",
-                        "name": "Exterior Painting Galway",
-                        "description": "Professional exterior painting for residential and commercial properties"
-                    }
-                },
-                {
-                    "@type": "Offer",
-                    "itemOffered": {
-                        "@type": "Service",
-                        "name": "Paving Contractors Galway",
-                        "description": "Expert paving contractors for driveways, patios, and landscaping"
-                    }
-                }
-            ]
-        },
         "sameAs": [
             "https://www.facebook.com/profile.php?id=61577976021788",
             "https://www.tiktok.com/@paving.masters.galway"
         ]
     }
     </script>
+</footer>
+
+<style>
+/* Footer Styles */
+.footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #9ACD32 0%, #7CB342 50%, #9ACD32 100%);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Main Footer */
+.footer-main {
+    padding: 60px 0 40px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    align-items: start;
+}
+
+/* Footer Sections */
+.footer-section h4,
+.footer-section h5 {
+    color: #9ACD32;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-section h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: #9ACD32;
+}
+
+/* Company Info Section */
+.footer-brand {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.footer-logo {
+    height: 50px;
+    width: auto;
+    margin-right: 15px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.footer-brand-text h3 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.footer-tagline {
+    color: #9ACD32;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.company-description {
+    line-height: 1.6;
+    color: #cccccc;
+    margin-bottom: 25px;
+}
+
+/* Service Badges */
+.service-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+    background: rgba(154, 205, 50, 0.1);
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(154, 205, 50, 0.3);
+    gap: 8px;
+}
+
+.badge i {
+    color: #9ACD32;
+    font-size: 0.9rem;
+}
+
+.badge span {
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Social Links */
+.social-links h4 {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.social-link:hover::before {
+    transform: translateY(0);
+}
+
+.social-link.facebook {
+    background: linear-gradient(135deg, #1877f2 0%, #42a5f5 100%);
+}
+
+.social-link.tiktok {
+    background: linear-gradient(135deg, #000000 0%, #333333 100%);
+}
+
+.social-link:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.social-link i {
+    color: #ffffff;
+    font-size: 1.2rem;
+    z-index: 1;
+}
+
+/* Services Section */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.service-item {
+    background: rgba(42, 42, 42, 0.5);
+    border-radius: 12px;
+    padding: 20px 15px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.service-item:hover {
+    background: rgba(154, 205, 50, 0.1);
+    border-color: rgba(154, 205, 50, 0.3);
+    transform: translateY(-5px);
+}
+
+.service-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 15px;
+}
+
+.service-icon {
+    width: 45px;
+    height: 45px;
+    background: #9ACD32;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.service-icon i {
+    color: #1a1a1a;
+    font-size: 1.3rem;
+}
+
+.service-content h5 {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 3px 0;
+}
+
+.service-content p {
+    color: #cccccc;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* Contact Section */
+.emergency-contact {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.emergency-contact i {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+.emergency-label {
+    display: block;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.emergency-number {
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.emergency-number:hover {
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+.contact-details {
+    margin-bottom: 25px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.contact-item:last-child {
+    border-bottom: none;
+}
+
+.contact-item i {
+    color: #9ACD32;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.contact-label {
+    display: block;
+    color: #9ACD32;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.contact-item a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.contact-item a:hover {
+    color: #9ACD32;
+}
+
+.footer-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%);
+    color: #1a1a1a;
+    padding: 15px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 700;
+    gap: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(154, 205, 50, 0.3);
+}
+
+.footer-cta-btn:hover {
+    background: linear-gradient(135deg, #7CB342 0%, #689F38 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(154, 205, 50, 0.4);
+}
+
+/* Service Areas */
+.areas-intro {
+    color: #cccccc;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.areas-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.area-item {
+    background: rgba(154, 205, 50, 0.1);
+    color: #9ACD32;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid rgba(154, 205, 50, 0.3);
+}
+
+.quick-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.quick-links li {
+    margin-bottom: 8px;
+}
+
+.quick-links a {
+    color: #cccccc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.quick-links a:hover {
+    color: #9ACD32;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 25px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.copyright p {
+    color: #cccccc;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
+.footer-link {
+    color: #cccccc;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #9ACD32;
+}
+
+.footer-credits p {
+    color: #9ACD32;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 968px) {
+    .footer-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .footer-main {
+        padding: 40px 0 30px;
+    }
+
+    .service-badges {
+        justify-content: center;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+
+    .emergency-contact {
+        text-align: center;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-cta-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        padding: 0 15px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    .footer-brand {
+        justify-content: center;
+    }
+
+    .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .footer-links {
+        order: 2;
+    }
+
+    .footer-credits {
+        order: 3;
+    }
+
+    .areas-list {
+        justify-content: center;
+    }
+
+    .service-badges {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-main {
+        padding: 30px 0 20px;
+    }
+
+    .footer-section h4 {
+        font-size: 1.1rem;
+    }
+
+    .footer-brand-text h3 {
+        font-size: 1.3rem;
+    }
+
+    .footer-logo {
+        height: 40px;
+    }
+
+    .emergency-contact {
+        padding: 15px;
+    }
+
+    .emergency-number {
+        font-size: 1.1rem;
+    }
+
+    .contact-item {
+        padding: 10px 0;
+    }
+
+    .service-badges {
+        gap: 10px;
+    }
+
+    .badge {
+        padding: 6px 12px;
+    }
+
+    .social-link {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .service-item,
+    .social-link,
+    .footer-cta-btn {
+        transition: none;
+    }
+}
+
+@media (prefers-contrast: high) {
+    .footer {
+        background: #000000;
+        color: #ffffff;
+    }
+    
+    .footer::before {
+        background: #ffffff;
+    }
+    
+    .service-badges .badge {
+        background: #ffffff;
+        color: #000000;
+        border-color: #ffffff;
+    }
+}
+
+/* Print styles */
+@media print {
+    .footer {
+        background: none !important;
+        color: #000000 !important;
+    }
+    
+    .social-links,
+    .footer-cta-btn {
+        display: none;
+    }
+}
+</style>
 </footer>

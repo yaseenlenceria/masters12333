@@ -17,126 +17,12 @@ body {
     padding: 0 20px;
 }
 
-/* Navigation */
-.navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(26, 26, 26, 0.95);
-    backdrop-filter: blur(15px);
-    z-index: 1000;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
-    border-bottom: 3px solid #9ACD32;
+/* Header spacing for pages */
+body {
+    padding-top: 80px; /* Default header height */
 }
 
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px;
-    position: relative;
-}
-
-.nav-logo {
-    display: flex;
-    align-items: center;
-    z-index: 1002;
-}
-
-.logo-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    transition: transform 0.3s ease;
-}
-
-.logo-link:hover {
-    transform: scale(1.02);
-}
-
-.main-logo {
-    height: 60px;
-    width: auto;
-    margin-right: 15px;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-}
-
-.logo-text h2 {
-    color: #2d5016;
-    font-size: 1.6rem;
-    font-weight: bold;
-    margin: 0;
-    line-height: 1.2;
-}
-
-.tagline {
-    color: #afd301;
-    font-size: 0.9rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-}
-
-.nav-link {
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-.nav-link:hover,
-.nav-link.active {
-    color: #9ACD32;
-}
-
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    z-index: 1001;
-    padding: 5px;
-    border-radius: 3px;
-    transition: all 0.3s ease;
-    background: transparent;
-    border: none;
-    outline: none;
-}
-
-.hamburger:hover {
-    background: rgba(154, 205, 50, 0.1);
-}
-
-.bar {
-    width: 25px;
-    height: 3px;
-    background: #ffffff;
-    margin: 3px 0;
-    transition: all 0.3s ease;
-    border-radius: 2px;
-}
-
-.hamburger.active .bar:nth-child(1) {
-    transform: rotate(-45deg) translate(-5px, 6px);
-    background: #9ACD32;
-}
-
-.hamburger.active .bar:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active .bar:nth-child(3) {
-    transform: rotate(45deg) translate(-5px, -6px);
-    background: #9ACD32;
-}
+/* Old navigation styles removed - now handled by header component */
 
 /* Hero Section - Dark Design */
 .hero {
@@ -148,6 +34,8 @@ body {
     justify-content: flex-start;
     overflow: hidden;
     padding-left: 80px;
+    margin-top: -80px;
+    padding-top: 80px;
 }
 
 .hero::before {
@@ -644,88 +532,7 @@ body {
     margin-bottom: 2rem;
 }
 
-/* Footer */
-.footer {
-    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-    color: white;
-    padding: 3rem 0 1rem;
-    border-top: 4px solid #afd301;
-}
-
-.footer-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
-
-.footer-brand {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.footer-logo {
-    height: 50px;
-    width: auto;
-    margin-right: 15px;
-    filter: brightness(1.1);
-}
-
-.footer-section h3,
-.footer-section h4 {
-    margin-bottom: 1rem;
-    color: #afd301;
-    font-size: 1.3rem;
-}
-
-.footer-section ul {
-    list-style: none;
-}
-
-.footer-section ul li {
-    margin-bottom: 0.5rem;
-}
-
-.footer-section a {
-    color: #d1d5db;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-section a:hover {
-    color: #afd301;
-}
-
-.social-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.social-links a {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #afd301 0%, #b0d402 100%);
-    border-radius: 50%;
-    text-align: center;
-    line-height: 40px;
-    transition: all 0.3s;
-    color: #1a1a1a;
-}
-
-.social-links a:hover {
-    background: linear-gradient(135deg, #b0d402 0%, #aed200 100%);
-    transform: scale(1.1);
-}
-
-.footer-bottom {
-    border-top: 1px solid #374151;
-    padding-top: 1rem;
-    text-align: center;
-    color: #9ca3af;
-}
+/* Old footer styles removed - now handled by footer component */
 
 /* Skip Link for Accessibility */
 .skip-link {
