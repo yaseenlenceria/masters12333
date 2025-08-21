@@ -193,13 +193,13 @@ function initializeAnimations() {
 document.addEventListener('DOMContentLoaded', function() {
     // Preload critical images
     preloadCriticalImages();
-    
+
     // Initialize optimized lazy loading
     initializeOptimizedLazyLoading();
-    
+
     // Optimize all images
     optimizeAllImages();
-    
+
     // Add loading states
     addImageLoadingStates();
 });
@@ -257,27 +257,27 @@ function initializeOptimizedLazyLoading() {
 
 function optimizeAllImages() {
     const allImages = document.querySelectorAll('img');
-    
+
     allImages.forEach(img => {
         // Add loading optimization
         if (!img.hasAttribute('loading')) {
             img.setAttribute('loading', 'lazy');
         }
-        
+
         // Add decoding async for better performance
         img.setAttribute('decoding', 'async');
-        
+
         // Optimize src attribute for WebP support
         if (supportsWebP()) {
             optimizeImageFormat(img);
         }
-        
+
         // Add error handling
         img.addEventListener('error', function() {
             console.warn('Failed to load image:', this.src);
             this.style.display = 'none';
         });
-        
+
         // Add load event for performance tracking
         img.addEventListener('load', function() {
             this.classList.add('loaded');
@@ -296,13 +296,13 @@ function optimizeImageFormat(img) {
     // This would typically involve server-side WebP generation
     // For now, we'll optimize loading behavior
     const originalSrc = img.src;
-    
+
     // Add srcset for responsive images if not present
     if (!img.hasAttribute('srcset') && originalSrc.includes('attached_assets')) {
         // Create responsive breakpoints
         const baseSrc = originalSrc.replace(/\.(jpg|jpeg|png)$/i, '');
         const extension = originalSrc.match(/\.(jpg|jpeg|png)$/i)?.[0] || '.jpg';
-        
+
         // Note: This assumes you have multiple sizes available
         // You would need to generate these on the server
         img.setAttribute('sizes', '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw');
@@ -311,7 +311,7 @@ function optimizeImageFormat(img) {
 
 function addImageLoadingStates() {
     const images = document.querySelectorAll('img');
-    
+
     images.forEach(img => {
         // Create placeholder
         const placeholder = document.createElement('div');
@@ -322,16 +322,16 @@ function addImageLoadingStates() {
         placeholder.style.top = '0';
         placeholder.style.left = '0';
         placeholder.style.zIndex = '1';
-        
+
         // Wrap image in container
         const container = document.createElement('div');
         container.style.position = 'relative';
         container.style.display = 'inline-block';
-        
+
         img.parentNode.insertBefore(container, img);
         container.appendChild(img);
         container.appendChild(placeholder);
-        
+
         // Remove placeholder when image loads
         img.addEventListener('load', function() {
             placeholder.style.opacity = '0';
@@ -348,7 +348,7 @@ function addImageLoadingStates() {
 function initializeImagePerformanceOptimizations() {
     // Preconnect to image domains
     const preconnectDomains = ['fonts.googleapis.com', 'fonts.gstatic.com'];
-    
+
     preconnectDomains.forEach(domain => {
         const link = document.createElement('link');
         link.rel = 'preconnect';
@@ -356,7 +356,7 @@ function initializeImagePerformanceOptimizations() {
         link.crossOrigin = 'anonymous';
         document.head.appendChild(link);
     });
-    
+
     // Optimize viewport meta for mobile
     const viewport = document.querySelector('meta[name="viewport"]');
     if (viewport && !viewport.content.includes('user-scalable=no')) {
@@ -370,7 +370,7 @@ document.addEventListener('DOMContentLoaded', initializeImagePerformanceOptimiza
 // Progressive image enhancement
 function progressiveImageEnhancement() {
     const images = document.querySelectorAll('img[data-src]');
-    
+
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -386,7 +386,7 @@ function progressiveImageEnhancement() {
             rootMargin: '50px',
             threshold: 0.1
         });
-        
+
         images.forEach(img => imageObserver.observe(img));
     } else {
         // Fallback for older browsers
