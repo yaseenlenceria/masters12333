@@ -825,26 +825,26 @@ img[loading="lazy"].loaded {
     }
 
     .services-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
     }
 
     .service-card {
-        min-height: 240px;
-        padding: 1.2rem;
-        font-size: 0.9rem;
-    }
-
-    .service-card h3 {
+        min-height: 280px;
+        padding: 1.5rem;
         font-size: 1rem;
     }
 
+    .service-card h3 {
+        font-size: 1.1rem;
+    }
+
     .service-subtitle {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     .service-list li {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
     }
 }
 
@@ -997,37 +997,37 @@ img[loading="lazy"].loaded {
     }
 
     .services-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0.8rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
         padding: 0 10px;
     }
 
     .service-card {
-        min-height: 200px;
-        padding: 1rem;
+        min-height: 240px;
+        padding: 1.2rem;
     }
 
     .service-card h3 {
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     .service-subtitle {
-        font-size: 0.75rem;
+        font-size: 0.85rem;
     }
 
     .service-list li {
-        font-size: 0.7rem;
-        margin-bottom: 0.2rem;
+        font-size: 0.75rem;
+        margin-bottom: 0.3rem;
     }
 
     .service-icon {
-        width: 50px;
-        height: 50px;
-        margin-bottom: 0.8rem;
+        width: 55px;
+        height: 55px;
+        margin-bottom: 1rem;
     }
 
     .service-icon i {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
 
     .features-grid,
@@ -1131,37 +1131,37 @@ img[loading="lazy"].loaded {
     }
 
     .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5rem;
-        padding: 0 5px;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 10px;
     }
 
     .service-card {
-        min-height: 160px;
-        padding: 0.8rem;
+        min-height: 200px;
+        padding: 1.5rem;
     }
 
     .service-card h3 {
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 
     .service-subtitle {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .service-list li {
-        font-size: 0.65rem;
-        margin-bottom: 0.1rem;
+        font-size: 0.75rem;
+        margin-bottom: 0.2rem;
     }
 
     .service-icon {
-        width: 40px;
-        height: 40px;
-        margin-bottom: 0.5rem;
+        width: 50px;
+        height: 50px;
+        margin-bottom: 0.8rem;
     }
 
     .service-icon i {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
     }
 
     .stats-grid,
