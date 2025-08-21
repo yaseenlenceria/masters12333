@@ -7,7 +7,8 @@
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: #ffffff;
+    background: #1a1a1a;
 }
 
 .container {
@@ -21,11 +22,11 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(26, 26, 26, 0.95);
     backdrop-filter: blur(15px);
     z-index: 1000;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
-    border-bottom: 3px solid #afd301;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    border-bottom: 3px solid #9ACD32;
 }
 
 .nav-container {
@@ -80,14 +81,14 @@ body {
 
 .nav-link {
     text-decoration: none;
-    color: #333;
+    color: #ffffff;
     font-weight: 500;
     transition: color 0.3s;
 }
 
 .nav-link:hover,
 .nav-link.active {
-    color: #2d5016;
+    color: #9ACD32;
 }
 
 .hamburger {
@@ -99,7 +100,7 @@ body {
 .bar {
     width: 25px;
     height: 3px;
-    background: #333;
+    background: #ffffff;
     margin: 3px 0;
     transition: 0.3s;
 }
@@ -108,7 +109,7 @@ body {
 .hero {
     height: 100vh;
     background: 
-        linear-gradient(135deg, rgba(45, 80, 22, 0.85) 0%, rgba(60, 95, 35, 0.8) 30%, rgba(75, 110, 45, 0.85) 70%, rgba(90, 125, 55, 0.8) 100%),
+        linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(45, 45, 45, 0.85) 30%, rgba(35, 35, 35, 0.9) 70%, rgba(50, 50, 50, 0.85) 100%),
         url('attached_assets/roof masters/2000_67ab8ae4cd3b1.jpg');
     background-size: cover;
     background-position: center;
@@ -146,8 +147,8 @@ body {
     right: 0;
     bottom: 0;
     background: 
-        linear-gradient(45deg, rgba(45, 80, 22, 0.3) 0%, rgba(60, 95, 35, 0.25) 50%, rgba(75, 110, 45, 0.3) 100%),
-        rgba(0, 0, 0, 0.4);
+        linear-gradient(45deg, rgba(26, 26, 26, 0.7) 0%, rgba(35, 35, 35, 0.6) 50%, rgba(45, 45, 45, 0.7) 100%),
+        rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(2px);
 }
 
@@ -224,13 +225,13 @@ body {
 .hero-tagline {
     font-size: 1.8rem;
     font-weight: 600;
-    color: #ffffff;
+    color: #9ACD32;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    background: rgba(45, 80, 22, 0.6);
+    background: rgba(26, 26, 26, 0.8);
     padding: 0.75rem 1.5rem;
     border-radius: 25px;
     backdrop-filter: blur(15px);
-    border: 2px solid rgba(175, 211, 1, 0.4);
+    border: 2px solid rgba(154, 205, 50, 0.6);
     display: inline-block;
 }
 
@@ -245,11 +246,11 @@ body {
     font-weight: 500;
     color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    background: rgba(45, 80, 22, 0.5);
+    background: rgba(26, 26, 26, 0.7);
     padding: 1rem 2rem;
     border-radius: 15px;
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(175, 211, 1, 0.3);
+    border: 1px solid rgba(154, 205, 50, 0.4);
     line-height: 1.6;
 }
 
@@ -455,42 +456,43 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #2d5016 0%, #1a1a1a 100%);
-    color: #afd301;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%);
+    color: #1a1a1a;
+    box-shadow: 0 8px 20px rgba(154, 205, 50, 0.3);
     border: 2px solid transparent;
     font-size: 1.2rem;
     padding: 18px 40px;
+    font-weight: bold;
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d5016 100%);
-    color: #b0d402;
+    background: linear-gradient(135deg, #7CB342 0%, #689F38 100%);
+    color: #000000;
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 15px 35px rgba(154, 205, 50, 0.5);
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.9);
-    color: #2d5016;
-    border: 2px solid #2d5016;
-    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+    background: rgba(26, 26, 26, 0.9);
+    color: #9ACD32;
+    border: 2px solid #9ACD32;
+    box-shadow: 0 8px 20px rgba(26, 26, 26, 0.3);
     font-size: 1.2rem;
     padding: 18px 40px;
     backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 1);
-    color: #1a1a1a;
+    background: rgba(154, 205, 50, 0.1);
+    color: #7CB342;
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 35px rgba(255, 255, 255, 0.5);
-    border-color: #afd301;
+    box-shadow: 0 15px 35px rgba(154, 205, 50, 0.3);
+    border-color: #7CB342;
 }
 
 /* Benefits Banner */
 .benefits-banner {
-    background: #f8fafc;
+    background: #2a2a2a;
     padding: 2rem 0;
 }
 
@@ -510,27 +512,27 @@ body {
 
 .benefit-item i {
     font-size: 2rem;
-    color: #afd301;
+    color: #9ACD32;
 }
 
 .benefit-item span {
     font-weight: bold;
-    color: #2d5016;
+    color: #ffffff;
 }
 
 /* Services Section */
 .services {
     padding: 5rem 0;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
 }
 
 .services h2 {
     text-align: center;
     font-size: 2.8rem;
     margin-bottom: 3rem;
-    color: #2d5016;
+    color: #ffffff;
     font-weight: 800;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     position: relative;
 }
 
@@ -542,7 +544,7 @@ body {
     transform: translateX(-50%);
     width: 100px;
     height: 4px;
-    background: linear-gradient(90deg, #afd301, #b0d402);
+    background: linear-gradient(90deg, #9ACD32, #7CB342);
     border-radius: 2px;
 }
 
@@ -553,12 +555,12 @@ body {
 }
 
 .service-card {
-    background: white;
+    background: #2a2a2a;
     border-radius: 15px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     overflow: hidden;
     transition: all 0.4s ease;
-    border: 1px solid rgba(175, 211, 1, 0.1);
+    border: 1px solid rgba(154, 205, 50, 0.2);
     position: relative;
 }
 
@@ -569,7 +571,7 @@ body {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #afd301, #b0d402, #aed200);
+    background: linear-gradient(90deg, #9ACD32, #7CB342, #689F38);
     opacity: 0;
     transition: opacity 0.3s;
 }
@@ -594,27 +596,27 @@ body {
 }
 
 .service-content h3 {
-    color: #2d5016;
+    color: #9ACD32;
     margin-bottom: 1rem;
     font-size: 1.3rem;
 }
 
 .service-content p {
-    color: #666;
+    color: #cccccc;
     margin-bottom: 1.5rem;
 }
 
 /* Why Choose Section */
 .why-choose {
     padding: 5rem 0;
-    background: #f8fafc;
+    background: #2a2a2a;
 }
 
 .why-choose h2 {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 3rem;
-    color: #2d5016;
+    color: #ffffff;
 }
 
 .features-grid {
@@ -624,45 +626,47 @@ body {
 }
 
 .feature-card {
-    background: white;
+    background: #1a1a1a;
     padding: 2rem;
     border-radius: 10px;
     text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s;
+    border: 1px solid rgba(154, 205, 50, 0.1);
 }
 
 .feature-card:hover {
     transform: translateY(-5px);
+    border-color: rgba(154, 205, 50, 0.3);
 }
 
 .feature-card i {
     font-size: 3rem;
-    color: #afd301;
+    color: #9ACD32;
     margin-bottom: 1rem;
 }
 
 .feature-card h3 {
-    color: #2d5016;
+    color: #ffffff;
     margin-bottom: 1rem;
 }
 
 /* Service Areas */
 .service-areas {
     padding: 5rem 0;
-    background: white;
+    background: #1a1a1a;
     text-align: center;
 }
 
 .service-areas h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #2d5016;
+    color: #ffffff;
 }
 
 .service-areas p {
     font-size: 1.1rem;
-    color: #666;
+    color: #cccccc;
     margin-bottom: 2rem;
 }
 
@@ -673,7 +677,7 @@ body {
 }
 
 .area-item {
-    background: linear-gradient(135deg, #afd301 0%, #b0d402 100%);
+    background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%);
     color: #1a1a1a;
     padding: 1rem;
     border-radius: 8px;
@@ -683,20 +687,20 @@ body {
 
 .area-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(175, 211, 1, 0.3);
+    box-shadow: 0 4px 12px rgba(154, 205, 50, 0.4);
 }
 
 /* Gallery */
 .gallery {
     padding: 5rem 0;
-    background: #f8fafc;
+    background: #2a2a2a;
 }
 
 .gallery h2 {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 3rem;
-    color: #2d5016;
+    color: #ffffff;
 }
 
 .gallery-grid {
@@ -742,7 +746,7 @@ body {
 /* Stats */
 .stats {
     padding: 5rem 0;
-    background: linear-gradient(135deg, #afd301 0%, #b0d402 100%);
+    background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%);
     color: #1a1a1a;
 }
 
@@ -766,19 +770,19 @@ body {
 /* Contact CTA */
 .contact-cta {
     padding: 5rem 0;
-    background: white;
+    background: #1a1a1a;
     text-align: center;
 }
 
 .contact-cta h2 {
     font-size: 2.5rem;
-    color: #2d5016;
+    color: #ffffff;
     margin-bottom: 1rem;
 }
 
 .contact-cta p {
     font-size: 1.2rem;
-    color: #666;
+    color: #cccccc;
     margin-bottom: 2rem;
 }
 
@@ -1010,14 +1014,15 @@ img {
         left: -100%;
         top: 70px;
         flex-direction: column;
-        background-color: white;
+        background-color: #1a1a1a;
         width: 100%;
         text-align: center;
         transition: 0.3s;
-        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 27px rgba(0, 0, 0, 0.3);
         padding: 2rem 0;
         max-height: calc(100vh - 70px);
         overflow-y: auto;
+        border-top: 2px solid #9ACD32;
     }
 
     .page-header {
@@ -1265,7 +1270,7 @@ img {
 
 /* Page Header Styles */
 .page-header {
-    background: linear-gradient(135deg, #afd301 0%, #b0d402 50%, #aed200 100%);
+    background: linear-gradient(135deg, #9ACD32 0%, #7CB342 50%, #689F38 100%);
     color: white;
     padding: 9rem 0 4rem;
     text-align: center;
@@ -1355,21 +1360,22 @@ img {
 }
 
 .contact-card {
-    background: white;
+    background: #2a2a2a;
     padding: 2rem;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     text-align: center;
+    border: 1px solid rgba(154, 205, 50, 0.2);
 }
 
 .contact-card i {
     font-size: 3rem;
-    color: #afd301;
+    color: #9ACD32;
     margin-bottom: 1rem;
 }
 
 .contact-card h3 {
-    color: #2d5016;
+    color: #ffffff;
     margin-bottom: 1rem;
 }
 
