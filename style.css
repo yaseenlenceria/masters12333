@@ -209,10 +209,7 @@ body {
     font-weight: 900;
     margin-bottom: 0.5rem;
     text-shadow: 4px 4px 8px rgba(0,0,0,0.7), 2px 2px 4px rgba(0,0,0,0.5);
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #ffffff;
     line-height: 1.1;
     animation: titlePulse 3s ease-in-out infinite alternate;
 }
