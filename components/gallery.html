@@ -21,7 +21,7 @@
             <!-- RoofMasters Projects -->
             <div class="gallery-item" data-category="roofing">
                 <div class="gallery-image">
-                    <img src="attached_assets/roof masters/2000_67ee55be5c887.jpg" alt="Professional Roofing Work Galway" loading="lazy" decoding="async">
+                    <img src="attached_assets/roof%20masters/2000_67ee55be5c887.jpg" alt="Professional Roofing Work Galway" loading="eager">
                     <div class="gallery-overlay">
                         <div class="overlay-content">
                             <h4>RoofMasters</h4>
@@ -37,7 +37,7 @@
 
             <div class="gallery-item" data-category="roofing">
                 <div class="gallery-image">
-                    <img src="attached_assets/roof masters/400_679e58996c75f.jpg" alt="Roof Repairs Galway" loading="lazy" decoding="async">
+                    <img src="attached_assets/roof%20masters/400_679e58996c75f.jpg" alt="Roof Repairs Galway" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="overlay-content">
                             <h4>RoofMasters</h4>
@@ -53,7 +53,7 @@
 
             <div class="gallery-item" data-category="roofing">
                 <div class="gallery-image">
-                    <img src="attached_assets/roof masters/2000_67ab8ae4cd3b1.jpg" alt="New Roof Installation Galway" loading="lazy" decoding="async">
+                    <img src="attached_assets/roof%20masters/2000_67ab8ae4cd3b1.jpg" alt="New Roof Installation Galway" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="overlay-content">
                             <h4>RoofMasters</h4>
@@ -69,7 +69,7 @@
 
             <div class="gallery-item" data-category="roofing">
                 <div class="gallery-image">
-                    <img src="attached_assets/roof masters/400_679e595b0f9de.jpg" alt="Roof Maintenance Galway" loading="lazy" decoding="async">
+                    <img src="attached_assets/roof%20masters/400_679e595b0f9de.jpg" alt="Roof Maintenance Galway" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="overlay-content">
                             <h4>RoofMasters</h4>
@@ -85,7 +85,7 @@
 
             <div class="gallery-item" data-category="roofing">
                 <div class="gallery-image">
-                    <img src="attached_assets/roof masters/400_67fcd777e88b8.jpg" alt="Professional Roofing Galway" loading="lazy" decoding="async">
+                    <img src="attached_assets/roof%20masters/400_67fcd777e88b8.jpg" alt="Professional Roofing Galway" loading="lazy">
                     <div class="gallery-overlay">
                         <div class="overlay-content">
                             <h4>RoofMasters</h4>
@@ -431,6 +431,16 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
+    display: block;
+    background-color: #2a2a2a;
+}
+
+.gallery-image img:not([src]) {
+    opacity: 0;
+}
+
+.gallery-image img[src=""] {
+    opacity: 0;
 }
 
 .gallery-item:hover .gallery-image img {
@@ -663,6 +673,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize with all items visible
     galleryItems.forEach(item => {
         item.classList.add('show');
+    });
+
+    // Add image error handling and debugging
+    const galleryImages = document.querySelectorAll('.gallery-image img');
+    galleryImages.forEach((img, index) => {
+        img.addEventListener('load', function() {
+            console.log(`Gallery image ${index + 1} loaded successfully:`, this.src);
+        });
+        
+        img.addEventListener('error', function() {
+            console.error(`Failed to load gallery image ${index + 1}:`, this.src);
+            this.style.background = '#404040';
+            this.alt = 'Image not available';
+        });
     });
 });
 </script>
