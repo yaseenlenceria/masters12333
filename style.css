@@ -107,7 +107,12 @@ body {
 /* Hero Section */
 .hero {
     height: 100vh;
-    background: linear-gradient(135deg, #afd301 0%, #b0d402 30%, #aed200 70%, #9bc53d 100%);
+    background: 
+        linear-gradient(135deg, rgba(175, 211, 1, 0.85) 0%, rgba(176, 212, 2, 0.85) 30%, rgba(174, 210, 0, 0.85) 70%, rgba(155, 197, 61, 0.85) 100%),
+        url('attached_assets/roof masters/2000_67ab8ae4cd3b1.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     position: relative;
     display: flex;
     align-items: center;
@@ -140,8 +145,10 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(0.5px);
+    background: 
+        linear-gradient(45deg, rgba(175, 211, 1, 0.3) 0%, rgba(176, 212, 2, 0.2) 50%, rgba(174, 210, 0, 0.3) 100%),
+        rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(1px);
 }
 
 .hero-content {
@@ -157,13 +164,15 @@ body {
     font-size: 4.5rem;
     margin-bottom: 1.5rem;
     font-weight: 900;
-    text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d5016 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    text-shadow: 4px 4px 8px rgba(0,0,0,0.7), 2px 2px 4px rgba(0,0,0,0.5);
+    color: #ffffff;
     animation: titleGlow 3s ease-in-out infinite alternate;
     line-height: 1.1;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 @keyframes titleGlow {
@@ -175,9 +184,14 @@ body {
     font-size: 1.8rem;
     margin-bottom: 3rem;
     font-weight: 600;
-    color: #2d5016;
-    text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+    color: #ffffff;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.7), 1px 1px 3px rgba(0,0,0,0.5);
     animation: fadeInUp 1s ease-out 0.5s both;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 @keyframes fadeInUp {
