@@ -1,0 +1,123 @@
+
+<section class="gallery">
+    <div class="container">
+        <h2>Our Work Portfolio</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="attached_assets/roof masters/2000_67ee55be5c887.jpg" alt="Professional Roofing Work Galway" loading="lazy" decoding="async" width="300" height="250">
+                <div class="gallery-overlay">
+                    <h4>RoofMasters</h4>
+                    <p>Professional Roofing</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="attached_assets/dirtmasters/dirt33.jpg" alt="Power Washing Services Galway" loading="lazy" decoding="async" width="300" height="250">
+                <div class="gallery-overlay">
+                    <h4>DirtMasters</h4>
+                    <p>Power Washing</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="attached_assets/paintmasters/2000_67dd8de7cde92.jpg" alt="Exterior Painting Galway" loading="lazy" decoding="async" width="300" height="250">
+                <div class="gallery-overlay">
+                    <h4>PaintMasters</h4>
+                    <p>Exterior Painting</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="attached_assets/pavingmasters/d8929e5d-9bdd-4c58-8095-3122e311b939.jpg" alt="Paving Contractors Galway" loading="lazy" decoding="async" width="300" height="250">
+                <div class="gallery-overlay">
+                    <h4>PavingMasters</h4>
+                    <p>Driveway Installation</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="attached_assets/roof masters/400_679e58996c75f.jpg" alt="Roof Repairs Galway" loading="lazy" decoding="async" width="300" height="250">
+                <div class="gallery-overlay">
+                    <h4>RoofMasters</h4>
+                    <p>Roof Repairs</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="attached_assets/dirtmasters/dirt36.jpg" alt="Exterior Cleaning Galway" loading="lazy" decoding="async" width="300" height="250">
+                <div class="gallery-overlay">
+                    <h4>DirtMasters</h4>
+                    <p>Exterior Cleaning</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Gallery */
+.gallery {
+    padding: 5rem 0;
+    background: #2a2a2a;
+}
+
+.gallery h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #ffffff;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    height: 250px;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    padding: 1.5rem;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-overlay h4 {
+    color: #9ACD32;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.gallery-overlay p {
+    color: #ffffff;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+</style>

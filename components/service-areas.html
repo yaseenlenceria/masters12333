@@ -1,0 +1,72 @@
+
+<section class="service-areas">
+    <div class="container">
+        <h2>Service Areas Across Galway</h2>
+        <p>Proudly serving Galway City & County and surrounding areas with premier home services</p>
+        <div class="areas-grid">
+            <div class="area-item">Galway City</div>
+            <div class="area-item">Salthill</div>
+            <div class="area-item">Oranmore</div>
+            <div class="area-item">Claregalway</div>
+            <div class="area-item">Tuam</div>
+            <div class="area-item">Loughrea</div>
+            <div class="area-item">Athenry</div>
+            <div class="area-item">Ballinasloe</div>
+            <div class="area-item">Kilcolgan</div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Service Areas */
+.service-areas {
+    padding: 5rem 0;
+    background: #1a1a1a;
+    text-align: center;
+}
+
+.service-areas h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+}
+
+.service-areas p {
+    font-size: 1.1rem;
+    color: #cccccc;
+    margin-bottom: 2rem;
+}
+
+.areas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.area-item {
+    background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%);
+    color: #1a1a1a;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: transform 0.3s;
+}
+
+.area-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(154, 205, 50, 0.4);
+}
+
+@media (max-width: 768px) {
+    .areas-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .areas-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>

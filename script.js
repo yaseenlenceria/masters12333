@@ -1,38 +1,67 @@
 // Component Loading System
 function loadComponent(componentPath, containerId) {
     fetch(componentPath)
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to load component: ${componentPath}`);
+            }
+            return response.text();
+        })
         .then(data => {
-            document.getElementById(containerId).innerHTML = data;
-            
-            // Execute any scripts in the loaded component
-            const scripts = document.getElementById(containerId).querySelectorAll('script');
-            scripts.forEach(script => {
-                if (script.innerHTML) {
-                    eval(script.innerHTML);
-                }
-            });
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = data;
+                
+                // Execute any scripts in the loaded component
+                const scripts = container.querySelectorAll('script');
+                scripts.forEach(script => {
+                    if (script.innerHTML) {
+                        eval(script.innerHTML);
+                    }
+                });
+            }
         })
         .catch(error => console.error('Error loading component:', error));
 }
 
-// Load header and footer on all pages
+// Load all components on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Load header and footer (always present)
     loadComponent('header.html', 'header-container');
     loadComponent('footer.html', 'footer-container');
 
-    // Initialize other components
-    initializeAnimations();
-    initializeFormHandling();
-    initializeSmoothScrolling();
-    
-    // Set body padding for fixed header
+    // Load page-specific components based on what containers exist
+    const componentMappings = {
+        'hero-container': 'components/hero-section.html',
+        'benefits-container': 'components/benefits-banner.html',
+        'services-container': 'components/services-overview.html',
+        'why-choose-container': 'components/why-choose.html',
+        'service-areas-container': 'components/service-areas.html',
+        'gallery-container': 'components/gallery.html',
+        'stats-container': 'components/stats.html',
+        'contact-cta-container': 'components/contact-cta.html'
+    };
+
+    // Load components that exist on the current page
+    Object.entries(componentMappings).forEach(([containerId, componentPath]) => {
+        const container = document.getElementById(containerId);
+        if (container) {
+            loadComponent(componentPath, containerId);
+        }
+    });
+
+    // Initialize other components after a short delay to ensure loading
     setTimeout(() => {
+        initializeAnimations();
+        initializeFormHandling();
+        initializeSmoothScrolling();
+        
+        // Set body padding for fixed header
         const header = document.querySelector('.header');
         if (header) {
             document.body.style.paddingTop = header.offsetHeight + 'px';
         }
-    }, 100);
+    }, 200);
 });
 
 // Legacy function - kept for compatibility but not used with new components

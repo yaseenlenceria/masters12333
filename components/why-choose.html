@@ -1,0 +1,95 @@
+
+<section class="why-choose">
+    <div class="container">
+        <h2>Why Choose The Masters Group Galway</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-users" aria-hidden="true"></i>
+                <h3>Expert Galway Teams</h3>
+                <p>Skilled professionals with decades of combined experience across all trades in Galway City and County.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                <h3>Local Galway Experts</h3>
+                <p>Galway-based businesses with deep local knowledge and community trust throughout the region.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-handshake" aria-hidden="true"></i>
+                <h3>Customer Focused Service</h3>
+                <p>Your satisfaction is our priority with clear pricing, reliable service, and honest communication.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-tools" aria-hidden="true"></i>
+                <h3>Quality Workmanship</h3>
+                <p>Premium materials and proven techniques for lasting results that stand the test of time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Why Choose Section */
+.why-choose {
+    padding: 5rem 0;
+    background: #2a2a2a;
+}
+
+.why-choose h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #ffffff;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    background: #1a1a1a;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s;
+    border: 1px solid rgba(154, 205, 50, 0.1);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(154, 205, 50, 0.3);
+}
+
+.feature-card i {
+    font-size: 3rem;
+    color: #9ACD32;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    color: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.feature-card p {
+    color: #cccccc;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .feature-card {
+        padding: 1.5rem;
+    }
+
+    .feature-card i {
+        font-size: 2rem;
+    }
+}
+</style>
