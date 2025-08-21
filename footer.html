@@ -675,7 +675,7 @@
 /* Responsive Design */
 @media (max-width: 968px) {
     .footer-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         gap: 30px;
     }
 
@@ -688,7 +688,37 @@
     }
 
     .services-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .service-item {
+        padding: 15px 12px;
+    }
+
+    .service-link {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .service-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .service-icon i {
+        font-size: 1.1rem;
+    }
+
+    .service-content h5 {
+        font-size: 0.9rem;
+    }
+
+    .service-content p {
+        font-size: 0.8rem;
     }
 
     .social-icons {
@@ -723,6 +753,43 @@
 
     .footer-brand {
         justify-content: center;
+    }
+
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .service-item {
+        padding: 12px 8px;
+        border-radius: 8px;
+    }
+
+    .service-link {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 8px;
+    }
+
+    .service-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .service-icon i {
+        font-size: 1rem;
+    }
+
+    .service-content h5 {
+        font-size: 0.85rem;
+        margin-bottom: 2px;
+    }
+
+    .service-content p {
+        font-size: 0.75rem;
     }
 
     .footer-bottom-content {
@@ -763,6 +830,48 @@
 
     .footer-logo {
         height: 40px;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+
+    .service-item {
+        padding: 15px 12px;
+        width: 100%;
+    }
+
+    .service-link {
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+        gap: 12px;
+    }
+
+    .service-icon {
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+    }
+
+    .service-icon i {
+        font-size: 1.2rem;
+    }
+
+    .service-content {
+        text-align: left;
+    }
+
+    .service-content h5 {
+        font-size: 0.9rem;
+        margin-bottom: 3px;
+    }
+
+    .service-content p {
+        font-size: 0.8rem;
     }
 
     .emergency-contact {

@@ -230,8 +230,11 @@ function initializeAnimations() {
     });
 }
 
-// Advanced Image Optimization and Lazy Loading
+// Enhanced Image Optimization and Lazy Loading
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile performance optimizations
+    optimizeForMobile();
+
     // Preload critical images
     preloadCriticalImages();
 
@@ -243,7 +246,74 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Add loading states
     addImageLoadingStates();
+
+    // Fix viewport issues
+    fixViewportIssues();
 });
+
+// Mobile performance optimizations
+function optimizeForMobile() {
+    // Disable hover effects on touch devices
+    if ('ontouchstart' in window) {
+        document.body.classList.add('touch-device');
+
+        // Add CSS for touch devices
+        const style = document.createElement('style');
+        style.textContent = `
+            .touch-device .service-card:hover,
+            .touch-device .btn:hover,
+            .touch-device .nav-link:hover {
+                transform: none !important;
+            }
+
+            .touch-device .service-card:active,
+            .touch-device .btn:active {
+                transform: scale(0.95) !important;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Optimize scroll performance
+    let ticking = false;
+    function updateOnScroll() {
+        // Throttle scroll events
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                // Add any scroll-based optimizations here
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', updateOnScroll, { passive: true });
+
+    // Reduce motion for better performance
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.style.setProperty('--animation-duration', '0.01s');
+    }
+}
+
+// Fix viewport issues
+function fixViewportIssues() {
+    // Prevent zoom on input focus for iOS
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+        viewport.setAttribute('content', 
+            'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
+        );
+    }
+
+    // Fix 100vh issues on mobile
+    function setVH() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    setVH();
+    window.addEventListener('resize', setVH);
+}
 
 function preloadCriticalImages() {
     const criticalImages = [
@@ -595,7 +665,7 @@ function initializeMobileMenu() {
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('navMenu');
     const mobileOverlay = document.getElementById('mobileOverlay');
-    
+
     if (!hamburger || !navMenu || !mobileOverlay) {
         // Elements not ready yet, try again
         setTimeout(initializeMobileMenu, 200);
@@ -609,14 +679,14 @@ function initializeMobileMenu() {
     // Add click event to new hamburger
     newHamburger.addEventListener('click', function() {
         const isActive = newHamburger.classList.contains('active');
-        
+
         newHamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
         mobileOverlay.classList.toggle('active');
-        
+
         // Update ARIA attributes
         newHamburger.setAttribute('aria-expanded', !isActive);
-        
+
         // Prevent body scroll when menu is open
         document.body.style.overflow = !isActive ? 'hidden' : '';
     });
