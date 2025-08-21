@@ -514,7 +514,101 @@ body {
     color: #9ca3af;
 }
 
+/* Skip Link for Accessibility */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #000;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 1000;
+    border-radius: 4px;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 6px;
+}
+
+/* Component Containers */
+#header-container,
+#footer-container {
+    position: relative;
+}
+
+/* Enhanced Mobile Navigation */
+.nav-menu {
+    z-index: 999;
+}
+
+.hamburger {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.hamburger.active {
+    transform: rotate(90deg);
+}
+
+/* Improved Button Accessibility */
+.btn {
+    min-height: 44px;
+    min-width: 44px;
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+}
+
+.btn:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Enhanced Form Styles */
+.form-group input:invalid {
+    border-color: #ef4444;
+}
+
+.form-group input:valid {
+    border-color: #10b981;
+}
+
+/* Loading States */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive Images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
 /* Responsive Design */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .floating-images {
+        right: 5%;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    
+    .float-img {
+        width: 60px;
+        height: 60px;
+    }
+}
+
 @media (max-width: 768px) {
     .hamburger {
         display: flex;
@@ -531,6 +625,8 @@ body {
         transition: 0.3s;
         box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
         padding: 2rem 0;
+        max-height: calc(100vh - 70px);
+        overflow-y: auto;
     }
 
     .nav-menu.active {
@@ -539,15 +635,18 @@ body {
 
     .hero-content h1 {
         font-size: 2.5rem;
+        line-height: 1.2;
     }
 
     .hero-content p {
         font-size: 1.2rem;
+        margin-bottom: 1.5rem;
     }
 
     .hero-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 1rem;
     }
 
     .floating-images {
@@ -556,12 +655,139 @@ body {
 
     .services-grid,
     .features-grid,
-    .gallery-grid {
+    .gallery-grid,
+    .contact-cards {
         grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .areas-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .page-header h1 {
+        font-size: 2rem;
+    }
+    
+    .page-header p {
+        font-size: 1rem;
+    }
+    
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .benefit-item {
+        padding: 1rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-content p {
+        font-size: 1rem;
+    }
+    
+    .btn {
+        width: 100%;
+        text-align: center;
+        padding: 15px 20px;
+    }
+    
+    .stats-grid,
+    .benefits-grid,
+    .areas-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-gallery {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-card {
+        padding: 1.5rem;
+    }
+    
+    .nav-container {
+        padding: 0 15px;
+    }
+    
+    .service-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .feature-card {
+        padding: 1.5rem;
+    }
+    
+    .feature-card i {
+        font-size: 2rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .navbar,
+    .floating-images,
+    .btn,
+    .social-links {
+        display: none;
+    }
+    
+    .hero {
+        background: none;
+        color: black;
+        padding: 2rem 0;
+    }
+    
+    .page-header {
+        background: none;
+        color: black;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .btn-primary {
+        background: #000;
+        border: 2px solid #000;
+    }
+    
+    .btn-secondary {
+        background: #fff;
+        color: #000;
+        border: 2px solid #000;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .float-img {
+        animation: none;
     }
 }
 

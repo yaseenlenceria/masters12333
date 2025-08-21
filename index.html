@@ -1,52 +1,63 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Masters Group - Premier Home Services in Galway</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>The Masters Group Galway - Premier Home Services | Roofing, Power Washing, Painting, Paving</title>
+    <meta name="description" content="The Masters Group - Galway's premier home services company. Expert roofing, power washing, exterior painting & paving contractors. 20+ years experience. Free quotes. Call 087 717 1524">
+    <meta name="keywords" content="Galway home services, roofing contractors Galway, power washing Galway, exterior painting Galway, paving contractors Galway, RoofMasters, DirtMasters, PaintMasters, PavingMasters">
+    <meta name="author" content="The Masters Group Galway">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://themastersgroup.ie/">
+    
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="The Masters Group Galway - Premier Home Services">
+    <meta property="og:description" content="Galway's trusted home services company. Expert roofing, power washing, painting & paving. 20+ years experience. Free quotes available.">
+    <meta property="og:image" content="https://themastersgroup.ie/attached_assets/roof masters/roof masters logo.png">
+    <meta property="og:url" content="https://themastersgroup.ie/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_IE">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Masters Group Galway - Premier Home Services">
+    <meta name="twitter:description" content="Expert roofing, power washing, painting & paving services in Galway. 20+ years experience.">
+    <meta name="twitter:image" content="https://themastersgroup.ie/attached_assets/roof masters/roof masters logo.png">
+    
+    <!-- Local Business Schema -->
+    <meta name="geo.region" content="IE-G">
+    <meta name="geo.placename" content="Galway">
+    <meta name="geo.position" content="53.2707;-9.0568">
+    <meta name="ICBM" content="53.2707, -9.0568">
+    
     <link href="style.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <h2>The Masters Group</h2>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="index.html" class="nav-link active">Home</a></li>
-                <li><a href="roofmasters.html" class="nav-link">RoofMasters</a></li>
-                <li><a href="dirtmasters.html" class="nav-link">DirtMasters</a></li>
-                <li><a href="paintmasters.html" class="nav-link">PaintMasters</a></li>
-                <li><a href="pavingmasters.html" class="nav-link">PavingMasters</a></li>
-                <li><a href="contact.html" class="nav-link">Contact</a></li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-        </div>
-    </nav>
+<body itemscope itemtype="http://schema.org/WebPage">
+    <!-- Load Header Component -->
+    <div id="header-container"></div>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" itemscope itemtype="http://schema.org/Organization">
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>The Masters Group</h1>
-            <p>Premier Home Services in Galway</p>
+            <h1 itemprop="name">The Masters Group Galway</h1>
+            <p itemprop="description">Premier Home Services in Galway City & County</p>
             <div class="hero-buttons">
                 <a href="#services" class="btn btn-primary">Our Services</a>
-                <a href="contact.html" class="btn btn-secondary">Get Quote</a>
+                <a href="contact.html" class="btn btn-secondary">Get Free Quote</a>
             </div>
         </div>
         <div class="floating-images">
-            <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters" class="float-img">
-            <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters" class="float-img">
-            <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters" class="float-img">
-            <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters" class="float-img">
+            <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters Galway Logo" class="float-img">
+            <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters Galway Logo" class="float-img">
+            <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters Galway Logo" class="float-img">
+            <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters Galway Logo" class="float-img">
         </div>
     </section>
 
@@ -55,19 +66,19 @@
         <div class="container">
             <div class="benefits-grid">
                 <div class="benefit-item">
-                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star" aria-hidden="true"></i>
                     <span>5-Star Rated</span>
                 </div>
                 <div class="benefit-item">
-                    <i class="fas fa-shield-alt"></i>
+                    <i class="fas fa-shield-alt" aria-hidden="true"></i>
                     <span>Fully Insured</span>
                 </div>
                 <div class="benefit-item">
-                    <i class="fas fa-clock"></i>
+                    <i class="fas fa-clock" aria-hidden="true"></i>
                     <span>24/7 Emergency</span>
                 </div>
                 <div class="benefit-item">
-                    <i class="fas fa-award"></i>
+                    <i class="fas fa-award" aria-hidden="true"></i>
                     <span>20+ Years Experience</span>
                 </div>
             </div>
@@ -77,40 +88,40 @@
     <!-- Services Overview -->
     <section id="services" class="services">
         <div class="container">
-            <h2>Our Services</h2>
+            <h2>Our Home Services in Galway</h2>
             <div class="services-grid">
-                <div class="service-card">
-                    <img src="attached_assets/roof masters/2000_67ab8ae4cd3b1.jpg" alt="RoofMasters">
+                <article class="service-card" itemscope itemtype="http://schema.org/Service">
+                    <img src="attached_assets/roof masters/2000_67ab8ae4cd3b1.jpg" alt="RoofMasters Galway - Expert Roofing Services" loading="lazy">
                     <div class="service-content">
-                        <h3>RoofMasters</h3>
-                        <p>Expert roofing services including repairs, maintenance, and installations across Galway.</p>
+                        <h3 itemprop="name">RoofMasters Galway</h3>
+                        <p itemprop="description">Expert roofing services including repairs, maintenance, and installations across Galway City and County.</p>
                         <a href="roofmasters.html" class="btn btn-primary">Learn More</a>
                     </div>
-                </div>
-                <div class="service-card">
-                    <img src="attached_assets/dirtmasters/dirt13.jpg" alt="DirtMasters">
+                </article>
+                <article class="service-card" itemscope itemtype="http://schema.org/Service">
+                    <img src="attached_assets/dirtmasters/dirt13.jpg" alt="DirtMasters Galway - Professional Power Washing" loading="lazy">
                     <div class="service-content">
-                        <h3>DirtMasters</h3>
-                        <p>Professional power washing and exterior cleaning services for residential and commercial properties.</p>
+                        <h3 itemprop="name">DirtMasters Galway</h3>
+                        <p itemprop="description">Professional power washing and exterior cleaning services for residential and commercial properties in Galway.</p>
                         <a href="dirtmasters.html" class="btn btn-primary">Learn More</a>
                     </div>
-                </div>
-                <div class="service-card">
-                    <img src="attached_assets/paintmasters/2000_67d6de053490c.jpg" alt="PaintMasters">
+                </article>
+                <article class="service-card" itemscope itemtype="http://schema.org/Service">
+                    <img src="attached_assets/paintmasters/2000_67d6de053490c.jpg" alt="PaintMasters Galway - Professional Exterior Painting" loading="lazy">
                     <div class="service-content">
-                        <h3>PaintMasters</h3>
-                        <p>Professional exterior painting services for residential, commercial, and industrial properties.</p>
+                        <h3 itemprop="name">PaintMasters Galway</h3>
+                        <p itemprop="description">Professional exterior painting services for residential, commercial, and industrial properties in Galway.</p>
                         <a href="paintmasters.html" class="btn btn-primary">Learn More</a>
                     </div>
-                </div>
-                <div class="service-card">
-                    <img src="attached_assets/pavingmasters/New-driveway-installation.jpg" alt="PavingMasters">
+                </article>
+                <article class="service-card" itemscope itemtype="http://schema.org/Service">
+                    <img src="attached_assets/pavingmasters/New-driveway-installation.jpg" alt="PavingMasters Galway - Expert Paving Contractors" loading="lazy">
                     <div class="service-content">
-                        <h3>PavingMasters</h3>
-                        <p>Expert paving contractors specializing in driveways, patios, and landscaping solutions.</p>
+                        <h3 itemprop="name">PavingMasters Galway</h3>
+                        <p itemprop="description">Expert paving contractors specializing in driveways, patios, and landscaping solutions in Galway.</p>
                         <a href="pavingmasters.html" class="btn btn-primary">Learn More</a>
                     </div>
-                </div>
+                </article>
             </div>
         </div>
     </section>
@@ -118,27 +129,27 @@
     <!-- Why Choose Us -->
     <section class="why-choose">
         <div class="container">
-            <h2>Why Choose The Masters Group</h2>
+            <h2>Why Choose The Masters Group Galway</h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <i class="fas fa-users"></i>
-                    <h3>Expert Teams</h3>
-                    <p>Skilled professionals with decades of combined experience across all trades.</p>
+                    <i class="fas fa-users" aria-hidden="true"></i>
+                    <h3>Expert Galway Teams</h3>
+                    <p>Skilled professionals with decades of combined experience across all trades in Galway City and County.</p>
                 </div>
                 <div class="feature-card">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <h3>Local Experts</h3>
-                    <p>Galway-based businesses with deep local knowledge and community trust.</p>
+                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                    <h3>Local Galway Experts</h3>
+                    <p>Galway-based businesses with deep local knowledge and community trust throughout the region.</p>
                 </div>
                 <div class="feature-card">
-                    <i class="fas fa-handshake"></i>
-                    <h3>Customer Focused</h3>
-                    <p>Your satisfaction is our priority with clear pricing and reliable service.</p>
+                    <i class="fas fa-handshake" aria-hidden="true"></i>
+                    <h3>Customer Focused Service</h3>
+                    <p>Your satisfaction is our priority with clear pricing, reliable service, and honest communication.</p>
                 </div>
                 <div class="feature-card">
-                    <i class="fas fa-tools"></i>
-                    <h3>Quality Work</h3>
-                    <p>Premium materials and proven techniques for lasting results.</p>
+                    <i class="fas fa-tools" aria-hidden="true"></i>
+                    <h3>Quality Workmanship</h3>
+                    <p>Premium materials and proven techniques for lasting results that stand the test of time.</p>
                 </div>
             </div>
         </div>
@@ -147,8 +158,8 @@
     <!-- Service Areas -->
     <section class="service-areas">
         <div class="container">
-            <h2>Service Areas</h2>
-            <p>Proudly serving Galway City & County and surrounding areas</p>
+            <h2>Service Areas Across Galway</h2>
+            <p>Proudly serving Galway City & County and surrounding areas with premier home services</p>
             <div class="areas-grid">
                 <div class="area-item">Galway City</div>
                 <div class="area-item">Salthill</div>
@@ -158,6 +169,7 @@
                 <div class="area-item">Loughrea</div>
                 <div class="area-item">Athenry</div>
                 <div class="area-item">Ballinasloe</div>
+                <div class="area-item">Kilcolgan</div>
             </div>
         </div>
     </section>
@@ -165,45 +177,45 @@
     <!-- Work Gallery -->
     <section class="gallery">
         <div class="container">
-            <h2>Our Work</h2>
+            <h2>Our Work Portfolio</h2>
             <div class="gallery-grid">
                 <div class="gallery-item">
-                    <img src="attached_assets/roof masters/2000_67ee55be5c887.jpg" alt="Roofing Work">
+                    <img src="attached_assets/roof masters/2000_67ee55be5c887.jpg" alt="Professional Roofing Work Galway" loading="lazy">
                     <div class="gallery-overlay">
                         <h4>RoofMasters</h4>
                         <p>Professional Roofing</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="attached_assets/dirtmasters/dirt33.jpg" alt="Power Washing">
+                    <img src="attached_assets/dirtmasters/dirt33.jpg" alt="Power Washing Services Galway" loading="lazy">
                     <div class="gallery-overlay">
                         <h4>DirtMasters</h4>
                         <p>Power Washing</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="attached_assets/paintmasters/2000_67dd8de7cde92.jpg" alt="Exterior Painting">
+                    <img src="attached_assets/paintmasters/2000_67dd8de7cde92.jpg" alt="Exterior Painting Galway" loading="lazy">
                     <div class="gallery-overlay">
                         <h4>PaintMasters</h4>
                         <p>Exterior Painting</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="attached_assets/pavingmasters/d8929e5d-9bdd-4c58-8095-3122e311b939.jpg" alt="Paving Work">
+                    <img src="attached_assets/pavingmasters/d8929e5d-9bdd-4c58-8095-3122e311b939.jpg" alt="Paving Contractors Galway" loading="lazy">
                     <div class="gallery-overlay">
                         <h4>PavingMasters</h4>
                         <p>Driveway Installation</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="attached_assets/roof masters/400_679e58996c75f.jpg" alt="Roof Repairs">
+                    <img src="attached_assets/roof masters/400_679e58996c75f.jpg" alt="Roof Repairs Galway" loading="lazy">
                     <div class="gallery-overlay">
                         <h4>RoofMasters</h4>
                         <p>Roof Repairs</p>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="attached_assets/dirtmasters/dirt36.jpg" alt="Exterior Cleaning">
+                    <img src="attached_assets/dirtmasters/dirt36.jpg" alt="Exterior Cleaning Galway" loading="lazy">
                     <div class="gallery-overlay">
                         <h4>DirtMasters</h4>
                         <p>Exterior Cleaning</p>
@@ -240,51 +252,14 @@
     <!-- Contact CTA -->
     <section class="contact-cta">
         <div class="container">
-            <h2>Ready to Transform Your Property?</h2>
-            <p>Contact The Masters Group today for professional home services in Galway</p>
+            <h2>Ready to Transform Your Galway Property?</h2>
+            <p>Contact The Masters Group today for professional home services across Galway City and County</p>
             <a href="contact.html" class="btn btn-primary">Get Your Free Quote</a>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>The Masters Group</h3>
-                    <p>Premier home services across Galway City & County</p>
-                    <div class="social-links">
-                        <a href="https://www.facebook.com/profile.php?id=61577976021788"><i class="fab fa-facebook"></i></a>
-                        <a href="https://www.tiktok.com/@paving.masters.galway"><i class="fab fa-tiktok"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="roofmasters.html">RoofMasters</a></li>
-                        <li><a href="dirtmasters.html">DirtMasters</a></li>
-                        <li><a href="paintmasters.html">PaintMasters</a></li>
-                        <li><a href="pavingmasters.html">PavingMasters</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Contact Info</h4>
-                    <p><i class="fas fa-phone"></i> 087 717 1524</p>
-                    <p><i class="fas fa-phone"></i> 091 707 971</p>
-                    <p><i class="fas fa-phone"></i> 087 108 4840</p>
-                    <p><i class="fas fa-map-marker-alt"></i> Galway, Ireland</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Business Hours</h4>
-                    <p>Monday - Saturday: 8:00 AM - 6:00 PM</p>
-                    <p>Sunday: Emergency Only</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 The Masters Group. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <!-- Load Footer Component -->
+    <div id="footer-container"></div>
 
     <script src="script.js"></script>
 </body>
