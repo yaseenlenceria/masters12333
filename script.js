@@ -139,14 +139,14 @@ function initializeSmoothScrolling() {
             requestAnimationFrame(() => {
                 const scrolled = window.pageYOffset;
                 const parallaxElements = document.querySelectorAll('.hero, .page-header');
-                
+
                 parallaxElements.forEach(el => {
                     if (el) {
                         const speed = 0.5;
                         el.style.transform = `translateY(${scrolled * speed}px)`;
                     }
                 });
-                
+
                 ticking = false;
             });
             ticking = true;
@@ -171,9 +171,9 @@ function smoothScrollTo(targetPosition, duration) {
         const timeElapsed = currentTime - startTime;
         const progress = Math.min(timeElapsed / duration, 1);
         const easeProgress = easeInOutCubic(progress);
-        
+
         window.scrollTo(0, startPosition + distance * easeProgress);
-        
+
         if (progress < 1) {
             requestAnimationFrame(animation);
         }
@@ -187,7 +187,7 @@ function initializePageTransitions() {
     // Fade in page content on load
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-    
+
     window.addEventListener('load', () => {
         document.body.style.opacity = '1';
     });
@@ -272,22 +272,35 @@ function validateForm(data) {
     return true;
 }
 
-// Enhanced Animation initialization with smooth effects
+// Enhanced Animation initialization with comprehensive smooth effects
 function initializeAnimations() {
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -80px 0px'
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
-                // Staggered animation with delay
+                // Staggered animation with enhanced delays
                 setTimeout(() => {
                     entry.target.classList.add('animate');
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0) scale(1)';
-                }, index * 100);
+
+                    // Add special effects for different element types
+                    if (entry.target.classList.contains('service-card')) {
+                        entry.target.style.animation = 'fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                    } else if (entry.target.classList.contains('feature-card')) {
+                        entry.target.style.animation = 'fadeInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                    } else if (entry.target.classList.contains('contact-card')) {
+                        entry.target.style.animation = 'scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+                    } else if (entry.target.classList.contains('stats-item')) {
+                        entry.target.style.animation = 'fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                        // Trigger counter animation
+                        animateCounter(entry.target);
+                    }
+                }, index * 150);
             }
         });
     }, observerOptions);
@@ -303,31 +316,123 @@ function initializeAnimations() {
         observer.observe(el);
     });
 
-    // Add text animations
+    // Enhanced text animations with staggered reveals
     const textElements = document.querySelectorAll('h1, h2, h3, .hero-title, .section-title');
     textElements.forEach((el, index) => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-        
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+
         setTimeout(() => {
             el.style.opacity = '1';
             el.style.transform = 'translateY(0)';
-        }, 200 + (index * 150));
+            el.classList.add('text-reveal');
+        }, 300 + (index * 200));
     });
 
-    // Add smooth hover interactions
-    addHoverInteractions();
+    // Initialize smooth interactions
+    addSmoothInteractions();
+    initializeParallaxEffects();
+}
+
+// Counter animation for stats
+function animateCounter(element) {
+    const numberElement = element.querySelector('.stats-number, .number');
+    if (!numberElement) return;
+
+    const finalNumber = parseInt(numberElement.textContent.replace(/\D/g, ''));
+    const duration = 2000;
+    const startTime = Date.now();
+
+    function updateCounter() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const currentNumber = Math.floor(finalNumber * easeOutCubic(progress));
+
+        numberElement.textContent = currentNumber.toLocaleString();
+
+        if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+        }
+    }
+
+    function easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+    }
+
+    requestAnimationFrame(updateCounter);
+}
+
+// Parallax effects for enhanced visual appeal
+function initializeParallaxEffects() {
+    let ticking = false;
+
+    function updateParallax() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                const scrolled = window.pageYOffset;
+
+                // Parallax for hero sections
+                const heroElements = document.querySelectorAll('.hero, .page-header');
+                heroElements.forEach(el => {
+                    if (el) {
+                        const speed = 0.3;
+                        el.style.transform = `translateY(${scrolled * speed}px)`;
+                    }
+                });
+
+                // Parallax for floating elements
+                const floatingElements = document.querySelectorAll('.floating-animation, .sub-logo');
+                floatingElements.forEach((el, index) => {
+                    if (el) {
+                        const speed = 0.1 + (index * 0.05);
+                        const yPos = -(scrolled * speed);
+                        el.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.02}deg)`;
+                    }
+                });
+
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', updateParallax, { passive: true });
+}
+
+// Create scroll progress indicator
+function createScrollProgressIndicator() {
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-indicator';
+    document.body.appendChild(progressBar);
+
+    let ticking = false;
+    function updateScrollProgress() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercent = (scrollTop / scrollHeight) * 100;
+
+                progressBar.style.width = Math.min(scrollPercent, 100) + '%';
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
+    updateScrollProgress(); // Initial call
 }
 
 // Enhanced hover interactions
 function addHoverInteractions() {
     const interactiveElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .btn, .nav-link, .testimonial-card');
-    
+
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', function(e) {
-            this.style.transform = this.classList.contains('btn') ? 
-                'translateY(-3px) scale(1.02)' : 
+            this.style.transform = this.classList.contains('btn') ?
+                'translateY(-3px) scale(1.02)' :
                 'translateY(-5px) scale(1.02)';
         });
 
@@ -339,18 +444,18 @@ function addHoverInteractions() {
         el.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
             ripple.classList.add('ripple');
-            
+
             const rect = this.getBoundingClientRect();
             const size = Math.max(rect.width, rect.height);
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
-            
+
             ripple.style.width = ripple.style.height = size + 'px';
             ripple.style.left = x + 'px';
             ripple.style.top = y + 'px';
-            
+
             this.appendChild(ripple);
-            
+
             setTimeout(() => {
                 ripple.remove();
             }, 600);
@@ -428,7 +533,7 @@ function fixViewportIssues() {
     // Prevent zoom on input focus for iOS
     const viewport = document.querySelector('meta[name="viewport"]');
     if (viewport) {
-        viewport.setAttribute('content', 
+        viewport.setAttribute('content',
             'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
         );
     }
@@ -708,16 +813,43 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
 
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
+    if (faqItems.length === 0) {
+        console.log('No FAQ items found');
+        return;
+    }
 
-        if (question) {
-            question.addEventListener('click', () => {
+    faqItems.forEach((item, index) => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+
+        if (question && answer) {
+            // Add smooth transition styles
+            answer.style.transition = 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+            answer.style.overflow = 'hidden';
+
+            // Set initial state
+            if (!item.classList.contains('active')) {
+                answer.style.maxHeight = '0px';
+                answer.style.opacity = '0';
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                answer.style.opacity = '1';
+            }
+
+            question.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
                 const isActive = item.classList.contains('active');
 
                 // Close all FAQ items with smooth animation
                 faqItems.forEach(otherItem => {
                     if (otherItem !== item) {
+                        const otherAnswer = otherItem.querySelector('.faq-answer');
+                        if (otherAnswer) {
+                            otherAnswer.style.maxHeight = '0px';
+                            otherAnswer.style.opacity = '0';
+                        }
                         otherItem.classList.remove('active');
                     }
                 });
@@ -725,9 +857,24 @@ function initializeFAQ() {
                 // Toggle current item
                 if (!isActive) {
                     item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    answer.style.opacity = '1';
                 } else {
                     item.classList.remove('active');
+                    answer.style.maxHeight = '0px';
+                    answer.style.opacity = '0';
                 }
+
+                console.log('FAQ item toggled:', index, !isActive);
+            });
+
+            // Add touch support
+            question.addEventListener('touchstart', function(e) {
+                this.style.backgroundColor = 'rgba(154, 205, 50, 0.1)';
+            });
+
+            question.addEventListener('touchend', function(e) {
+                this.style.backgroundColor = '';
             });
 
             // Add keyboard accessibility
@@ -741,7 +888,9 @@ function initializeFAQ() {
             // Make focusable for keyboard navigation
             question.setAttribute('tabindex', '0');
             question.setAttribute('role', 'button');
-            question.setAttribute('aria-expanded', 'false');
+            question.setAttribute('aria-expanded', item.classList.contains('active'));
+            question.style.cursor = 'pointer';
+            question.style.touchAction = 'manipulation';
 
             // Update aria-expanded when item is toggled
             const observer = new MutationObserver(() => {
@@ -752,6 +901,8 @@ function initializeFAQ() {
             observer.observe(item, { attributes: true, attributeFilter: ['class'] });
         }
     });
+
+    console.log('FAQ initialized with', faqItems.length, 'items');
 }
 
 // Initialize FAQ when components are loaded
