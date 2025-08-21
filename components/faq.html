@@ -127,154 +127,337 @@
 </section>
 
 <style>
-/* FAQ Section */
+/* FAQ Section - Dark Theme */
 .faq {
     padding: 5rem 0;
-    background: #f8fafc;
+    background: #1a1a1a;
+    position: relative;
+}
+
+.faq::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(154, 205, 50, 0.05) 0%, transparent 50%, rgba(154, 205, 50, 0.03) 100%);
+}
+
+.faq .container {
+    position: relative;
+    z-index: 2;
 }
 
 .faq .section-header h2 {
-    color: #1a1a1a;
+    color: #ffffff;
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     margin-bottom: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .faq .section-header p {
-    color: #666666;
+    color: #9ACD32;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin-bottom: 4rem;
+    font-weight: 500;
 }
 
 .faq-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 3rem;
     margin-bottom: 4rem;
 }
 
 .faq-category h3 {
     color: #9ACD32;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-bottom: 2rem;
     font-weight: 700;
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.faq-category h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%);
+    border-radius: 2px;
 }
 
 .faq-items {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .faq-item {
-    background: #ffffff;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #2a2a2a 0%, #333333 100%);
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(154, 205, 50, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.faq-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(154, 205, 50, 0.1) 0%, rgba(124, 179, 66, 0.05) 100%);
+    transition: width 0.3s ease;
+    z-index: 1;
+}
+
+.faq-item:hover::before {
+    width: 100%;
+}
+
+.faq-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(154, 205, 50, 0.2);
+    border-color: #9ACD32;
 }
 
 .faq-question {
-    padding: 1.5rem;
+    padding: 2rem;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: background-color 0.3s ease;
-}
-
-.faq-question:hover {
-    background: #f9fafb;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
 }
 
 .faq-question h4 {
-    color: #1a1a1a;
-    font-size: 1.1rem;
+    color: #ffffff;
+    font-size: 1.2rem;
     font-weight: 600;
     margin: 0;
     flex: 1;
+    line-height: 1.4;
 }
 
 .faq-question i {
     color: #9ACD32;
-    transition: transform 0.3s ease;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+    flex-shrink: 0;
 }
 
 .faq-item.active .faq-question i {
     transform: rotate(180deg);
+    color: #ffffff;
 }
 
 .faq-answer {
-    padding: 0 1.5rem;
+    padding: 0 2rem;
     max-height: 0;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 2;
 }
 
 .faq-item.active .faq-answer {
-    max-height: 200px;
-    padding: 0 1.5rem 1.5rem;
+    max-height: 300px;
+    padding: 0 2rem 2rem;
 }
 
 .faq-answer p {
-    color: #374151;
-    line-height: 1.6;
+    color: #cccccc;
+    line-height: 1.7;
     margin: 0;
+    font-size: 1.05rem;
 }
 
 .faq-cta {
     background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%);
-    padding: 3rem 2rem;
-    border-radius: 15px;
+    padding: 4rem 3rem;
+    border-radius: 20px;
     text-align: center;
     color: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(154, 205, 50, 0.3);
+}
+
+.faq-cta::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
 }
 
 .faq-cta h3 {
-    font-size: 2rem;
+    font-size: 2.2rem;
     margin-bottom: 1rem;
-    font-weight: 700;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
 }
 
 .faq-cta p {
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-    opacity: 0.9;
+    font-size: 1.2rem;
+    margin-bottom: 2.5rem;
+    font-weight: 500;
+    position: relative;
+    z-index: 2;
 }
 
 .faq-cta .btn {
     background: #1a1a1a;
     color: #ffffff;
-    border: 2px solid #1a1a1a;
+    border: 3px solid #1a1a1a;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    z-index: 2;
 }
 
 .faq-cta .btn:hover {
     background: transparent;
     color: #1a1a1a;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(26, 26, 26, 0.3);
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
+    .faq {
+        padding: 4rem 0;
+    }
+    
     .faq-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 2.5rem;
     }
     
     .faq .section-header h2 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+    }
+    
+    .faq .section-header p {
+        font-size: 1.1rem;
+    }
+    
+    .faq-question {
+        padding: 1.5rem;
+    }
+    
+    .faq-question h4 {
+        font-size: 1.1rem;
+    }
+    
+    .faq-answer {
+        padding: 0 1.5rem;
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 0 1.5rem 1.5rem;
     }
     
     .faq-cta {
-        padding: 2rem 1.5rem;
+        padding: 3rem 2rem;
+    }
+    
+    .faq-cta h3 {
+        font-size: 1.8rem;
+    }
+    
+    .faq-cta p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq .section-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .faq-question {
+        padding: 1.2rem;
+    }
+    
+    .faq-question h4 {
+        font-size: 1rem;
     }
     
     .faq-cta h3 {
         font-size: 1.5rem;
     }
 }
+
+/* High contrast accessibility */
+@media (prefers-contrast: high) {
+    .faq-item {
+        border: 2px solid #ffffff;
+    }
+    
+    .faq-question h4 {
+        color: #ffffff;
+    }
+    
+    .faq-answer p {
+        color: #ffffff;
+    }
+}
+
+/* Reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .faq-item,
+    .faq-question i,
+    .faq-answer,
+    .faq-cta .btn {
+        transition: none;
+    }
+    
+    .faq-cta::before {
+        animation: none;
+    }
+    
+    .faq-item:hover {
+        transform: none;
+    }
+}
 </style>
-</section>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -286,16 +469,41 @@ document.addEventListener('DOMContentLoaded', function() {
         question.addEventListener('click', () => {
             const isActive = item.classList.contains('active');
             
-            // Close all FAQ items
+            // Close all FAQ items with smooth animation
             faqItems.forEach(otherItem => {
-                otherItem.classList.remove('active');
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
             });
             
             // Toggle current item
             if (!isActive) {
                 item.classList.add('active');
+            } else {
+                item.classList.remove('active');
             }
         });
+        
+        // Add keyboard accessibility
+        question.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                question.click();
+            }
+        });
+        
+        // Make focusable for keyboard navigation
+        question.setAttribute('tabindex', '0');
+        question.setAttribute('role', 'button');
+        question.setAttribute('aria-expanded', 'false');
+        
+        // Update aria-expanded when item is toggled
+        const observer = new MutationObserver(() => {
+            const isExpanded = item.classList.contains('active');
+            question.setAttribute('aria-expanded', isExpanded);
+        });
+        
+        observer.observe(item, { attributes: true, attributeFilter: ['class'] });
     });
 });
 </script>
