@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'benefits-container': 'components/benefits-banner.html',
         'services-container': 'components/services-overview.html',
         'why-choose-container': 'components/why-choose.html',
-        'service-areas-container': 'components/service-areas-container',
+        'service-areas-container': 'components/service-areas.html',
         'gallery-container': 'components/gallery.html',
         'testimonials-container': 'components/testimonials.html',
         'process-container': 'components/process.html',
