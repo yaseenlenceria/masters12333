@@ -87,6 +87,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.paddingTop = header.offsetHeight + 'px';
         }
 
+        // Initialize mobile menu and FAQ with extra delay
+        ensureMobileMenuWorks();
+        ensureFAQWorks();
+
         console.log('Component initialization complete');
     }, 500);
 });
@@ -555,7 +559,7 @@ function initializeFAQ() {
 // Initialize FAQ when components are loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Wait for components to load then initialize FAQ
-    setTimeout(initializeFAQ, 500);
+    setTimeout(initializeFAQ, 1000);
 
     // Also initialize FAQ when new content is dynamically loaded
     const observer = new MutationObserver(function(mutations) {
@@ -563,7 +567,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (mutation.type === 'childList') {
                 mutation.addedNodes.forEach(function(node) {
                     if (node.nodeType === 1 && (node.classList?.contains('faq') || node.querySelector?.('.faq'))) {
-                        setTimeout(initializeFAQ, 100);
+                        setTimeout(initializeFAQ, 200);
                     }
                 });
             }
@@ -575,6 +579,69 @@ document.addEventListener('DOMContentLoaded', function() {
         subtree: true
     });
 });
+
+// Additional FAQ initialization - ensure it works
+function ensureFAQWorks() {
+    const faqContainer = document.getElementById('faq-container');
+    if (faqContainer && faqContainer.innerHTML.trim()) {
+        initializeFAQ();
+    } else {
+        setTimeout(ensureFAQWorks, 200);
+    }
+}
+
+// Mobile menu initialization function
+function initializeMobileMenu() {
+    const hamburger = document.getElementById('hamburger');
+    const navMenu = document.getElementById('navMenu');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+    
+    if (!hamburger || !navMenu || !mobileOverlay) {
+        // Elements not ready yet, try again
+        setTimeout(initializeMobileMenu, 200);
+        return;
+    }
+
+    // Remove any existing event listeners to prevent duplicates
+    const newHamburger = hamburger.cloneNode(true);
+    hamburger.parentNode.replaceChild(newHamburger, hamburger);
+
+    // Add click event to new hamburger
+    newHamburger.addEventListener('click', function() {
+        const isActive = newHamburger.classList.contains('active');
+        
+        newHamburger.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        mobileOverlay.classList.toggle('active');
+        
+        // Update ARIA attributes
+        newHamburger.setAttribute('aria-expanded', !isActive);
+        
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = !isActive ? 'hidden' : '';
+    });
+
+    // Close menu when clicking overlay
+    mobileOverlay.addEventListener('click', function() {
+        newHamburger.classList.remove('active');
+        navMenu.classList.remove('active');
+        mobileOverlay.classList.remove('active');
+        newHamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    });
+
+    console.log('Mobile menu initialized successfully');
+}
+
+// Ensure mobile menu initialization
+function ensureMobileMenuWorks() {
+    const headerContainer = document.getElementById('header-container');
+    if (headerContainer && headerContainer.innerHTML.trim()) {
+        setTimeout(initializeMobileMenu, 100);
+    } else {
+        setTimeout(ensureMobileMenuWorks, 200);
+    }
+}
 
 
 // Page speed optimization
