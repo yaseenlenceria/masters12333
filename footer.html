@@ -972,5 +972,19 @@
             });
         });
     }
+
+    // Initialize smooth interactions when footer loads - use safe call
+    if (typeof window.addSmoothInteractions === 'function') {
+        window.addSmoothInteractions();
+    } else if (typeof addSmoothInteractions === 'function') {
+        addSmoothInteractions();
+    } else {
+        // Wait for the function to be available
+        setTimeout(() => {
+            if (typeof window.addSmoothInteractions === 'function') {
+                window.addSmoothInteractions();
+            }
+        }, 500);
+    }
 </script>
 </footer

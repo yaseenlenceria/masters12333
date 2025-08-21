@@ -438,7 +438,49 @@ function createScrollProgressIndicator() {
     updateScrollProgress(); // Initial call
 }
 
-// Enhanced hover interactions - Make sure this is globally available
+// Enhanced hover interactions - Make sure this is globally available immediately
+function addSmoothInteractions() {
+    if (typeof window.addSmoothInteractions === 'function') {
+        return window.addSmoothInteractions();
+    }
+    
+    const interactiveElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .btn, .nav-link, .testimonial-card');
+
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', function(e) {
+            this.style.transform = this.classList.contains('btn') ?
+                'translateY(-3px) scale(1.02)' :
+                'translateY(-5px) scale(1.02)';
+        });
+
+        el.addEventListener('mouseleave', function(e) {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+
+        // Add ripple effect on click
+        el.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+
+            this.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+}
+
+// Make it globally available
 window.addSmoothInteractions = function() {
     const interactiveElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .btn, .nav-link, .testimonial-card');
 
