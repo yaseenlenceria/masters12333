@@ -1,31 +1,52 @@
 // Component Loading System
 function loadComponent(componentPath, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.warn(`Container ${containerId} not found for component ${componentPath}`);
+        return;
+    }
+
     fetch(componentPath)
         .then(response => {
             if (!response.ok) {
-                throw new Error(`Failed to load component: ${componentPath}`);
+                throw new Error(`HTTP ${response.status}: Failed to load ${componentPath}`);
             }
             return response.text();
         })
         .then(data => {
-            const container = document.getElementById(containerId);
-            if (container) {
+            if (data && data.trim()) {
                 container.innerHTML = data;
                 
                 // Execute any scripts in the loaded component
                 const scripts = container.querySelectorAll('script');
                 scripts.forEach(script => {
-                    if (script.innerHTML) {
-                        eval(script.innerHTML);
+                    if (script.innerHTML.trim()) {
+                        try {
+                            eval(script.innerHTML);
+                        } catch (scriptError) {
+                            console.error(`Script error in ${componentPath}:`, scriptError);
+                        }
                     }
                 });
+                
+                console.log(`Successfully loaded component: ${componentPath}`);
+            } else {
+                console.warn(`Empty content returned for component: ${componentPath}`);
             }
         })
-        .catch(error => console.error('Error loading component:', error));
+        .catch(error => {
+            console.error(`Error loading component ${componentPath}:`, error.message);
+            // Fallback content
+            container.innerHTML = `<div style="padding: 2rem; text-align: center; color: #666;">
+                <p>Content temporarily unavailable</p>
+            </div>`;
+        });
 }
 
 // Load all components on page load
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, starting component loading...');
+    
     // Load header and footer (always present)
     loadComponent('header.html', 'header-container');
     loadComponent('footer.html', 'footer-container');
@@ -42,10 +63,11 @@ document.addEventListener('DOMContentLoaded', function() {
         'contact-cta-container': 'components/contact-cta.html'
     };
 
-    // Load components that exist on the current page
+    // Load components that exist on the current page with error handling
     Object.entries(componentMappings).forEach(([containerId, componentPath]) => {
         const container = document.getElementById(containerId);
         if (container) {
+            console.log(`Loading component ${componentPath} into ${containerId}`);
             loadComponent(componentPath, containerId);
         }
     });
@@ -61,7 +83,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (header) {
             document.body.style.paddingTop = header.offsetHeight + 'px';
         }
-    }, 200);
+        
+        console.log('Component initialization complete');
+    }, 500);
 });
 
 // Legacy function - kept for compatibility but not used with new components
