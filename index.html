@@ -45,21 +45,63 @@
     <!-- Hero Section -->
     <section class="hero" itemscope itemtype="http://schema.org/Organization">
         <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1 itemprop="name">The Masters Group</h1>
-            <h2 style="font-size: 2.2rem; margin-bottom: 1rem; font-weight: 700; color: #ffffff; text-shadow: 3px 3px 6px rgba(0,0,0,0.7); background: rgba(255, 255, 255, 0.1); padding: 0.5rem 1rem; border-radius: 10px; backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);">Four Specialized Businesses, One Trusted Name</h2>
-            <p itemprop="description">Complete home services across Galway - from roofing and power washing to painting and paving. Your property deserves the expertise of true masters.</p>
+        <div class="hero-main-content">
+            <!-- Main Logo Section -->
+            <div class="hero-logo-section">
+                <img src="attached_assets/mainlogo.png" alt="The Masters Group Galway Main Logo" class="hero-main-logo" itemprop="logo">
+                <div class="hero-title-section">
+                    <h1 itemprop="name" class="hero-main-title">The Masters Group</h1>
+                    <div class="hero-tagline">Four Specialized Businesses, One Trusted Name</div>
+                </div>
+            </div>
+
+            <!-- Hero Content -->
+            <div class="hero-description">
+                <p itemprop="description">Complete home services across Galway - from roofing and power washing to painting and paving. Your property deserves the expertise of true masters.</p>
+            </div>
+
+            <!-- Hero Buttons -->
             <div class="hero-buttons">
-                <a href="tel:0877171524" class="btn btn-primary">Call 087 717 1524</a>
-                <a href="contact.html" class="btn btn-secondary">Get Free Quote</a>
-                <a href="#services" class="btn btn-primary">View Services</a>
+                <a href="tel:0877171524" class="btn btn-primary">
+                    <i class="fas fa-phone"></i>
+                    Call 087 717 1524
+                </a>
+                <a href="contact.html" class="btn btn-secondary">
+                    <i class="fas fa-quote-left"></i>
+                    Get Free Quote
+                </a>
+                <a href="#services" class="btn btn-primary">
+                    <i class="fas fa-tools"></i>
+                    View Services
+                </a>
             </div>
         </div>
-        <div class="floating-images">
-            <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters Galway Logo" class="float-img">
-            <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters Galway Logo" class="float-img">
-            <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters Galway Logo" class="float-img">
-            <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters Galway Logo" class="float-img">
+
+        <!-- Floating Sub-Logos -->
+        <div class="floating-sub-logos">
+            <div class="sub-logo-container">
+                <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters Galway" class="sub-logo" data-service="roofmasters">
+                <div class="sub-logo-tooltip">RoofMasters</div>
+            </div>
+            <div class="sub-logo-container">
+                <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters Galway" class="sub-logo" data-service="dirtmasters">
+                <div class="sub-logo-tooltip">DirtMasters</div>
+            </div>
+            <div class="sub-logo-container">
+                <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters Galway" class="sub-logo" data-service="paintmasters">
+                <div class="sub-logo-tooltip">PaintMasters</div>
+            </div>
+            <div class="sub-logo-container">
+                <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters Galway" class="sub-logo" data-service="pavingmasters">
+                <div class="sub-logo-tooltip">PavingMasters</div>
+            </div>
+        </div>
+
+        <!-- Decorative Elements -->
+        <div class="hero-decorative-elements">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
         </div>
     </section>
 

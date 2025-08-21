@@ -1,11 +1,10 @@
-
 // Component Loading System
 function loadComponent(componentPath, containerId) {
     fetch(componentPath)
         .then(response => response.text())
         .then(data => {
             document.getElementById(containerId).innerHTML = data;
-            
+
             // Re-initialize navigation after header is loaded
             if (containerId === 'header-container') {
                 initializeNavigation();
@@ -19,7 +18,7 @@ function loadComponent(componentPath, containerId) {
 document.addEventListener('DOMContentLoaded', function() {
     loadComponent('header.html', 'header-container');
     loadComponent('footer.html', 'footer-container');
-    
+
     // Initialize other components
     initializeAnimations();
     initializeFormHandling();
@@ -35,7 +34,7 @@ function initializeNavigation() {
         hamburger.addEventListener('click', () => {
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
-            
+
             // Improve accessibility
             const isExpanded = hamburger.classList.contains('active');
             hamburger.setAttribute('aria-expanded', isExpanded);
@@ -65,7 +64,7 @@ function initializeNavigation() {
 function setActiveNavLink() {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.nav-link');
-    
+
     navLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href') === currentPage) {
@@ -83,7 +82,7 @@ function initializeSmoothScrolling() {
             if (target) {
                 const headerHeight = document.querySelector('.navbar').offsetHeight;
                 const targetPosition = target.offsetTop - headerHeight;
-                
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -99,25 +98,25 @@ function initializeFormHandling() {
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             // Get form data
             const formData = new FormData(this);
             const data = {};
             formData.forEach((value, key) => {
                 data[key] = value;
             });
-            
+
             // Enhanced validation
             if (!validateForm(data)) {
                 return;
             }
-            
+
             // Show loading state
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
-            
+
             // Simulate form submission
             setTimeout(() => {
                 alert('Thank you for your inquiry! We will contact you within 24 hours with your free quote.');
@@ -133,32 +132,32 @@ function initializeFormHandling() {
 function validateForm(data) {
     const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'service', 'message'];
     const missingFields = [];
-    
+
     requiredFields.forEach(field => {
         if (!data[field] || data[field].trim() === '') {
             missingFields.push(field);
         }
     });
-    
+
     if (missingFields.length > 0) {
         alert('Please fill in all required fields: ' + missingFields.join(', '));
         return false;
     }
-    
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
         alert('Please enter a valid email address.');
         return false;
     }
-    
+
     // Phone validation (Irish format)
     const phoneRegex = /^(\+353|0)[0-9]{8,9}$/;
     if (!phoneRegex.test(data.phone.replace(/\s/g, ''))) {
         alert('Please enter a valid Irish phone number.');
         return false;
     }
-    
+
     return true;
 }
 
@@ -181,7 +180,7 @@ function initializeAnimations() {
 
     // Observe elements for animation
     const animatedElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .testimonial-card, .gallery-item, .project-item');
-    
+
     animatedElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
@@ -208,12 +207,12 @@ document.addEventListener('DOMContentLoaded', function() {
 // Improved mobile touch interactions
 document.addEventListener('DOMContentLoaded', function() {
     const cards = document.querySelectorAll('.service-card, .feature-card, .contact-card');
-    
+
     cards.forEach(card => {
         card.addEventListener('touchstart', function() {
             this.style.transform = 'scale(0.98)';
         });
-        
+
         card.addEventListener('touchend', function() {
             this.style.transform = 'scale(1)';
         });
@@ -244,9 +243,9 @@ function initializeSEOEnhancements() {
     skipLink.addEventListener('blur', function() {
         this.style.top = '-40px';
     });
-    
+
     document.body.insertBefore(skipLink, document.body.firstChild);
-    
+
     // Add main content ID if not present
     const mainContent = document.querySelector('main') || document.querySelector('.hero');
     if (mainContent && !mainContent.id) {
@@ -266,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.style.transform = 'scale(1.1) rotate(5deg)';
                 this.style.transition = 'transform 0.3s ease';
             });
-            
+
             link.addEventListener('mouseleave', function() {
                 this.style.transform = 'scale(1) rotate(0deg)';
             });
@@ -284,7 +283,7 @@ window.addEventListener('load', function() {
         'pavingmasters.html',
         'contact.html'
     ];
-    
+
     preloadLinks.forEach(href => {
         const link = document.createElement('link');
         link.rel = 'prefetch';
