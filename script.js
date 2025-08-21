@@ -27,37 +27,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Navigation initialization
 function initializeNavigation() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
+    // Wait a bit for the header to be fully loaded
+    setTimeout(() => {
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
 
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
+        if (hamburger && navMenu) {
+            // Remove any existing event listeners
+            hamburger.replaceWith(hamburger.cloneNode(true));
+            const newHamburger = document.querySelector('.hamburger');
 
-            // Improve accessibility
-            const isExpanded = hamburger.classList.contains('active');
-            hamburger.setAttribute('aria-expanded', isExpanded);
-        });
+            // Add click event listener for hamburger
+            newHamburger.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                newHamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
 
-        // Close mobile menu when clicking on nav links
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
+                // Improve accessibility
+                const isExpanded = newHamburger.classList.contains('active');
+                newHamburger.setAttribute('aria-expanded', isExpanded);
             });
-        });
 
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-                hamburger.setAttribute('aria-expanded', 'false');
-            }
-        });
-    }
+            // Add keyboard support for hamburger
+            newHamburger.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+
+            // Close mobile menu when clicking on nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    newHamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    newHamburger.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !newHamburger.contains(e.target)) {
+                    newHamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    newHamburger.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Close menu on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                    newHamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    newHamburger.setAttribute('aria-expanded', 'false');
+                }
+            });
+        }
+    }, 500);
 }
 
 // Set active navigation link based on current page

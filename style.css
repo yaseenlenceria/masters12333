@@ -106,6 +106,9 @@ body {
     padding: 5px;
     border-radius: 3px;
     transition: all 0.3s ease;
+    background: transparent;
+    border: none;
+    outline: none;
 }
 
 .hamburger:hover {
@@ -915,15 +918,19 @@ img[loading="lazy"].loaded {
 
 @media (max-width: 768px) {
     .hamburger {
-        display: flex;
+        display: flex !important;
         z-index: 1001;
         position: relative;
+        order: 3;
     }
 
     .nav-container {
         height: 70px;
         position: relative;
         padding: 0 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .main-logo {
@@ -933,6 +940,7 @@ img[loading="lazy"].loaded {
 
     .nav-logo {
         flex: 1;
+        order: 1;
     }
 
     .logo-text h2 {
@@ -959,10 +967,16 @@ img[loading="lazy"].loaded {
         overflow-y: auto;
         border-top: 3px solid #9ACD32;
         z-index: 1000;
+        order: 2;
+    }
+
+    .nav-menu.active {
+        left: 0 !important;
     }
 
     .nav-menu li {
         margin: 1rem 0;
+        width: 100%;
     }
 
     .nav-link {
@@ -970,15 +984,20 @@ img[loading="lazy"].loaded {
         padding: 1rem;
         display: block;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        color: #ffffff;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+        color: #9ACD32;
+        background: rgba(154, 205, 50, 0.1);
     }
 
     .page-header {
         margin-top: 70px;
         padding: 7rem 0 3rem;
-    }
-
-    .nav-menu.active {
-        left: 0;
     }
 
     .hero-content {
@@ -987,35 +1006,49 @@ img[loading="lazy"].loaded {
 
     .hero {
         height: auto;
-        min-height: 100vh;
-        padding: 6rem 2rem 4rem;
+        min-height: calc(100vh - 70px);
+        padding: 8rem 1rem 4rem;
         text-align: center;
+        padding-left: 1rem;
+        margin-top: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .hero::before {
-        opacity: 0.1;
+        opacity: 0.08;
+        background-position: center center;
+    }
+
+    .hero::after {
+        display: none;
     }
 
     .hero-main-content {
         max-width: 100%;
         padding: 2rem 1rem;
         text-align: center;
+        width: 100%;
     }
 
     .hero-main-title {
         font-size: 2.5rem;
-        line-height: 1.2;
+        line-height: 1.1;
         margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
 
     .hero-tagline {
         font-size: 1.1rem;
         margin-bottom: 1rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
     .hero-subtitle {
         font-size: 1rem;
         margin-bottom: 2rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
     .hero-buttons {
@@ -1030,6 +1063,7 @@ img[loading="lazy"].loaded {
         max-width: 280px;
         font-size: 1rem;
         padding: 16px 24px;
+        text-align: center;
     }
 
     .services-grid {
@@ -1119,6 +1153,7 @@ img[loading="lazy"].loaded {
 
     .hamburger {
         padding: 3px;
+        display: flex !important;
     }
 
     .bar {
@@ -1133,33 +1168,44 @@ img[loading="lazy"].loaded {
     }
 
     .hero {
-        padding: 4rem 1rem 3rem;
+        padding: 5rem 1rem 3rem;
         min-height: calc(100vh - 60px);
+        margin-top: 60px;
+        padding-left: 1rem;
+        justify-content: center;
+        align-items: center;
     }
 
     .hero-main-content {
         padding: 1rem 0.5rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .hero-main-title {
         font-size: 2rem;
         line-height: 1.1;
         margin-bottom: 0.8rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
     }
 
     .hero-tagline {
         font-size: 0.9rem;
         margin-bottom: 0.8rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
     }
 
     .hero-subtitle {
         font-size: 0.9rem;
         margin-bottom: 1.5rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
     }
 
     .hero-buttons {
         gap: 0.8rem;
         margin-top: 1.5rem;
+        flex-direction: column;
+        width: 100%;
     }
 
     .hero-buttons .btn {
@@ -1167,6 +1213,7 @@ img[loading="lazy"].loaded {
         max-width: 250px;
         font-size: 0.9rem;
         padding: 14px 20px;
+        text-align: center;
     }
 
     .btn {
