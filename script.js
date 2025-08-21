@@ -51,7 +51,7 @@ window.addEventListener('error', function(e) {
 // Load all components on page load
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, starting component loading...');
-    
+
     try {
 
     // Load header and footer (always present)
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ensureMobileMenuWorks();
         ensureFAQWorks();
     }, 800);
-    
+
     } catch (error) {
         console.error('Error during component initialization:', error);
     }
@@ -344,7 +344,7 @@ function initializeAnimations() {
     });
 
     // Initialize smooth interactions
-    addSmoothInteractions();
+    window.addSmoothInteractions();
     initializeParallaxEffects();
 }
 
@@ -438,8 +438,8 @@ function createScrollProgressIndicator() {
     updateScrollProgress(); // Initial call
 }
 
-// Enhanced hover interactions
-function addSmoothInteractions() {
+// Enhanced hover interactions - Make sure this is globally available
+window.addSmoothInteractions = function() {
     const interactiveElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .btn, .nav-link, .testimonial-card');
 
     interactiveElements.forEach(el => {
@@ -474,11 +474,37 @@ function addSmoothInteractions() {
             }, 600);
         });
     });
+};
+
+// Make addSmoothInteractions globally available
+function addSmoothInteractions() {
+    window.addSmoothInteractions();
 }
 
 // Legacy function name for compatibility
+window.addHoverInteractions = function() {
+    if (typeof window.addSmoothInteractions === 'function') {
+        window.addSmoothInteractions();
+    } else {
+        // Fallback implementation
+        const interactiveElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .btn, .nav-link, .testimonial-card');
+
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', function() {
+                this.style.transform = this.classList.contains('btn') ?
+                    'translateY(-3px) scale(1.02)' :
+                    'translateY(-5px) scale(1.02)';
+            });
+
+            el.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    }
+};
+
 function addHoverInteractions() {
-    addSmoothInteractions();
+    window.addHoverInteractions();
 }
 
 // Enhanced Image Optimization and Lazy Loading
@@ -934,7 +960,7 @@ function initializeFAQ() {
     // Retry mechanism
     let retries = 0;
     const maxRetries = 10;
-    
+
     const tryInitFAQ = () => {
         if (checkFAQ() || retries >= maxRetries) {
             return;
@@ -997,19 +1023,19 @@ function initializeMobileMenu() {
     hamburger.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const isActive = hamburger.classList.contains('active');
-        
+
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
         mobileOverlay.classList.toggle('active');
-        
+
         // Update ARIA attributes
         hamburger.setAttribute('aria-expanded', !isActive);
-        
+
         // Prevent body scroll when menu is open
         document.body.style.overflow = !isActive ? 'hidden' : '';
-        
+
         console.log('Mobile menu toggled:', !isActive);
     });
 
@@ -1026,25 +1052,25 @@ function initializeMobileMenu() {
     // Handle mobile dropdowns
     dropdowns.forEach(dropdown => {
         const toggle = dropdown.querySelector('.dropdown-toggle');
-        
+
         if (toggle) {
             toggle.addEventListener('click', function(e) {
                 if (window.innerWidth <= 968) {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     // Close other dropdowns
                     dropdowns.forEach(otherDropdown => {
                         if (otherDropdown !== dropdown) {
                             otherDropdown.classList.remove('active');
                         }
                     });
-                    
+
                     dropdown.classList.toggle('active');
-                    
+
                     const isExpanded = dropdown.classList.contains('active');
                     toggle.setAttribute('aria-expanded', isExpanded);
-                    
+
                     console.log('Dropdown toggled:', dropdown, isExpanded);
                 }
             });
