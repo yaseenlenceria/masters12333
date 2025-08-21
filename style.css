@@ -213,32 +213,33 @@ body {
     right: 8%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    opacity: 0.9;
+    gap: 40px;
+    opacity: 1;
+    z-index: 10;
 }
 
 .float-img {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
     object-fit: contain;
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 20px;
-    padding: 15px;
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 25px;
+    padding: 20px;
     box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        0 30px 60px rgba(0, 0, 0, 0.5),
+        0 0 0 2px rgba(255, 255, 255, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.8);
     animation: floatAdvanced 4s ease-in-out infinite;
     transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(175, 211, 1, 0.3);
+    backdrop-filter: blur(15px);
+    border: 3px solid rgba(175, 211, 1, 0.4);
 }
 
 .float-img:hover {
-    transform: scale(1.1) translateY(-10px);
+    transform: scale(1.15) translateY(-15px);
     box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.5),
-        0 0 30px rgba(175, 211, 1, 0.5);
+        0 40px 80px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(175, 211, 1, 0.6);
 }
 
 .float-img:nth-child(1) {
@@ -820,12 +821,12 @@ img {
     .floating-images {
         right: 5%;
         grid-template-columns: 1fr 1fr;
-        gap: 15px;
+        gap: 25px;
     }
 
     .float-img {
-        width: 60px;
-        height: 60px;
+        width: 100px;
+        height: 100px;
     }
 }
 
@@ -899,13 +900,13 @@ img {
     .floating-images {
         top: 10%;
         right: 5%;
-        gap: 15px;
+        gap: 20px;
     }
 
     .float-img {
-        width: 70px;
-        height: 70px;
-        padding: 10px;
+        width: 90px;
+        height: 90px;
+        padding: 12px;
     }
 
     .services-grid,
