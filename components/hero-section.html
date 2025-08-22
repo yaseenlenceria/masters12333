@@ -26,8 +26,7 @@
     padding-left: 80px;
     margin-top: 0;
     padding-top: 80px;
-    will-change: transform;
-    backface-visibility: hidden;
+    transform: none !important;
 }
 
 .hero::before {
@@ -40,8 +39,7 @@
     background: url('../attached_assets/herobc.png') right center/cover no-repeat;
     opacity: 0.15;
     z-index: 1;
-    will-change: transform;
-    backface-visibility: hidden;
+    transform: none !important;
 }
 
 .hero::after {
@@ -54,8 +52,7 @@
     background: linear-gradient(135deg, rgba(154, 205, 50, 0.1) 0%, rgba(124, 179, 66, 0.05) 100%);
     clip-path: polygon(40% 0%, 100% 0%, 100% 100%, 20% 100%);
     z-index: 2;
-    will-change: transform;
-    backface-visibility: hidden;
+    transform: none !important;
 }
 
 /* Main Hero Content */

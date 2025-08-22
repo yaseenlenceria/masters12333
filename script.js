@@ -155,20 +155,20 @@ function initializeSmoothScrolling() {
         }
     });
 
-    // Add parallax effect for hero section with better performance
+    // Smooth scroll effects (hero parallax removed for proper scrolling)
     let ticking = false;
-    function updateParallax() {
+    function updateScrollEffects() {
         if (!ticking) {
             requestAnimationFrame(() => {
                 const scrolled = window.pageYOffset;
-                const parallaxElements = document.querySelectorAll('.hero, .page-header');
-
-                parallaxElements.forEach(el => {
+                
+                // Only apply parallax to page headers, not main hero
+                const pageHeaders = document.querySelectorAll('.page-header');
+                pageHeaders.forEach(el => {
                     if (el && el.offsetHeight > 0) {
-                        // Only apply parallax when element is visible
                         const rect = el.getBoundingClientRect();
                         if (rect.bottom > 0 && rect.top < window.innerHeight) {
-                            const speed = 0.3;
+                            const speed = 0.1;
                             el.style.transform = `translateY(${scrolled * speed}px)`;
                         }
                     }
@@ -180,7 +180,7 @@ function initializeSmoothScrolling() {
         }
     }
 
-    window.addEventListener('scroll', updateParallax, { passive: true });
+    window.addEventListener('scroll', updateScrollEffects, { passive: true });
 }
 
 // Custom smooth scroll function with easing
@@ -398,7 +398,7 @@ function animateCounter(element) {
     requestAnimationFrame(updateCounter);
 }
 
-// Parallax effects for enhanced visual appeal
+// Parallax effects for enhanced visual appeal (hero parallax removed)
 function initializeParallaxEffects() {
     let ticking = false;
 
@@ -407,25 +407,25 @@ function initializeParallaxEffects() {
             requestAnimationFrame(() => {
                 const scrolled = window.pageYOffset;
 
-                // Parallax for hero sections with bounds checking
-                const heroElements = document.querySelectorAll('.hero, .page-header');
-                heroElements.forEach(el => {
+                // Only apply parallax to page headers (not main hero)
+                const pageHeaders = document.querySelectorAll('.page-header');
+                pageHeaders.forEach(el => {
                     if (el && el.offsetHeight > 0) {
                         const rect = el.getBoundingClientRect();
                         const elementTop = rect.top + scrolled;
                         const elementHeight = el.offsetHeight;
                         
-                        // Only apply parallax when hero is visible
+                        // Only apply parallax when page header is visible
                         if (scrolled < elementTop + elementHeight) {
-                            const speed = 0.2;
+                            const speed = 0.1;
                             const transform = scrolled * speed;
                             el.style.transform = `translateY(${transform}px)`;
                         }
                     }
                 });
 
-                // Parallax for floating elements
-                const floatingElements = document.querySelectorAll('.floating-animation, .sub-logo');
+                // Parallax for floating elements (excluding hero)
+                const floatingElements = document.querySelectorAll('.floating-animation:not(.hero *), .sub-logo:not(.hero *)');
                 floatingElements.forEach((el, index) => {
                     if (el && el.offsetHeight > 0) {
                         const speed = 0.05 + (index * 0.02);
