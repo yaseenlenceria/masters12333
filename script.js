@@ -137,13 +137,16 @@ function initializeSmoothScrolling() {
     document.addEventListener('click', function(e) {
         if (e.target.matches('a[href^="#"]')) {
             e.preventDefault();
-            const target = document.querySelector(e.target.getAttribute('href'));
-            if (target) {
-                const headerHeight = document.querySelector('.header')?.offsetHeight || 80;
-                const targetPosition = target.offsetTop - headerHeight - 20;
+            const href = e.target.getAttribute('href');
+            if (href && href !== '#' && href.length > 1) {
+                const target = document.querySelector(href);
+                if (target) {
+                    const headerHeight = document.querySelector('.header')?.offsetHeight || 80;
+                    const targetPosition = target.offsetTop - headerHeight - 20;
 
-                // Smooth scroll with custom easing
-                smoothScrollTo(targetPosition, 800);
+                    // Smooth scroll with custom easing
+                    smoothScrollTo(targetPosition, 800);
+                }
             }
         }
     });
