@@ -10,6 +10,8 @@ body {
     color: #ffffff;
     background: #1a1a1a;
     overflow-x: hidden; /* Prevent horizontal scroll */
+    opacity: 1; /* Ensure body is always visible */
+    transition: none; /* Remove any conflicting transitions */
 }
 
 .container {

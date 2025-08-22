@@ -82,6 +82,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Ensure body is visible immediately
+    document.body.style.opacity = '1';
+    
     // Initialize other components after a short delay to ensure loading
     setTimeout(() => {
         initializeAnimations();
@@ -197,20 +200,28 @@ function smoothScrollTo(targetPosition, duration) {
 
 // Add page transition effects
 function initializePageTransitions() {
-    // Fade in page content on load
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+    // Ensure body is visible by default
+    document.body.style.opacity = '1';
+    document.body.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
 
-    window.addEventListener('load', () => {
-        document.body.style.opacity = '1';
-    });
+    // Only apply fade effect on initial page load if coming from another page
+    if (document.readyState === 'loading') {
+        document.body.style.opacity = '0';
+        
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+        });
+    }
 
-    // Add loading state for navigation
+    // Simplified navigation transitions - remove problematic opacity changes
     document.querySelectorAll('a[href]:not([href^="#"]):not([href^="tel:"]):not([href^="mailto:"])').forEach(link => {
         link.addEventListener('click', (e) => {
             if (link.hostname === window.location.hostname) {
-                document.body.style.opacity = '0.7';
-                document.body.style.transition = 'opacity 0.3s ease';
+                // Just add a subtle visual feedback without opacity change
+                link.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    link.style.transform = 'scale(1)';
+                }, 150);
             }
         });
     });
