@@ -4,22 +4,13 @@
     
     <div class="hero-content">
         <div class="hero-main-content">
-            <div class="hero-logo-container animate-slideDown">
-                <img src="attached_assets/mainlogo.png" alt="The Masters Group Galway" class="hero-logo floating-gentle">
-            </div>
-            
             <h1 class="hero-main-title animate-fadeInUp animate-delay-300">The Masters Group Galway</h1>
-            <p class="hero-tagline animate-fadeInUp animate-delay-500">Ireland's Premier Home Services Company</p>
-            <p class="hero-subtitle animate-fadeInUp animate-delay-700">Expert roofing, power washing, exterior painting & paving services across Galway City & County</p>
+            <p class="hero-subtitle animate-fadeInUp animate-delay-500">Expert roofing, power washing, exterior painting & paving services across Galway City & County</p>
             
-            <div class="hero-buttons animate-fadeInUp animate-delay-900">
+            <div class="hero-buttons animate-fadeInUp animate-delay-700">
                 <a href="contact.html" class="btn btn-primary hero-btn-primary">
                     <span class="btn-text">Get Free Quote</span>
                     <i class="fas fa-arrow-right btn-icon"></i>
-                </a>
-                <a href="tel:0877171524" class="btn btn-secondary hero-btn-secondary">
-                    <span class="btn-text">Call: 087 717 1524</span>
-                    <i class="fas fa-phone btn-icon"></i>
                 </a>
             </div>
 
@@ -96,29 +87,6 @@
     width: 100%;
 }
 
-/* Logo Section */
-.hero-logo-container {
-    margin-bottom: 2rem;
-    opacity: 0;
-    transform: translateY(-50px);
-}
-
-.hero-logo {
-    height: 120px;
-    width: auto;
-    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5));
-    transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.floating-gentle {
-    animation: floatingGentle 4s ease-in-out infinite;
-}
-
-@keyframes floatingGentle {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-8px) scale(1.02); }
-}
-
 /* Typography */
 .hero-main-title {
     font-size: 4.5rem;
@@ -132,59 +100,35 @@
     transform: translateY(40px);
 }
 
-.hero-tagline {
-    background: linear-gradient(135deg, #9ACD32 0%, #7CB342 50%, #8BC34A 100%);
-    color: #1a1a1a;
-    padding: 1rem 2rem;
-    border-radius: 50px;
-    font-weight: 800;
-    font-size: 1.4rem;
-    margin-bottom: 2rem;
-    display: inline-block;
-    text-shadow: none;
-    box-shadow: 0 10px 30px rgba(154, 205, 50, 0.4);
-    opacity: 0;
-    transform: translateY(40px) scale(0.9);
-    transition: all 0.3s ease;
-}
-
-.hero-tagline:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(154, 205, 50, 0.6);
-}
-
 .hero-subtitle {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     margin-bottom: 3rem;
     color: rgba(255, 255, 255, 0.95);
     text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.8);
     line-height: 1.5;
-    max-width: 700px;
+    max-width: 800px;
     margin-left: auto;
     margin-right: auto;
     opacity: 0;
     transform: translateY(40px);
 }
 
-/* Enhanced Buttons */
+/* Enhanced Button */
 .hero-buttons {
     display: flex;
-    gap: 2rem;
     justify-content: center;
-    flex-wrap: wrap;
     margin-bottom: 3rem;
     opacity: 0;
     transform: translateY(40px);
 }
 
-.hero-btn-primary,
-.hero-btn-secondary {
+.hero-btn-primary {
     position: relative;
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    padding: 20px 40px;
-    font-size: 1.2rem;
+    padding: 22px 45px;
+    font-size: 1.3rem;
     font-weight: 700;
     text-decoration: none;
     border-radius: 50px;
@@ -192,11 +136,8 @@
     overflow: hidden;
     text-transform: none;
     letter-spacing: 0.5px;
-    min-width: 220px;
+    min-width: 250px;
     justify-content: center;
-}
-
-.hero-btn-primary {
     background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%);
     color: #1a1a1a;
     border: 3px solid transparent;
@@ -224,22 +165,6 @@
     transform: translateY(-6px) scale(1.05);
     box-shadow: 0 20px 45px rgba(154, 205, 50, 0.5);
     border-color: rgba(255, 255, 255, 0.2);
-}
-
-.hero-btn-secondary {
-    background: rgba(26, 26, 26, 0.8);
-    color: #9ACD32;
-    border: 3px solid #9ACD32;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 15px 35px rgba(26, 26, 26, 0.4);
-}
-
-.hero-btn-secondary:hover {
-    background: rgba(154, 205, 50, 0.1);
-    color: #ffffff;
-    border-color: #ffffff;
-    transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 20px 45px rgba(154, 205, 50, 0.3);
 }
 
 .btn-text {
@@ -442,44 +367,30 @@
         max-width: 400px;
     }
 
-    .hero-logo-container {
-        margin-bottom: 1.5rem;
-    }
-
     .hero-main-title {
-        font-size: clamp(2.2rem, 5vw, 2.8rem);
+        font-size: clamp(2.4rem, 6vw, 3.2rem);
         letter-spacing: -1px;
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
         line-height: 1.1;
         will-change: transform;
     }
 
-    .hero-tagline {
-        font-size: clamp(1rem, 2.5vw, 1.1rem);
-        padding: 0.8rem 1.5rem;
-        margin-bottom: 1.5rem;
-    }
-
     .hero-subtitle {
-        font-size: clamp(0.9rem, 2vw, 1rem);
-        margin-bottom: 2rem;
+        font-size: clamp(1rem, 2.5vw, 1.2rem);
+        margin-bottom: 2.5rem;
         line-height: 1.4;
     }
 
     .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-        gap: 1.2rem;
         margin-bottom: 2rem;
         width: 100%;
     }
 
-    .hero-btn-primary,
-    .hero-btn-secondary {
+    .hero-btn-primary {
         width: 100%;
-        max-width: 300px;
-        padding: 16px 28px;
-        font-size: 1.1rem;
+        max-width: 320px;
+        padding: 18px 32px;
+        font-size: 1.2rem;
         touch-action: manipulation;
         -webkit-tap-highlight-color: transparent;
     }
@@ -518,30 +429,22 @@
 
     .hero-main-title {
         font-size: 2.2rem;
-        margin-bottom: 1rem;
-    }
-
-    .hero-tagline {
-        font-size: 1rem;
-        padding: 0.7rem 1.2rem;
         margin-bottom: 1.2rem;
     }
 
     .hero-subtitle {
         font-size: 0.95rem;
-        margin-bottom: 1.8rem;
+        margin-bottom: 2rem;
     }
 
     .hero-buttons {
-        gap: 1rem;
         margin-bottom: 1.8rem;
     }
 
-    .hero-btn-primary,
-    .hero-btn-secondary {
-        font-size: 1rem;
-        padding: 15px 25px;
-        max-width: 280px;
+    .hero-btn-primary {
+        font-size: 1.1rem;
+        padding: 16px 28px;
+        max-width: 300px;
     }
 
     .hero-features {
@@ -568,12 +471,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Enhanced staggered animation system
     const animationSequence = [
-        { selector: '.hero-logo-container', delay: 200 },
-        { selector: '.hero-main-title', delay: 500 },
-        { selector: '.hero-tagline', delay: 800 },
-        { selector: '.hero-subtitle', delay: 1100 },
-        { selector: '.hero-buttons', delay: 1400 },
-        { selector: '.hero-features', delay: 1700 }
+        { selector: '.hero-main-title', delay: 300 },
+        { selector: '.hero-subtitle', delay: 500 },
+        { selector: '.hero-buttons', delay: 700 },
+        { selector: '.hero-features', delay: 900 }
     ];
 
     animationSequence.forEach(({ selector, delay }) => {
@@ -668,31 +569,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Logo hover enhancement
-    const heroLogo = hero.querySelector('.hero-logo');
-    if (heroLogo) {
-        heroLogo.addEventListener('mouseenter', () => {
-            heroLogo.style.transform = 'scale(1.1) rotate(5deg)';
-            heroLogo.style.filter = 'drop-shadow(0 20px 40px rgba(154, 205, 50, 0.3)) brightness(1.1)';
-        });
-
-        heroLogo.addEventListener('mouseleave', () => {
-            heroLogo.style.transform = '';
-            heroLogo.style.filter = 'drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5))';
-        });
-    }
-
-    // Tagline interactive effect
-    const heroTagline = hero.querySelector('.hero-tagline');
-    if (heroTagline) {
-        heroTagline.addEventListener('mouseenter', () => {
-            heroTagline.style.background = 'linear-gradient(135deg, #7CB342 0%, #689F38 50%, #9ACD32 100%)';
-        });
-
-        heroTagline.addEventListener('mouseleave', () => {
-            heroTagline.style.background = 'linear-gradient(135deg, #9ACD32 0%, #7CB342 50%, #8BC34A 100%)';
-        });
-    }
+    
 
     window.addEventListener('scroll', updateHeroParallax, { passive: true });
     
