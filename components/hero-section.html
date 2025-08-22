@@ -11,21 +11,7 @@
             </div>
         </div>
 
-        <!-- Floating Sub-Logos with Enhanced Animations -->
-        <div class="floating-sub-logos animate-slideInRight animate-delay-1000">
-            <div class="sub-logo-item floating-animation animate-delay-100">
-                <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters Galway" class="sub-logo hover-float">
-            </div>
-            <div class="sub-logo-item floating-animation animate-delay-200">
-                <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters Galway" class="sub-logo hover-float">
-            </div>
-            <div class="sub-logo-item floating-animation animate-delay-300">
-                <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters Galway" class="sub-logo hover-float">
-            </div>
-            <div class="sub-logo-item floating-animation animate-delay-400">
-                <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters Galway" class="sub-logo hover-float">
-            </div>
-        </div>
+        
     </div>
 
     <!-- Animated Background Elements -->
@@ -73,13 +59,12 @@
     padding: 0 2rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 4rem;
+    justify-content: center;
 }
 
 .hero-main-content {
-    flex: 1;
-    max-width: 600px;
+    max-width: 800px;
+    width: 100%;
 }
 
 .hero-main-logo {
@@ -131,35 +116,7 @@
     flex-wrap: wrap;
 }
 
-/* Floating Sub-Logos */
-.floating-sub-logos {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    position: relative;
-}
 
-.sub-logo-item {
-    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.sub-logo {
-    width: 90px;
-    height: 90px;
-    background: rgba(26, 26, 26, 0.9);
-    border-radius: 50%;
-    padding: 15px;
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    border: 3px solid rgba(154, 205, 50, 0.3);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
-.sub-logo:hover {
-    transform: scale(1.1) rotate(5deg);
-    border-color: rgba(154, 205, 50, 0.8);
-    box-shadow: 0 15px 40px rgba(154, 205, 50, 0.3);
-}
 
 /* Animated Background Elements */
 .hero-bg-elements {
@@ -233,15 +190,7 @@
 /* Responsive Design */
 @media (max-width: 1024px) {
     .hero-content {
-        flex-direction: column;
-        gap: 2rem;
         padding: 0 1.5rem;
-    }
-
-    .floating-sub-logos {
-        flex-direction: row;
-        justify-content: center;
-        gap: 1.5rem;
     }
 
     .hero-main-title {
@@ -272,15 +221,7 @@
         font-size: 1rem;
     }
 
-    .floating-sub-logos {
-        gap: 1rem;
-    }
-
-    .sub-logo {
-        width: 70px;
-        height: 70px;
-        padding: 10px;
-    }
+    
 
     .hero-buttons {
         flex-direction: column;
@@ -308,9 +249,7 @@
         font-size: 1rem;
     }
 
-    .floating-sub-logos {
-        display: none; /* Hide on very small screens */
-    }
+    
 }
 </style>
 
