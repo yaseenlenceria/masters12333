@@ -2,22 +2,20 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
+# Sitemap
 Sitemap: https://themastersgroup.ie/sitemap.xml
 
-# Allow important pages
-Allow: /index.html
-Allow: /roofmasters.html
-Allow: /dirtmasters.html
-Allow: /paintmasters.html
-Allow: /pavingmasters.html
-Allow: /contact.html
+# Crawl-delay (optional, helps with server load)
+Crawl-delay: 1
 
-# Block unnecessary files
-Disallow: /.replit
-Disallow: /script.js
-Disallow: /style.css
+# Disallow unnecessary files
+Disallow: *.txt$
+Disallow: *.log$
+Disallow: /components/
 Disallow: /.config/
 
-# Crawl-delay
-Crawl-delay: 1
+# Allow important assets
+Allow: /attached_assets/
+Allow: /style.css
+Allow: /script.js
+Allow: /*.html$

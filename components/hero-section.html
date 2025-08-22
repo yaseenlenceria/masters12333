@@ -419,6 +419,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        contain: layout style;
     }
 
     .hero-content {
@@ -428,6 +429,7 @@
         justify-content: center;
         width: 100%;
         height: 100%;
+        contain: layout;
     }
 
     .hero-main-content {
@@ -445,20 +447,21 @@
     }
 
     .hero-main-title {
-        font-size: 2.8rem;
+        font-size: clamp(2.2rem, 5vw, 2.8rem);
         letter-spacing: -1px;
         margin-bottom: 1rem;
         line-height: 1.1;
+        will-change: transform;
     }
 
     .hero-tagline {
-        font-size: 1.1rem;
+        font-size: clamp(1rem, 2.5vw, 1.1rem);
         padding: 0.8rem 1.5rem;
         margin-bottom: 1.5rem;
     }
 
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: clamp(0.9rem, 2vw, 1rem);
         margin-bottom: 2rem;
         line-height: 1.4;
     }
@@ -477,6 +480,8 @@
         max-width: 300px;
         padding: 16px 28px;
         font-size: 1.1rem;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
     }
 
     .hero-features {
@@ -492,6 +497,7 @@
 
     .hero-logo {
         height: 100px;
+        will-change: transform;
     }
 }
 

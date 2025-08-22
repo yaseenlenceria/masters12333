@@ -1,69 +1,60 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
         <loc>https://themastersgroup.ie/</loc>
-        <lastmod>2025-01-30</lastmod>
+        <lastmod>2024-01-15</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
         <image:image>
             <image:loc>https://themastersgroup.ie/attached_assets/mainlogo.png</image:loc>
-            <image:title>The Masters Group Galway Logo</image:title>
-            <image:caption>The Masters Group - Premier home services in Galway</image:caption>
-        </image:image>
-        <image:image>
-            <image:loc>https://themastersgroup.ie/attached_assets/herobc.png</image:loc>
-            <image:title>Home Services Galway</image:title>
-            <image:caption>Professional home services across Galway City and County</image:caption>
+            <image:caption>The Masters Group Galway Logo</image:caption>
         </image:image>
     </url>
     <url>
         <loc>https://themastersgroup.ie/roofmasters.html</loc>
-        <lastmod>2025-01-30</lastmod>
+        <lastmod>2024-01-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
         <image:image>
-            <image:loc>https://themastersgroup.ie/attached_assets/roof masters/roof masters logo.png</image:loc>
-            <image:title>RoofMasters Galway</image:title>
-            <image:caption>Expert roofing services and repairs in Galway</image:caption>
+            <image:loc>https://themastersgroup.ie/attached_assets/roof%20masters/roof%20masters%20logo.png</image:loc>
+            <image:caption>RoofMasters Galway Roofing Services</image:caption>
         </image:image>
     </url>
     <url>
         <loc>https://themastersgroup.ie/dirtmasters.html</loc>
-        <lastmod>2025-01-30</lastmod>
+        <lastmod>2024-01-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://themastersgroup.ie/attached_assets/dirtmasters/Dirtmasters-logo.png</image:loc>
-            <image:title>DirtMasters Galway</image:title>
-            <image:caption>Professional power washing and exterior cleaning services</image:caption>
+            <image:caption>DirtMasters Galway Power Washing Services</image:caption>
         </image:image>
     </url>
     <url>
         <loc>https://themastersgroup.ie/paintmasters.html</loc>
-        <lastmod>2025-01-30</lastmod>
+        <lastmod>2024-01-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://themastersgroup.ie/attached_assets/paintmasters/logo.png</image:loc>
-            <image:title>PaintMasters Galway</image:title>
-            <image:caption>Expert exterior painting and coating services</image:caption>
+            <image:caption>PaintMasters Galway Exterior Painting Services</image:caption>
         </image:image>
     </url>
     <url>
         <loc>https://themastersgroup.ie/pavingmasters.html</loc>
-        <lastmod>2025-01-30</lastmod>
+        <lastmod>2024-01-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.9</priority>
         <image:image>
             <image:loc>https://themastersgroup.ie/attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png</image:loc>
-            <image:title>PavingMasters Galway</image:title>
-            <image:caption>Professional paving, driveways and landscaping services</image:caption>
+            <image:caption>PavingMasters Galway Paving and Landscaping Services</image:caption>
         </image:image>
     </url>
     <url>
         <loc>https://themastersgroup.ie/contact.html</loc>
-        <lastmod>2025-01-30</lastmod>
+        <lastmod>2024-01-15</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>

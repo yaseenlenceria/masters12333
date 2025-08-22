@@ -1,0 +1,63 @@
+
+{
+  "name": "The Masters Group Galway - Premier Home Services",
+  "short_name": "Masters Group",
+  "description": "Ireland's premier home services company - Expert roofing, power washing, painting & paving contractors in Galway",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#9ACD32",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity"],
+  "lang": "en-IE",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "attached_assets/mainlogo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "attached_assets/mainlogo.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Get Free Quote",
+      "short_name": "Quote",
+      "description": "Get a free quote for home services",
+      "url": "/contact.html",
+      "icons": [
+        {
+          "src": "attached_assets/mainlogo.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Emergency Roofing",
+      "short_name": "Emergency",
+      "description": "24/7 Emergency roofing services",
+      "url": "/roofmasters.html",
+      "icons": [
+        {
+          "src": "attached_assets/roof masters/roof masters logo.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "attached_assets/herobc.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "The Masters Group Homepage"
+    }
+  ]
+}

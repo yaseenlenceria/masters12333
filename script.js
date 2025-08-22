@@ -297,43 +297,57 @@ class AnimationController {
 // Global Animation Controller Instance
 let animationController;
 
-// Load all components on page load
+// Critical loading optimization
+const criticalComponents = ['header.html', 'components/hero-section.html'];
+const deferredComponents = [
+    'footer.html', 'components/benefits-banner.html', 'components/services-overview.html',
+    'components/why-choose.html', 'components/service-areas.html', 'components/gallery.html',
+    'components/testimonials.html', 'components/process.html', 'components/stats.html',
+    'components/faq.html', 'components/contact-cta.html'
+];
+
+// Load components with priority system
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, starting component loading...');
+    console.log('DOM loaded, starting optimized component loading...');
 
     try {
-        // Load header and footer (always present)
-        loadComponent('header.html', 'header-container');
-        loadComponent('footer.html', 'footer-container');
-
-        // Load page-specific components based on what containers exist
-        const componentMappings = {
-            'hero-container': 'components/hero-section.html',
-            'benefits-container': 'components/benefits-banner.html',
-            'services-container': 'components/services-overview.html',
-            'why-choose-container': 'components/why-choose.html',
-            'service-areas-container': 'components/service-areas.html',
-            'gallery-container': 'components/gallery.html',
-            'testimonials-container': 'components/testimonials.html',
-            'process-container': 'components/process.html',
-            'stats-container': 'components/stats.html',
-            'faq-container': 'components/faq.html',
-            'contact-cta-container': 'components/contact-cta.html'
-        };
-
-        // Load components that exist on the current page
-        Object.entries(componentMappings).forEach(([containerId, componentPath]) => {
-            const container = document.getElementById(containerId);
-            if (container) {
-                console.log(`Loading component ${componentPath} into ${containerId}`);
-                loadComponent(componentPath, containerId);
+        // Load critical components first
+        criticalComponents.forEach(component => {
+            if (component === 'header.html') {
+                loadComponent(component, 'header-container');
+            } else if (component === 'components/hero-section.html' && document.getElementById('hero-container')) {
+                loadComponent(component, 'hero-container');
             }
         });
 
-        // Initialize components after loading
+        // Load other components after a short delay to not block rendering
+        requestIdleCallback(() => {
+            const componentMappings = {
+                'benefits-container': 'components/benefits-banner.html',
+                'services-container': 'components/services-overview.html',
+                'why-choose-container': 'components/why-choose.html',
+                'service-areas-container': 'components/service-areas.html',
+                'gallery-container': 'components/gallery.html',
+                'testimonials-container': 'components/testimonials.html',
+                'process-container': 'components/process.html',
+                'stats-container': 'components/stats.html',
+                'faq-container': 'components/faq.html',
+                'contact-cta-container': 'components/contact-cta.html',
+                'footer-container': 'footer.html'
+            };
+
+            Object.entries(componentMappings).forEach(([containerId, componentPath]) => {
+                const container = document.getElementById(containerId);
+                if (container) {
+                    loadComponent(componentPath, containerId);
+                }
+            });
+        }, { timeout: 2000 });
+
+        // Initialize components after critical loading
         setTimeout(() => {
             initializeAllComponents();
-        }, 500);
+        }, 200);
 
     } catch (error) {
         console.error('Error during component initialization:', error);

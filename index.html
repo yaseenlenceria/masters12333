@@ -163,6 +163,80 @@
         ]
     }
     </script>
+
+    <!-- FAQ Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What services does The Masters Group offer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We offer comprehensive home services including roofing (RoofMasters), power washing (DirtMasters), exterior painting (PaintMasters), and paving & landscaping (PavingMasters) across Galway City and County."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do you provide free quotes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, we provide completely free, no-obligation quotes for all our services. Our experts will assess your property and provide detailed, honest pricing with no hidden costs."
+                }
+            },
+            {
+                "@type": "Question", 
+                "name": "Are you fully licensed and insured?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely. The Masters Group is fully licensed and carries comprehensive public liability insurance. All our work is guaranteed and we meet all Irish building standards."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Service Areas Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "provider": {
+            "@type": "LocalBusiness",
+            "name": "The Masters Group Galway"
+        },
+        "areaServed": [
+            {
+                "@type": "City",
+                "name": "Galway",
+                "containedInPlace": {
+                    "@type": "Country",
+                    "name": "Ireland"
+                }
+            },
+            {
+                "@type": "Place", 
+                "name": "Salthill"
+            },
+            {
+                "@type": "Place",
+                "name": "Oranmore"
+            },
+            {
+                "@type": "Place",
+                "name": "Claregalway" 
+            },
+            {
+                "@type": "Place",
+                "name": "Tuam"
+            }
+        ],
+        "serviceType": "Home Services",
+        "description": "Comprehensive home services including roofing, power washing, painting, and paving across Galway"
+    }
+    </script>
     
     <!-- Website Schema -->
     <script type="application/ld+json">
@@ -182,21 +256,52 @@
     }
     </script>
     
-    <!-- Preload critical resources for faster loading -->
-    <link rel="preload" href="attached_assets/mainlogo.png" as="image" crossorigin="anonymous">
-    <link rel="preload" href="attached_assets/herobc.png" as="image" crossorigin="anonymous">
+    <!-- Critical performance optimizations -->
+    <link rel="preload" href="attached_assets/mainlogo.png" as="image" type="image/png" fetchpriority="high">
     <link rel="preload" href="style.css" as="style">
     <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="header.html" as="fetch" crossorigin="anonymous">
     
     <!-- DNS prefetch for external resources -->
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     
+    <!-- Favicon and app icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="attached_assets/mainlogo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="attached_assets/mainlogo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="attached_assets/mainlogo.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Critical CSS -->
     <link href="style.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" media="print" onload="this.media='all'">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Non-critical CSS loaded asynchronously -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    
+    <!-- Performance hints -->
+    <meta name="theme-color" content="#9ACD32">
+    <meta name="msapplication-TileColor" content="#9ACD32">
+    
+    <!-- Additional SEO meta tags -->
+    <meta name="format-detection" content="telephone=yes">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- Performance monitoring -->
+    <script type="speculationrules">
+    {
+        "prerender": [
+            {"where": {"href_matches": "contact.html"}},
+            {"where": {"href_matches": "roofmasters.html"}},
+            {"where": {"href_matches": "dirtmasters.html"}},
+            {"where": {"href_matches": "paintmasters.html"}},
+            {"where": {"href_matches": "pavingmasters.html"}}
+        ]
+    }
+    </script>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage">
     <!-- Load Header Component -->
@@ -238,6 +343,7 @@
     <!-- Load Footer Component -->
     <div id="footer-container"></div>
 
+    <script src="performance-monitor.js" async></script>
     <script src="script.js"></script>
 </body>
 </html>
