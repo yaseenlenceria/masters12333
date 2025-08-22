@@ -1056,24 +1056,32 @@ function initializeMobileMenu() {
     const dropdowns = document.querySelectorAll('.dropdown');
 
     if (!hamburger || !navMenu || !mobileOverlay) {
-        // Elements not ready yet, try again
-        setTimeout(initializeMobileMenu, 200);
-        return;
+        console.log('Mobile menu elements not found, retrying...');
+        return false;
     }
 
-    // Add hamburger click event
-    hamburger.addEventListener('click', function(e) {
+    // Remove existing event listeners to prevent duplicates
+    const newHamburger = hamburger.cloneNode(true);
+    hamburger.parentNode.replaceChild(newHamburger, hamburger);
+
+    // Add hamburger click event to the new element
+    newHamburger.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
-        const isActive = hamburger.classList.contains('active');
+        const currentNavMenu = document.getElementById('navMenu');
+        const currentMobileOverlay = document.getElementById('mobileOverlay');
+        
+        if (!currentNavMenu || !currentMobileOverlay) return;
 
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-        mobileOverlay.classList.toggle('active');
+        const isActive = newHamburger.classList.contains('active');
+
+        newHamburger.classList.toggle('active');
+        currentNavMenu.classList.toggle('active');
+        currentMobileOverlay.classList.toggle('active');
 
         // Update ARIA attributes
-        hamburger.setAttribute('aria-expanded', !isActive);
+        newHamburger.setAttribute('aria-expanded', !isActive);
 
         // Prevent body scroll when menu is open
         document.body.style.overflow = !isActive ? 'hidden' : '';
@@ -1082,12 +1090,18 @@ function initializeMobileMenu() {
     });
 
     // Close menu when clicking overlay
-    mobileOverlay.addEventListener('click', closeMenu);
+    const currentMobileOverlay = document.getElementById('mobileOverlay');
+    if (currentMobileOverlay) {
+        currentMobileOverlay.addEventListener('click', closeMenu);
+    }
 
     // Close menu with escape key
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-            closeMenu();
+        if (e.key === 'Escape') {
+            const currentNavMenu = document.getElementById('navMenu');
+            if (currentNavMenu && currentNavMenu.classList.contains('active')) {
+                closeMenu();
+            }
         }
     });
 
@@ -1096,13 +1110,17 @@ function initializeMobileMenu() {
         const toggle = dropdown.querySelector('.dropdown-toggle');
 
         if (toggle) {
-            toggle.addEventListener('click', function(e) {
+            // Remove existing listeners
+            const newToggle = toggle.cloneNode(true);
+            toggle.parentNode.replaceChild(newToggle, toggle);
+
+            newToggle.addEventListener('click', function(e) {
                 if (window.innerWidth <= 968) {
                     e.preventDefault();
                     e.stopPropagation();
 
                     // Close other dropdowns
-                    dropdowns.forEach(otherDropdown => {
+                    document.querySelectorAll('.dropdown').forEach(otherDropdown => {
                         if (otherDropdown !== dropdown) {
                             otherDropdown.classList.remove('active');
                         }
@@ -1111,7 +1129,7 @@ function initializeMobileMenu() {
                     dropdown.classList.toggle('active');
 
                     const isExpanded = dropdown.classList.contains('active');
-                    toggle.setAttribute('aria-expanded', isExpanded);
+                    newToggle.setAttribute('aria-expanded', isExpanded);
 
                     console.log('Dropdown toggled:', dropdown, isExpanded);
                 }
@@ -1123,7 +1141,7 @@ function initializeMobileMenu() {
     document.querySelectorAll('.dropdown-link').forEach(link => {
         link.addEventListener('click', function(e) {
             // Allow normal navigation for dropdown links
-            closeMenu();
+            setTimeout(closeMenu, 100);
         });
     });
 
@@ -1132,7 +1150,7 @@ function initializeMobileMenu() {
         link.addEventListener('click', function(e) {
             // Only close menu if it's not a dropdown toggle
             if (!link.classList.contains('dropdown-toggle')) {
-                closeMenu();
+                setTimeout(closeMenu, 100);
             }
         });
     });
@@ -1141,33 +1159,57 @@ function initializeMobileMenu() {
     window.addEventListener('resize', function() {
         if (window.innerWidth > 968) {
             closeMenu();
-            dropdowns.forEach(dropdown => {
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
                 dropdown.classList.remove('active');
             });
         }
     });
 
     function closeMenu() {
-        if (hamburger && navMenu && mobileOverlay) {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-            mobileOverlay.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
+        const currentHamburger = document.getElementById('hamburger');
+        const currentNavMenu = document.getElementById('navMenu');
+        const currentMobileOverlay = document.getElementById('mobileOverlay');
+
+        if (currentHamburger && currentNavMenu && currentMobileOverlay) {
+            currentHamburger.classList.remove('active');
+            currentNavMenu.classList.remove('active');
+            currentMobileOverlay.classList.remove('active');
+            currentHamburger.setAttribute('aria-expanded', 'false');
             document.body.style.overflow = '';
+            console.log('Mobile menu closed');
         }
     }
 
     console.log('Mobile menu initialized successfully');
+    return true;
 }
 
-// Ensure mobile menu initialization
+// Ensure mobile menu initialization with retry mechanism
 function ensureMobileMenuWorks() {
-    const headerContainer = document.getElementById('header-container');
-    if (headerContainer && headerContainer.innerHTML.trim()) {
-        setTimeout(initializeMobileMenu, 100);
-    } else {
-        setTimeout(ensureMobileMenuWorks, 200);
+    let retries = 0;
+    const maxRetries = 15;
+
+    function tryInitMobileMenu() {
+        const headerContainer = document.getElementById('header-container');
+        const hamburger = document.getElementById('hamburger');
+        
+        if (headerContainer && headerContainer.innerHTML.trim() && hamburger) {
+            if (initializeMobileMenu()) {
+                console.log('Mobile menu setup complete');
+                return;
+            }
+        }
+
+        retries++;
+        if (retries < maxRetries) {
+            console.log(`Mobile menu retry ${retries}/${maxRetries}`);
+            setTimeout(tryInitMobileMenu, 300);
+        } else {
+            console.error('Failed to initialize mobile menu after maximum retries');
+        }
     }
+
+    tryInitMobileMenu();
 }
 
 

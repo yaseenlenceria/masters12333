@@ -538,9 +538,30 @@ html {
 
     .hamburger {
         display: flex !important;
-        z-index: 1001;
+        z-index: 1003 !important;
         position: relative;
         order: 3;
+    }
+
+    /* Force mobile menu to work */
+    .header .nav-menu {
+        position: fixed !important;
+        top: 70px !important;
+        left: -100% !important;
+        width: 100% !important;
+        height: calc(100vh - 70px) !important;
+        background: rgba(26, 26, 26, 0.98) !important;
+        z-index: 1001 !important;
+        transition: left 0.3s ease !important;
+    }
+
+    .header .nav-menu.active {
+        left: 0 !important;
+    }
+
+    .header .mobile-overlay.active {
+        opacity: 1 !important;
+        visibility: visible !important;
     }
 
     .nav-container {
