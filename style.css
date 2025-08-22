@@ -250,8 +250,8 @@ img, video {
 .btn-primary:hover {
     background: linear-gradient(135deg, #7CB342 0%, #689F38 100%);
     color: #000000;
-    transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 20px 40px rgba(154, 205, 50, 0.5);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(154, 205, 50, 0.4);
 }
 
 .btn-secondary {
@@ -267,8 +267,8 @@ img, video {
 .btn-secondary:hover {
     background: rgba(154, 205, 50, 0.1);
     color: #7CB342;
-    transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 20px 40px rgba(154, 205, 50, 0.3);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(154, 205, 50, 0.25);
     border-color: #7CB342;
 }
 

@@ -188,7 +188,8 @@
 .dropdown-menu {
     position: absolute;
     top: 100%;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px) scale(0.95);
     background: rgba(26, 26, 26, 0.98);
     backdrop-filter: blur(20px);
     border: 2px solid rgba(154, 205, 50, 0.3);
@@ -197,7 +198,6 @@
     min-width: 220px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-10px) scale(0.95);
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     z-index: 1003;
     padding: 0.5rem 0;
@@ -207,7 +207,7 @@
 .dropdown:hover .dropdown-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0) scale(1);
+    transform: translateX(-50%) translateY(0) scale(1);
 }
 
 .dropdown-menu li {
