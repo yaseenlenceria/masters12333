@@ -214,29 +214,30 @@
 .dropdown-menu {
     position: absolute;
     top: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-10px) scale(0.95);
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    transform: translateY(-10px) scale(0.95);
     background: rgba(26, 26, 26, 0.98);
     backdrop-filter: blur(20px);
     border: 2px solid rgba(154, 205, 50, 0.3);
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    min-width: 480px;
+    min-width: 220px;
+    max-width: 240px;
+    width: max-content;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     z-index: 1003;
-    padding: 1rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
+    padding: 0.5rem 0;
 }
 
 .dropdown.active .dropdown-menu,
 .dropdown:hover .dropdown-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateX(-50%) translateY(0) scale(1);
+    transform: translateY(0) scale(1);
 }
 
 .dropdown-menu li {
@@ -247,22 +248,19 @@
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    padding: 1rem;
+    padding: 0.8rem 1.2rem;
     color: #ffffff;
     text-decoration: none;
     font-size: 1rem;
     transition: all 0.3s ease;
     border-radius: 8px;
-    margin: 0;
-    background: rgba(34, 34, 34, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0 0.5rem;
 }
 
 .dropdown-link:hover {
     background: rgba(154, 205, 50, 0.15);
     color: #9ACD32;
-    transform: translateY(-2px) scale(1.02);
-    border-color: rgba(154, 205, 50, 0.3);
+    transform: translateX(5px);
 }
 
 .dropdown-icon {
@@ -415,8 +413,6 @@
         overflow: hidden;
         transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         display: block;
-        grid-template-columns: none;
-        gap: 0;
         padding: 0;
         min-width: auto;
         transform: none;
@@ -433,10 +429,6 @@
         padding: 0.8rem 1rem;
         margin: 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        background: transparent;
-        border-left: none;
-        border-right: none;
-        border-top: none;
         border-radius: 0;
     }
 
