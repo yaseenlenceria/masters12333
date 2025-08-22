@@ -43,97 +43,324 @@ function loadComponent(componentPath, containerId) {
         });
 }
 
-// Global error handler for better debugging
-window.addEventListener('error', function(e) {
-    console.error('Global error:', e.error?.message || e.message, e.error?.stack || '');
-});
+// Enhanced Animation System
+class AnimationController {
+    constructor() {
+        this.observers = [];
+        this.initialized = false;
+        this.init();
+    }
+
+    init() {
+        if (this.initialized) return;
+
+        this.initializeScrollAnimations();
+        this.initializeHoverAnimations();
+        this.initializeCounterAnimations();
+        this.initializeParallaxEffects();
+        this.initializeStaggeredAnimations();
+
+        this.initialized = true;
+        console.log('Animation controller initialized');
+    }
+
+    initializeScrollAnimations() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('animate');
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0) scale(1)';
+
+                        // Special animations for different element types
+                        if (entry.target.classList.contains('service-card')) {
+                            entry.target.style.animation = 'fadeInUp 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+                        } else if (entry.target.classList.contains('feature-card')) {
+                            entry.target.style.animation = 'fadeInLeft 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+                        } else if (entry.target.classList.contains('contact-card')) {
+                            entry.target.style.animation = 'scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+                        } else if (entry.target.classList.contains('stats-item')) {
+                            entry.target.style.animation = 'bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+                            this.animateCounter(entry.target);
+                        } else if (entry.target.classList.contains('testimonial-card')) {
+                            entry.target.style.animation = 'slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+                        }
+                    }, index * 100);
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        const animatedElements = document.querySelectorAll(
+            '.service-card, .feature-card, .contact-card, .testimonial-card, ' +
+            '.gallery-item, .project-item, .stats-item, .benefit-item, .area-item, ' +
+            '.process-step, .faq-item'
+        );
+
+        animatedElements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(40px) scale(0.95)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            el.classList.add('scroll-animate');
+            observer.observe(el);
+        });
+
+        this.observers.push(observer);
+    }
+
+    initializeHoverAnimations() {
+        const interactiveElements = document.querySelectorAll(
+            '.service-card, .feature-card, .contact-card, .btn, ' +
+            '.nav-link, .testimonial-card, .gallery-item, .project-item'
+        );
+
+        interactiveElements.forEach(el => {
+            // Enhanced hover effects
+            el.addEventListener('mouseenter', (e) => {
+                if (el.classList.contains('btn')) {
+                    el.style.transform = 'translateY(-5px) scale(1.05)';
+                } else if (el.classList.contains('service-card')) {
+                    el.style.transform = 'translateY(-10px) rotateX(5deg) rotateY(2deg)';
+                    el.style.boxShadow = '0 25px 50px rgba(154, 205, 50, 0.2)';
+                } else if (el.classList.contains('feature-card')) {
+                    el.style.transform = 'translateY(-8px) rotateY(3deg)';
+                } else if (el.classList.contains('contact-card')) {
+                    el.style.transform = 'translateY(-10px) scale(1.03)';
+                } else {
+                    el.style.transform = 'translateY(-5px) scale(1.02)';
+                }
+
+                el.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            });
+
+            el.addEventListener('mouseleave', (e) => {
+                el.style.transform = 'translateY(0) scale(1) rotateX(0) rotateY(0)';
+                el.style.boxShadow = '';
+            });
+
+            // Ripple effect on click
+            el.addEventListener('click', (e) => {
+                this.createRipple(e, el);
+            });
+
+            // Touch feedback for mobile
+            el.addEventListener('touchstart', (e) => {
+                el.style.transform = 'scale(0.98)';
+            });
+
+            el.addEventListener('touchend', (e) => {
+                setTimeout(() => {
+                    el.style.transform = 'scale(1)';
+                }, 100);
+            });
+        });
+    }
+
+    createRipple(event, element) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = event.clientX - rect.left - size / 2;
+        const y = event.clientY - rect.top - size / 2;
+
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+
+        element.appendChild(ripple);
+
+        setTimeout(() => {
+            ripple.remove();
+        }, 600);
+    }
+
+    animateCounter(element) {
+        const numberElement = element.querySelector('.stats-number, .number, [data-count]');
+        if (!numberElement) return;
+
+        const finalNumber = parseInt(numberElement.textContent.replace(/\D/g, ''));
+        const duration = 2000;
+        const startTime = Date.now();
+        const suffix = numberElement.textContent.replace(/[0-9]/g, '');
+
+        const updateCounter = () => {
+            const elapsed = Date.now() - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const currentNumber = Math.floor(finalNumber * this.easeOutCubic(progress));
+
+            numberElement.textContent = currentNumber.toLocaleString() + suffix;
+
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            }
+        };
+
+        requestAnimationFrame(updateCounter);
+    }
+
+    easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
+    }
+
+    initializeCounterAnimations() {
+        const counters = document.querySelectorAll('[data-count]');
+
+        counters.forEach(counter => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        this.animateCounter(entry.target.parentElement);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+
+            observer.observe(counter);
+            this.observers.push(observer);
+        });
+    }
+
+    initializeParallaxEffects() {
+        let ticking = false;
+
+        const updateParallax = () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+
+                    // Parallax for background elements (not hero)
+                    const parallaxElements = document.querySelectorAll('.bg-circle, .floating-animation:not(.hero *)');
+                    parallaxElements.forEach((el, index) => {
+                        if (el && el.offsetParent) {
+                            const speed = 0.02 + (index * 0.01);
+                            const yPos = -(scrolled * speed);
+                            el.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.01}deg)`;
+                        }
+                    });
+
+                    // Page header parallax
+                    const pageHeaders = document.querySelectorAll('.page-header');
+                    pageHeaders.forEach(el => {
+                        if (el && el.offsetHeight > 0) {
+                            const rect = el.getBoundingClientRect();
+                            const elementTop = rect.top + scrolled;
+                            const elementHeight = el.offsetHeight;
+
+                            if (scrolled < elementTop + elementHeight) {
+                                const speed = 0.1;
+                                const transform = scrolled * speed;
+                                el.style.transform = `translateY(${transform}px)`;
+                            }
+                        }
+                    });
+
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+
+        window.addEventListener('scroll', updateParallax, { passive: true });
+    }
+
+    initializeStaggeredAnimations() {
+        const textElements = document.querySelectorAll('h1, h2, h3, .hero-title, .section-title');
+
+        textElements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+                el.classList.add('text-reveal');
+            }, 300 + (index * 150));
+        });
+    }
+
+    destroy() {
+        this.observers.forEach(observer => observer.disconnect());
+        this.observers = [];
+        this.initialized = false;
+    }
+}
+
+// Global Animation Controller Instance
+let animationController;
 
 // Load all components on page load
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, starting component loading...');
 
     try {
+        // Load header and footer (always present)
+        loadComponent('header.html', 'header-container');
+        loadComponent('footer.html', 'footer-container');
 
-    // Load header and footer (always present)
-    loadComponent('header.html', 'header-container');
-    loadComponent('footer.html', 'footer-container');
+        // Load page-specific components based on what containers exist
+        const componentMappings = {
+            'hero-container': 'components/hero-section.html',
+            'benefits-container': 'components/benefits-banner.html',
+            'services-container': 'components/services-overview.html',
+            'why-choose-container': 'components/why-choose.html',
+            'service-areas-container': 'components/service-areas.html',
+            'gallery-container': 'components/gallery.html',
+            'testimonials-container': 'components/testimonials.html',
+            'process-container': 'components/process.html',
+            'stats-container': 'components/stats.html',
+            'faq-container': 'components/faq.html',
+            'contact-cta-container': 'components/contact-cta.html'
+        };
 
-    // Load page-specific components based on what containers exist
-    const componentMappings = {
-        'hero-container': 'components/hero-section.html',
-        'benefits-container': 'components/benefits-banner.html',
-        'services-container': 'components/services-overview.html',
-        'why-choose-container': 'components/why-choose.html',
-        'service-areas-container': 'components/service-areas.html',
-        'gallery-container': 'components/gallery.html',
-        'testimonials-container': 'components/testimonials.html',
-        'process-container': 'components/process.html',
-        'stats-container': 'components/stats.html',
-        'faq-container': 'components/faq.html',
-        'contact-cta-container': 'components/contact-cta.html'
-    };
+        // Load components that exist on the current page
+        Object.entries(componentMappings).forEach(([containerId, componentPath]) => {
+            const container = document.getElementById(containerId);
+            if (container) {
+                console.log(`Loading component ${componentPath} into ${containerId}`);
+                loadComponent(componentPath, containerId);
+            }
+        });
 
-    // Load components that exist on the current page with error handling
-    Object.entries(componentMappings).forEach(([containerId, componentPath]) => {
-        const container = document.getElementById(containerId);
-        if (container) {
-            console.log(`Loading component ${componentPath} into ${containerId}`);
-            loadComponent(componentPath, containerId);
-        }
-    });
-
-    // Ensure body is visible immediately
-    document.body.style.opacity = '1';
-    
-    // Initialize other components after a short delay to ensure loading
-    setTimeout(() => {
-        initializeAnimations();
-        initializeFormHandling();
-        initializeSmoothScrolling();
-        initializePageTransitions();
-
-        // Set body padding for fixed header
-        const header = document.querySelector('.header');
-        if (header) {
-            document.body.style.paddingTop = header.offsetHeight + 'px';
-        }
-
-        console.log('Component initialization complete');
-    }, 300);
-
-    // Initialize mobile menu and FAQ with longer delay to ensure components are loaded
-    setTimeout(() => {
-        ensureMobileMenuWorks();
-        ensureFAQWorks();
-    }, 800);
+        // Initialize components after loading
+        setTimeout(() => {
+            initializeAllComponents();
+        }, 500);
 
     } catch (error) {
         console.error('Error during component initialization:', error);
     }
 });
 
-// Legacy function - kept for compatibility but not used with new components
-function initializeNavigation() {
-    // This function is no longer needed as navigation is handled within the header component
-    console.log('Navigation initialized via header component');
+// Initialize all components and animations
+function initializeAllComponents() {
+    // Initialize animation controller
+    animationController = new AnimationController();
+
+    // Initialize other components
+    initializeFormHandling();
+    initializeSmoothScrolling();
+    initializePageTransitions();
+
+    // Initialize FAQ and mobile menu with delay to ensure components are loaded
+    setTimeout(() => {
+        ensureFAQWorks();
+        ensureMobileMenuWorks();
+    }, 300);
+
+    console.log('All components initialized');
 }
 
-// Set active navigation link based on current page
-function setActiveNavLink() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === currentPage) {
-            link.classList.add('active');
-        }
-    });
-}
-
-// Enhanced smooth scrolling with easing
+// Enhanced smooth scrolling
 function initializeSmoothScrolling() {
-    // Enhanced smooth scroll for anchor links
     document.addEventListener('click', function(e) {
         if (e.target.matches('a[href^="#"]')) {
             e.preventDefault();
@@ -145,7 +372,6 @@ function initializeSmoothScrolling() {
                         const headerHeight = document.querySelector('.header')?.offsetHeight || 80;
                         const targetPosition = target.offsetTop - headerHeight - 20;
 
-                        // Smooth scroll with custom easing
                         smoothScrollTo(targetPosition, 800);
                     }
                 } catch (error) {
@@ -154,36 +380,9 @@ function initializeSmoothScrolling() {
             }
         }
     });
-
-    // Smooth scroll effects (hero parallax removed for proper scrolling)
-    let ticking = false;
-    function updateScrollEffects() {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                const scrolled = window.pageYOffset;
-                
-                // Only apply parallax to page headers, not main hero
-                const pageHeaders = document.querySelectorAll('.page-header');
-                pageHeaders.forEach(el => {
-                    if (el && el.offsetHeight > 0) {
-                        const rect = el.getBoundingClientRect();
-                        if (rect.bottom > 0 && rect.top < window.innerHeight) {
-                            const speed = 0.1;
-                            el.style.transform = `translateY(${scrolled * speed}px)`;
-                        }
-                    }
-                });
-
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }
-
-    window.addEventListener('scroll', updateScrollEffects, { passive: true });
 }
 
-// Custom smooth scroll function with easing
+// Custom smooth scroll function
 function smoothScrollTo(targetPosition, duration) {
     const startPosition = window.pageYOffset;
     const distance = targetPosition - startPosition;
@@ -209,27 +408,25 @@ function smoothScrollTo(targetPosition, duration) {
     requestAnimationFrame(animation);
 }
 
-// Add page transition effects
+// Enhanced page transitions
 function initializePageTransitions() {
-    // Ensure body is visible by default
     document.body.style.opacity = '1';
     document.body.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
 
-    // Only apply fade effect on initial page load if coming from another page
     if (document.readyState === 'loading') {
         document.body.style.opacity = '0';
-        
+
         window.addEventListener('load', () => {
             document.body.style.opacity = '1';
         });
     }
 
-    // Simplified navigation transitions - remove problematic opacity changes
+    // Enhanced navigation feedback
     document.querySelectorAll('a[href]:not([href^="#"]):not([href^="tel:"]):not([href^="mailto:"])').forEach(link => {
         link.addEventListener('click', (e) => {
             if (link.hostname === window.location.hostname) {
-                // Just add a subtle visual feedback without opacity change
                 link.style.transform = 'scale(0.95)';
+                link.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
                 setTimeout(() => {
                     link.style.transform = 'scale(1)';
                 }, 150);
@@ -238,40 +435,47 @@ function initializePageTransitions() {
     });
 }
 
-// Enhanced form submission handler
+// Enhanced form handling
 function initializeFormHandling() {
-    const contactForm = document.querySelector('form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+    const contactForms = document.querySelectorAll('form');
+
+    contactForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Get form data
             const formData = new FormData(this);
             const data = {};
             formData.forEach((value, key) => {
                 data[key] = value;
             });
 
-            // Enhanced validation
             if (!validateForm(data)) {
                 return;
             }
 
-            // Show loading state
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
+
+            // Enhanced loading state
             submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
+            submitBtn.classList.add('loading');
 
             // Simulate form submission
             setTimeout(() => {
-                alert('Thank you for your inquiry! We will contact you within 24 hours with your free quote.');
                 this.reset();
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sent Successfully!';
+                submitBtn.style.background = '#10b981';
+
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    submitBtn.style.background = '';
+                }, 2000);
             }, 1500);
         });
-    }
+    });
 }
 
 // Form validation
@@ -290,14 +494,12 @@ function validateForm(data) {
         return false;
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
         alert('Please enter a valid email address.');
         return false;
     }
 
-    // Phone validation (Irish format)
     const phoneRegex = /^(\+353|0)[0-9]{8,9}$/;
     if (!phoneRegex.test(data.phone.replace(/\s/g, ''))) {
         alert('Please enter a valid Irish phone number.');
@@ -307,791 +509,174 @@ function validateForm(data) {
     return true;
 }
 
-// Enhanced Animation initialization with comprehensive smooth effects
-function initializeAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                // Staggered animation with enhanced delays
-                setTimeout(() => {
-                    entry.target.classList.add('animate');
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0) scale(1)';
-
-                    // Add special effects for different element types
-                    if (entry.target.classList.contains('service-card')) {
-                        entry.target.style.animation = 'fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards';
-                    } else if (entry.target.classList.contains('feature-card')) {
-                        entry.target.style.animation = 'fadeInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards';
-                    } else if (entry.target.classList.contains('contact-card')) {
-                        entry.target.style.animation = 'scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
-                    } else if (entry.target.classList.contains('stats-item')) {
-                        entry.target.style.animation = 'fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards';
-                        // Trigger counter animation
-                        animateCounter(entry.target);
-                    }
-                }, index * 150);
-            }
-        });
-    }, observerOptions);
-
-    // Observe elements for animation with enhanced transitions
-    const animatedElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .testimonial-card, .gallery-item, .project-item, .stats-item, .benefit-item, .area-item');
-
-    animatedElements.forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(40px) scale(0.95)';
-        el.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-        el.classList.add('scroll-animate');
-        observer.observe(el);
-    });
-
-    // Enhanced text animations with staggered reveals
-    const textElements = document.querySelectorAll('h1, h2, h3, .hero-title, .section-title');
-    textElements.forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-
-        setTimeout(() => {
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
-            el.classList.add('text-reveal');
-        }, 300 + (index * 200));
-    });
-
-    // Initialize smooth interactions
-    window.addSmoothInteractions();
-    initializeParallaxEffects();
-}
-
-// Counter animation for stats
-function animateCounter(element) {
-    const numberElement = element.querySelector('.stats-number, .number');
-    if (!numberElement) return;
-
-    const finalNumber = parseInt(numberElement.textContent.replace(/\D/g, ''));
-    const duration = 2000;
-    const startTime = Date.now();
-
-    function updateCounter() {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const currentNumber = Math.floor(finalNumber * easeOutCubic(progress));
-
-        numberElement.textContent = currentNumber.toLocaleString();
-
-        if (progress < 1) {
-            requestAnimationFrame(updateCounter);
-        }
-    }
-
-    function easeOutCubic(t) {
-        return 1 - Math.pow(1 - t, 3);
-    }
-
-    requestAnimationFrame(updateCounter);
-}
-
-// Parallax effects for enhanced visual appeal (hero parallax removed)
-function initializeParallaxEffects() {
-    let ticking = false;
-
-    function updateParallax() {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                const scrolled = window.pageYOffset;
-
-                // Only apply parallax to page headers (not main hero)
-                const pageHeaders = document.querySelectorAll('.page-header');
-                pageHeaders.forEach(el => {
-                    if (el && el.offsetHeight > 0) {
-                        const rect = el.getBoundingClientRect();
-                        const elementTop = rect.top + scrolled;
-                        const elementHeight = el.offsetHeight;
-                        
-                        // Only apply parallax when page header is visible
-                        if (scrolled < elementTop + elementHeight) {
-                            const speed = 0.1;
-                            const transform = scrolled * speed;
-                            el.style.transform = `translateY(${transform}px)`;
-                        }
-                    }
-                });
-
-                // Parallax for floating elements (excluding hero)
-                const floatingElements = document.querySelectorAll('.floating-animation:not(.hero *), .sub-logo:not(.hero *)');
-                floatingElements.forEach((el, index) => {
-                    if (el && el.offsetHeight > 0) {
-                        const speed = 0.05 + (index * 0.02);
-                        const yPos = -(scrolled * speed);
-                        el.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.01}deg)`;
-                    }
-                });
-
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }
-
-    window.addEventListener('scroll', updateParallax, { passive: true });
-}
-
-// Create scroll progress indicator
-function createScrollProgressIndicator() {
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-indicator';
-    document.body.appendChild(progressBar);
-
-    let ticking = false;
-    function updateScrollProgress() {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercent = (scrollTop / scrollHeight) * 100;
-
-                progressBar.style.width = Math.min(scrollPercent, 100) + '%';
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }
-
-    window.addEventListener('scroll', updateScrollProgress, { passive: true });
-    updateScrollProgress(); // Initial call
-}
-
-// Enhanced hover interactions - Make sure this is globally available immediately
-function addSmoothInteractions() {
-    if (typeof window.addSmoothInteractions === 'function') {
-        return window.addSmoothInteractions();
-    }
-    
-    const interactiveElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .btn, .nav-link, .testimonial-card');
-
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', function(e) {
-            this.style.transform = this.classList.contains('btn') ?
-                'translateY(-3px) scale(1.02)' :
-                'translateY(-5px) scale(1.02)';
-        });
-
-        el.addEventListener('mouseleave', function(e) {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-
-        // Add ripple effect on click
-        el.addEventListener('click', function(e) {
-            const ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-
-            this.appendChild(ripple);
-
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-    });
-}
-
-// Make it globally available
-window.addSmoothInteractions = function() {
-    const interactiveElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .btn, .nav-link, .testimonial-card');
-
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', function(e) {
-            this.style.transform = this.classList.contains('btn') ?
-                'translateY(-3px) scale(1.02)' :
-                'translateY(-5px) scale(1.02)';
-        });
-
-        el.addEventListener('mouseleave', function(e) {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-
-        // Add ripple effect on click
-        el.addEventListener('click', function(e) {
-            const ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-
-            this.appendChild(ripple);
-
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-        });
-    });
-};
-
-// Make addSmoothInteractions globally available
-function addSmoothInteractions() {
-    window.addSmoothInteractions();
-}
-
-// Legacy function name for compatibility
-window.addHoverInteractions = function() {
-    if (typeof window.addSmoothInteractions === 'function') {
-        window.addSmoothInteractions();
-    } else {
-        // Fallback implementation
-        const interactiveElements = document.querySelectorAll('.service-card, .feature-card, .contact-card, .btn, .nav-link, .testimonial-card');
-
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', function() {
-                this.style.transform = this.classList.contains('btn') ?
-                    'translateY(-3px) scale(1.02)' :
-                    'translateY(-5px) scale(1.02)';
-            });
-
-            el.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-    }
-};
-
-function addHoverInteractions() {
-    window.addHoverInteractions();
-}
-
-// Enhanced Image Optimization and Lazy Loading
-document.addEventListener('DOMContentLoaded', function() {
-    // Mobile performance optimizations
-    optimizeForMobile();
-
-    // Preload critical images
-    preloadCriticalImages();
-
-    // Initialize optimized lazy loading
-    initializeOptimizedLazyLoading();
-
-    // Optimize all images
-    optimizeAllImages();
-
-    // Add loading states
-    addImageLoadingStates();
-
-    // Fix viewport issues
-    fixViewportIssues();
-});
-
-// Mobile performance optimizations
-function optimizeForMobile() {
-    // Disable hover effects on touch devices
-    if ('ontouchstart' in window) {
-        document.body.classList.add('touch-device');
-
-        // Add CSS for touch devices
-        const style = document.createElement('style');
-        style.textContent = `
-            .touch-device .service-card:hover,
-            .touch-device .btn:hover,
-            .touch-device .nav-link:hover {
-                transform: none !important;
-            }
-
-            .touch-device .service-card:active,
-            .touch-device .btn:active {
-                transform: scale(0.95) !important;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    // Optimize scroll performance
-    let ticking = false;
-    function updateOnScroll() {
-        // Throttle scroll events
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                // Add any scroll-based optimizations here
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }
-
-    window.addEventListener('scroll', updateOnScroll, { passive: true });
-
-    // Reduce motion for better performance
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.style.setProperty('--animation-duration', '0.01s');
-    }
-}
-
-// Fix viewport issues
-function fixViewportIssues() {
-    // Prevent zoom on input focus for iOS
-    const viewport = document.querySelector('meta[name="viewport"]');
-    if (viewport) {
-        viewport.setAttribute('content',
-            'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
-        );
-    }
-
-    // Fix 100vh issues on mobile
-    function setVH() {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-    }
-
-    setVH();
-    window.addEventListener('resize', setVH);
-}
-
-function preloadCriticalImages() {
-    const criticalImages = [
-        'attached_assets/mainlogo.png',
-        'attached_assets/roof masters/roof masters logo.png',
-        'attached_assets/dirtmasters/Dirtmasters-logo.png',
-        'attached_assets/paintmasters/logo.png',
-        'attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png',
-        'attached_assets/roof masters/2000_67ab8ae4cd3b1.jpg'
-    ];
-
-    criticalImages.forEach(src => {
-        const link = document.createElement('link');
-        link.rel = 'preload';
-        link.as = 'image';
-        link.href = src;
-        link.crossOrigin = 'anonymous';
-        document.head.appendChild(link);
-    });
-}
-
-function initializeOptimizedLazyLoading() {
-    if ('loading' in HTMLImageElement.prototype) {
-        // Native lazy loading supported
-        const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-        lazyImages.forEach(img => {
-            img.addEventListener('load', function() {
-                this.classList.add('loaded');
-            });
-        });
-    } else {
-        // Fallback intersection observer
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src || img.src;
-                    img.classList.add('loaded');
-                    observer.unobserve(img);
-                }
-            });
-        }, {
-            rootMargin: '50px 0px',
-            threshold: 0.01
-        });
-
-        document.querySelectorAll('img[loading="lazy"]').forEach(img => {
-            imageObserver.observe(img);
-        });
-    }
-}
-
-function optimizeAllImages() {
-    const allImages = document.querySelectorAll('img');
-
-    allImages.forEach(img => {
-        // Add loading optimization
-        if (!img.hasAttribute('loading')) {
-            img.setAttribute('loading', 'lazy');
-        }
-
-        // Add decoding async for better performance
-        img.setAttribute('decoding', 'async');
-
-        // Optimize src attribute for WebP support
-        if (supportsWebP()) {
-            optimizeImageFormat(img);
-        }
-
-        // Add error handling
-        img.addEventListener('error', function() {
-            console.warn('Failed to load image:', this.src);
-            this.style.display = 'none';
-        });
-
-        // Add load event for performance tracking
-        img.addEventListener('load', function() {
-            this.classList.add('loaded');
-        });
-    });
-}
-
-function supportsWebP() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 1;
-    canvas.height = 1;
-    return canvas.toDataURL('image/webp').indexOf('webp') > -1;
-}
-
-function optimizeImageFormat(img) {
-    // This would typically involve server-side WebP generation
-    // For now, we'll optimize loading behavior
-    const originalSrc = img.src;
-
-    // Add srcset for responsive images if not present
-    if (!img.hasAttribute('srcset') && originalSrc.includes('attached_assets')) {
-        // Create responsive breakpoints
-        const baseSrc = originalSrc.replace(/\.(jpg|jpeg|png)$/i, '');
-        const extension = originalSrc.match(/\.(jpg|jpeg|png)$/i)?.[0] || '.jpg';
-
-        // Note: This assumes you have multiple sizes available
-        // You would need to generate these on the server
-        img.setAttribute('sizes', '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw');
-    }
-}
-
-function addImageLoadingStates() {
-    const images = document.querySelectorAll('img');
-
-    images.forEach(img => {
-        // Create placeholder
-        const placeholder = document.createElement('div');
-        placeholder.className = 'image-placeholder';
-        placeholder.style.width = img.offsetWidth + 'px';
-        placeholder.style.height = img.offsetHeight + 'px';
-        placeholder.style.position = 'absolute';
-        placeholder.style.top = '0';
-        placeholder.style.left = '0';
-        placeholder.style.zIndex = '1';
-
-        // Wrap image in container
-        const container = document.createElement('div');
-        container.style.position = 'relative';
-        container.style.display = 'inline-block';
-
-        img.parentNode.insertBefore(container, img);
-        container.appendChild(img);
-        container.appendChild(placeholder);
-
-        // Remove placeholder when image loads
-        img.addEventListener('load', function() {
-            placeholder.style.opacity = '0';
-            setTimeout(() => {
-                if (placeholder.parentNode) {
-                    placeholder.parentNode.removeChild(placeholder);
-                }
-            }, 300);
-        });
-    });
-}
-
-// Additional performance optimizations
-function initializeImagePerformanceOptimizations() {
-    // Preconnect to image domains
-    const preconnectDomains = ['fonts.googleapis.com', 'fonts.gstatic.com'];
-
-    preconnectDomains.forEach(domain => {
-        const link = document.createElement('link');
-        link.rel = 'preconnect';
-        link.href = `https://${domain}`;
-        link.crossOrigin = 'anonymous';
-        document.head.appendChild(link);
-    });
-
-    // Optimize viewport meta for mobile
-    const viewport = document.querySelector('meta[name="viewport"]');
-    if (viewport && !viewport.content.includes('user-scalable=no')) {
-        viewport.content += ', user-scalable=no';
-    }
-}
-
-// Initialize performance optimizations
-document.addEventListener('DOMContentLoaded', initializeImagePerformanceOptimizations);
-
-// Progressive image enhancement
-function progressiveImageEnhancement() {
-    const images = document.querySelectorAll('img[data-src]');
-
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy');
-                    imageObserver.unobserve(img);
-                }
-            });
-        }, {
-            root: null,
-            rootMargin: '50px',
-            threshold: 0.1
-        });
-
-        images.forEach(img => imageObserver.observe(img));
-    } else {
-        // Fallback for older browsers
-        images.forEach(img => {
-            img.src = img.dataset.src;
-        });
-    }
-}
-
-// Improved mobile touch interactions
-document.addEventListener('DOMContentLoaded', function() {
-    const cards = document.querySelectorAll('.service-card, .feature-card, .contact-card');
-
-    cards.forEach(card => {
-        card.addEventListener('touchstart', function() {
-            this.style.transform = 'scale(0.98)';
-        });
-
-        card.addEventListener('touchend', function() {
-            this.style.transform = 'scale(1)';
-        });
-    });
-});
-
-// SEO and accessibility enhancements
-function initializeSEOEnhancements() {
-    // Add skip link for accessibility
-    const skipLink = document.createElement('a');
-    skipLink.href = '#main-content';
-    skipLink.textContent = 'Skip to main content';
-    skipLink.className = 'skip-link';
-    skipLink.style.cssText = `
-        position: absolute;
-        top: -40px;
-        left: 6px;
-        background: #000;
-        color: #fff;
-        padding: 8px;
-        text-decoration: none;
-        z-index: 1000;
-        border-radius: 4px;
-    `;
-    skipLink.addEventListener('focus', function() {
-        this.style.top = '6px';
-    });
-    skipLink.addEventListener('blur', function() {
-        this.style.top = '-40px';
-    });
-
-    document.body.insertBefore(skipLink, document.body.firstChild);
-
-    // Add main content ID if not present
-    const mainContent = document.querySelector('main') || document.querySelector('.hero');
-    if (mainContent && !mainContent.id) {
-        mainContent.id = 'main-content';
-    }
-}
-
-// Call SEO enhancements
-document.addEventListener('DOMContentLoaded', initializeSEOEnhancements);
-
-// Enhanced social media hover effects
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
-        const socialLinks = document.querySelectorAll('.social-links a');
-        socialLinks.forEach(link => {
-            link.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.1) rotate(5deg)';
-                this.style.transition = 'transform 0.3s ease';
-            });
-
-            link.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1) rotate(0deg)';
-            });
-        });
-    }, 100);
-});
-
-// FAQ Dropdown functionality
+// Enhanced FAQ functionality
 function initializeFAQ() {
-    // Wait for FAQ component to be fully loaded
-    const checkFAQ = () => {
-        const faqContainer = document.getElementById('faq-container');
-        const faqItems = document.querySelectorAll('.faq-item');
+    const faqContainer = document.getElementById('faq-container');
+    const faqItems = document.querySelectorAll('.faq-item');
 
-        if (!faqContainer || faqItems.length === 0) {
-            console.log('FAQ not ready, retrying...');
-            return false;
-        }
+    if (!faqContainer || faqItems.length === 0) {
+        return false;
+    }
 
-        faqItems.forEach((item, index) => {
-            const question = item.querySelector('.faq-question');
-            const answer = item.querySelector('.faq-answer');
+    faqItems.forEach((item, index) => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
 
-            if (question && answer) {
-                // Remove existing event listeners to prevent duplicates
-                const newQuestion = question.cloneNode(true);
-                question.parentNode.replaceChild(newQuestion, question);
+        if (question && answer) {
+            // Remove existing event listeners
+            const newQuestion = question.cloneNode(true);
+            question.parentNode.replaceChild(newQuestion, question);
 
-                // Add smooth transition styles
-                answer.style.transition = 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
-                answer.style.overflow = 'hidden';
+            // Enhanced transition styles
+            answer.style.transition = 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, transform 0.4s ease';
+            answer.style.overflow = 'hidden';
+            answer.style.transformOrigin = 'top';
 
-                // Set initial state
-                if (!item.classList.contains('active')) {
-                    answer.style.maxHeight = '0px';
-                    answer.style.opacity = '0';
-                } else {
+            // Set initial state
+            if (!item.classList.contains('active')) {
+                answer.style.maxHeight = '0px';
+                answer.style.opacity = '0';
+                answer.style.transform = 'scaleY(0)';
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                answer.style.opacity = '1';
+                answer.style.transform = 'scaleY(1)';
+            }
+
+            newQuestion.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const isActive = item.classList.contains('active');
+
+                // Close all FAQ items with animation
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        const otherAnswer = otherItem.querySelector('.faq-answer');
+                        if (otherAnswer) {
+                            otherAnswer.style.maxHeight = '0px';
+                            otherAnswer.style.opacity = '0';
+                            otherAnswer.style.transform = 'scaleY(0)';
+                        }
+                        otherItem.classList.remove('active');
+                    }
+                });
+
+                // Toggle current item with enhanced animation
+                if (!isActive) {
+                    item.classList.add('active');
                     answer.style.maxHeight = answer.scrollHeight + 'px';
                     answer.style.opacity = '1';
+                    answer.style.transform = 'scaleY(1)';
+                } else {
+                    item.classList.remove('active');
+                    answer.style.maxHeight = '0px';
+                    answer.style.opacity = '0';
+                    answer.style.transform = 'scaleY(0)';
                 }
+            });
 
-                newQuestion.addEventListener('click', (e) => {
+            // Enhanced accessibility
+            newQuestion.setAttribute('tabindex', '0');
+            newQuestion.setAttribute('role', 'button');
+            newQuestion.setAttribute('aria-expanded', item.classList.contains('active'));
+            newQuestion.style.cursor = 'pointer';
+            newQuestion.style.touchAction = 'manipulation';
+
+            // Keyboard support
+            newQuestion.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    e.stopPropagation();
+                    newQuestion.click();
+                }
+            });
+        }
+    });
 
-                    const isActive = item.classList.contains('active');
+    console.log('FAQ initialized with', faqItems.length, 'items');
+    return true;
+}
 
-                    // Close all FAQ items with smooth animation
-                    faqItems.forEach(otherItem => {
-                        if (otherItem !== item) {
-                            const otherAnswer = otherItem.querySelector('.faq-answer');
-                            if (otherAnswer) {
-                                otherAnswer.style.maxHeight = '0px';
-                                otherAnswer.style.opacity = '0';
-                            }
-                            otherItem.classList.remove('active');
-                        }
-                    });
-
-                    // Toggle current item
-                    if (!isActive) {
-                        item.classList.add('active');
-                        answer.style.maxHeight = answer.scrollHeight + 'px';
-                        answer.style.opacity = '1';
-                    } else {
-                        item.classList.remove('active');
-                        answer.style.maxHeight = '0px';
-                        answer.style.opacity = '0';
-                    }
-
-                    console.log('FAQ item toggled:', index, !isActive);
-                });
-
-                // Add touch support
-                newQuestion.addEventListener('touchstart', function(e) {
-                    this.style.backgroundColor = 'rgba(154, 205, 50, 0.1)';
-                });
-
-                newQuestion.addEventListener('touchend', function(e) {
-                    this.style.backgroundColor = '';
-                });
-
-                // Add keyboard accessibility
-                newQuestion.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        newQuestion.click();
-                    }
-                });
-
-                // Make focusable for keyboard navigation
-                newQuestion.setAttribute('tabindex', '0');
-                newQuestion.setAttribute('role', 'button');
-                newQuestion.setAttribute('aria-expanded', item.classList.contains('active'));
-                newQuestion.style.cursor = 'pointer';
-                newQuestion.style.touchAction = 'manipulation';
-
-                // Update aria-expanded when item is toggled
-                const observer = new MutationObserver(() => {
-                    const isExpanded = item.classList.contains('active');
-                    newQuestion.setAttribute('aria-expanded', isExpanded);
-                });
-
-                observer.observe(item, { attributes: true, attributeFilter: ['class'] });
-            }
-        });
-
-        console.log('FAQ initialized with', faqItems.length, 'items');
-        return true;
-    };
-
-    // Retry mechanism
+// Ensure FAQ works with retry mechanism
+function ensureFAQWorks() {
     let retries = 0;
     const maxRetries = 10;
 
     const tryInitFAQ = () => {
-        if (checkFAQ() || retries >= maxRetries) {
+        if (initializeFAQ() || retries >= maxRetries) {
             return;
         }
         retries++;
-        setTimeout(tryInitFAQ, 300);
+        setTimeout(tryInitFAQ, 200);
     };
 
     tryInitFAQ();
 }
 
-// Initialize FAQ when components are loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Wait for components to load then initialize FAQ
-    setTimeout(initializeFAQ, 1000);
-
-    // Also initialize FAQ when new content is dynamically loaded
-    const observer = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if (mutation.type === 'childList') {
-                mutation.addedNodes.forEach(function(node) {
-                    if (node.nodeType === 1 && (node.classList?.contains('faq') || node.querySelector?.('.faq'))) {
-                        setTimeout(initializeFAQ, 200);
-                    }
-                });
-            }
-        });
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-});
-
-// Additional FAQ initialization - ensure it works
-function ensureFAQWorks() {
-    const faqContainer = document.getElementById('faq-container');
-    if (faqContainer && faqContainer.innerHTML.trim()) {
-        initializeFAQ();
-    } else {
-        setTimeout(ensureFAQWorks, 200);
-    }
-}
-
-// Mobile menu now handled by header component - keeping minimal fallback
+// Mobile menu fallback (main functionality is in header component)
 function ensureMobileMenuWorks() {
-    // Mobile menu is now managed by the header component itself
-    // This function is kept for backward compatibility
     console.log('Mobile menu managed by header component');
 }
 
+// Global error handler
+window.addEventListener('error', function(e) {
+    console.error('Global error:', e.error?.message || e.message);
+});
+
+// Performance optimizations
+document.addEventListener('DOMContentLoaded', function() {
+    // Optimize images
+    optimizeImages();
+
+    // Add performance observers
+    if ('PerformanceObserver' in window) {
+        const perfObserver = new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+                if (entry.entryType === 'largest-contentful-paint') {
+                    console.log('LCP:', entry.startTime);
+                }
+            }
+        });
+
+        perfObserver.observe({ entryTypes: ['largest-contentful-paint'] });
+    }
+});
+
+// Image optimization
+function optimizeImages() {
+    const images = document.querySelectorAll('img');
+
+    images.forEach(img => {
+        if (!img.hasAttribute('loading')) {
+            img.setAttribute('loading', 'lazy');
+        }
+
+        img.setAttribute('decoding', 'async');
+
+        img.addEventListener('load', function() {
+            this.classList.add('loaded');
+        });
+
+        img.addEventListener('error', function() {
+            console.warn('Failed to load image:', this.src);
+            this.style.display = 'none';
+        });
+    });
+}
+
+// Cleanup function
+window.addEventListener('beforeunload', function() {
+    if (animationController) {
+        animationController.destroy();
+    }
+});
 
 // Page speed optimization
 window.addEventListener('load', function() {
-    // Preload critical resources
+    // Preload important pages
     const preloadLinks = [
         'roofmasters.html',
-        'dirtmasters.html',
+        'dirtmasters.html', 
         'paintmasters.html',
         'pavingmasters.html',
         'contact.html'
