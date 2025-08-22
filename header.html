@@ -542,13 +542,13 @@
 // Enhanced Header Controller
 class HeaderController {
     constructor() {
-        this.hamburger = document.getElementById('hamburger');
-        this.navMenu = document.getElementById('nav-menu');
-        this.mobileOverlay = document.getElementById('mobile-overlay');
-        this.servicesDropdown = document.getElementById('services-dropdown');
-        this.servicesToggle = document.getElementById('services-toggle');
-        this.servicesMenu = document.getElementById('services-menu');
-        this.header = document.getElementById('main-header');
+        this.hamburger = null;
+        this.navMenu = null;
+        this.mobileOverlay = null;
+        this.servicesDropdown = null;
+        this.servicesToggle = null;
+        this.servicesMenu = null;
+        this.header = null;
         this.isMenuOpen = false;
         this.isDropdownOpen = false;
         this.lastScrollY = window.scrollY;
@@ -557,20 +557,63 @@ class HeaderController {
     }
     
     init() {
-        // Hamburger menu functionality
+        // Wait for elements to be available
+        this.waitForElements().then(() => {
+            this.setupEventListeners();
+            this.initScrollEffects();
+            console.log('Header controller initialized successfully');
+        });
+    }
+    
+    waitForElements() {
+        return new Promise((resolve) => {
+            const checkElements = () => {
+                this.hamburger = document.getElementById('hamburger');
+                this.navMenu = document.getElementById('nav-menu');
+                this.mobileOverlay = document.getElementById('mobile-overlay');
+                this.servicesDropdown = document.getElementById('services-dropdown');
+                this.servicesToggle = document.getElementById('services-toggle');
+                this.servicesMenu = document.getElementById('services-menu');
+                this.header = document.getElementById('main-header');
+                
+                if (this.hamburger && this.navMenu && this.mobileOverlay) {
+                    resolve();
+                } else {
+                    setTimeout(checkElements, 100);
+                }
+            };
+            checkElements();
+        });
+    }
+    
+    setupEventListeners() {
+        // Hamburger menu functionality with better event handling
         if (this.hamburger) {
             this.hamburger.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                console.log('Hamburger clicked, current state:', this.isMenuOpen);
                 this.toggleMobileMenu();
             });
+            
+            // Touch event for better mobile support
+            this.hamburger.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.toggleMobileMenu();
+            }, { passive: false });
         }
         
         // Mobile overlay click
         if (this.mobileOverlay) {
-            this.mobileOverlay.addEventListener('click', () => {
+            this.mobileOverlay.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.closeMobileMenu();
             });
+            
+            this.mobileOverlay.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.closeMobileMenu();
+            }, { passive: false });
         }
         
         // Services dropdown for mobile
@@ -578,7 +621,7 @@ class HeaderController {
             this.servicesToggle.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                if (window.innerWidth <= 768) {
+                if (this.isMobile()) {
                     this.toggleServicesDropdown();
                 }
             });
@@ -587,13 +630,13 @@ class HeaderController {
         // Desktop hover for services
         if (this.servicesDropdown) {
             this.servicesDropdown.addEventListener('mouseenter', () => {
-                if (window.innerWidth > 768) {
+                if (!this.isMobile()) {
                     this.openServicesDropdown();
                 }
             });
             
             this.servicesDropdown.addEventListener('mouseleave', () => {
-                if (window.innerWidth > 768) {
+                if (!this.isMobile()) {
                     this.closeServicesDropdown();
                 }
             });
@@ -601,26 +644,33 @@ class HeaderController {
         
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
-            if (!this.servicesDropdown?.contains(e.target)) {
+            if (this.servicesDropdown && !this.servicesDropdown.contains(e.target)) {
                 this.closeServicesDropdown();
             }
         });
         
         // Handle window resize
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
+            if (!this.isMobile()) {
                 this.closeMobileMenu();
                 this.closeServicesDropdown();
             }
         });
         
-        // Enhanced scroll effects
-        this.initScrollEffects();
-        
-        console.log('Header controller initialized');
+        // Handle escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isMenuOpen) {
+                this.closeMobileMenu();
+            }
+        });
+    }
+    
+    isMobile() {
+        return window.innerWidth <= 768;
     }
     
     toggleMobileMenu() {
+        console.log('Toggle mobile menu called, current state:', this.isMenuOpen);
         this.isMenuOpen = !this.isMenuOpen;
         
         if (this.isMenuOpen) {
@@ -631,30 +681,61 @@ class HeaderController {
     }
     
     openMobileMenu() {
-        this.hamburger?.classList.add('active');
-        this.navMenu?.classList.add('active');
-        this.mobileOverlay?.classList.add('active');
+        console.log('Opening mobile menu');
+        
+        if (this.hamburger) {
+            this.hamburger.classList.add('active');
+        }
+        
+        if (this.navMenu) {
+            this.navMenu.classList.add('active');
+            this.navMenu.classList.add('slide-in-mobile');
+        }
+        
+        if (this.mobileOverlay) {
+            this.mobileOverlay.classList.add('active');
+        }
+        
+        // Prevent body scroll
         document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
         
-        this.navMenu?.classList.add('slide-in-mobile');
-        
+        // Remove slide animation after completion
         setTimeout(() => {
-            this.navMenu?.classList.remove('slide-in-mobile');
+            if (this.navMenu) {
+                this.navMenu.classList.remove('slide-in-mobile');
+            }
         }, 400);
         
-        console.log('Mobile menu opened');
+        this.isMenuOpen = true;
+        console.log('Mobile menu opened successfully');
     }
     
     closeMobileMenu() {
-        this.hamburger?.classList.remove('active');
-        this.navMenu?.classList.remove('active');
-        this.mobileOverlay?.classList.remove('active');
-        document.body.style.overflow = '';
-        this.isMenuOpen = false;
+        console.log('Closing mobile menu');
         
+        if (this.hamburger) {
+            this.hamburger.classList.remove('active');
+        }
+        
+        if (this.navMenu) {
+            this.navMenu.classList.remove('active');
+        }
+        
+        if (this.mobileOverlay) {
+            this.mobileOverlay.classList.remove('active');
+        }
+        
+        // Restore body scroll
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+        
+        this.isMenuOpen = false;
         this.closeServicesDropdown();
         
-        console.log('Mobile menu closed');
+        console.log('Mobile menu closed successfully');
     }
     
     toggleServicesDropdown() {
@@ -668,12 +749,16 @@ class HeaderController {
     }
     
     openServicesDropdown() {
-        this.servicesDropdown?.classList.add('active');
+        if (this.servicesDropdown) {
+            this.servicesDropdown.classList.add('active');
+        }
         this.isDropdownOpen = true;
     }
     
     closeServicesDropdown() {
-        this.servicesDropdown?.classList.remove('active');
+        if (this.servicesDropdown) {
+            this.servicesDropdown.classList.remove('active');
+        }
         this.isDropdownOpen = false;
     }
     
@@ -691,11 +776,13 @@ class HeaderController {
                     this.header.classList.remove('scrolled');
                 }
                 
-                // Hide/show header on scroll
-                if (currentScrollY > this.lastScrollY && currentScrollY > 200) {
-                    this.header.classList.add('header-hide');
-                } else {
-                    this.header.classList.remove('header-hide');
+                // Hide/show header on scroll (only when menu is closed)
+                if (!this.isMenuOpen) {
+                    if (currentScrollY > this.lastScrollY && currentScrollY > 200) {
+                        this.header.classList.add('header-hide');
+                    } else {
+                        this.header.classList.remove('header-hide');
+                    }
                 }
             }
             
@@ -714,8 +801,32 @@ class HeaderController {
     }
 }
 
-// Initialize the header controller
-document.addEventListener('DOMContentLoaded', function() {
-    new HeaderController();
-});
+// Global header controller instance
+let headerController = null;
+
+// Initialize the header controller with better error handling
+function initializeHeader() {
+    try {
+        if (!headerController) {
+            headerController = new HeaderController();
+        }
+    } catch (error) {
+        console.error('Error initializing header:', error);
+        // Fallback initialization
+        setTimeout(initializeHeader, 500);
+    }
+}
+
+// Multiple initialization attempts to ensure it works
+document.addEventListener('DOMContentLoaded', initializeHeader);
+
+// Fallback for when DOMContentLoaded has already fired
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeHeader);
+} else {
+    initializeHeader();
+}
+
+// Additional fallback
+setTimeout(initializeHeader, 1000);
 </script>
