@@ -16,24 +16,34 @@
                     <a href="#" class="nav-link dropdown-toggle">
                         Services <i class="fas fa-chevron-down"></i>
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="roofmasters.html" class="dropdown-link">
-                            <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters">
-                            RoofMasters
-                        </a></li>
-                        <li><a href="dirtmasters.html" class="dropdown-link">
-                            <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters">
-                            DirtMasters
-                        </a></li>
-                        <li><a href="paintmasters.html" class="dropdown-link">
-                            <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters">
-                            PaintMasters
-                        </a></li>
-                        <li><a href="pavingmasters.html" class="dropdown-link">
-                            <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters">
-                            PavingMasters
-                        </a></li>
-                    </ul>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-header">
+                            <h3>Our Expert Services</h3>
+                            <p>Professional home services across Galway</p>
+                        </div>
+                        <ul>
+                            <li><a href="roofmasters.html" class="dropdown-link">
+                                <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters">
+                                <div class="service-name">RoofMasters</div>
+                                <div class="service-subtitle">Expert Roofing & Repairs</div>
+                            </a></li>
+                            <li><a href="dirtmasters.html" class="dropdown-link">
+                                <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters">
+                                <div class="service-name">DirtMasters</div>
+                                <div class="service-subtitle">Power Washing & Cleaning</div>
+                            </a></li>
+                            <li><a href="paintmasters.html" class="dropdown-link">
+                                <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters">
+                                <div class="service-name">PaintMasters</div>
+                                <div class="service-subtitle">Premium Exterior Painting</div>
+                            </a></li>
+                            <li><a href="pavingmasters.html" class="dropdown-link">
+                                <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters">
+                                <div class="service-name">PavingMasters</div>
+                                <div class="service-subtitle">Driveways & Landscaping</div>
+                            </a></li>
+                        </ul>
+                    </div>
                 </li>
                 <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
@@ -248,14 +258,15 @@
     background: rgba(10, 10, 10, 0.98);
     backdrop-filter: blur(30px);
     border: 2px solid rgba(154, 205, 50, 0.3);
-    border-radius: 15px;
-    min-width: 280px;
+    border-radius: 20px;
+    width: 680px;
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
     overflow: hidden;
     z-index: 1001;
+    padding: 1.5rem;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -264,13 +275,48 @@
     transform: translateX(-50%) translateY(0);
 }
 
+.dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, rgba(154, 205, 50, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.dropdown-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.dropdown-header h3 {
+    color: #9ACD32;
+    font-size: 1.1rem;
+    margin: 0 0 0.3rem 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.dropdown-header p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
 .dropdown-menu ul {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding: 0.8rem 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 0;
     list-style: none;
     margin: 0;
+    position: relative;
+    z-index: 2;
 }
 
 .dropdown-menu li {
@@ -279,32 +325,113 @@
 
 .dropdown-link {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
     gap: 0.8rem;
-    padding: 0.7rem 1.2rem;
+    padding: 1.5rem 1rem;
     color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
-    transition: all 0.3s ease;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 0.95rem;
-    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.03);
+    position: relative;
+    overflow: hidden;
+    min-height: 140px;
+    justify-content: center;
 }
 
-.dropdown-menu li:last-child .dropdown-link {
-    border-bottom: none;
+.dropdown-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(154, 205, 50, 0.15), transparent);
+    transition: left 0.6s ease;
+}
+
+.dropdown-link:hover::before {
+    left: 100%;
 }
 
 .dropdown-link:hover {
-    background: rgba(154, 205, 50, 0.1);
+    background: rgba(154, 205, 50, 0.08);
     color: #ffffff;
-    transform: translateX(5px);
+    transform: translateY(-5px) scale(1.03);
+    border-color: rgba(154, 205, 50, 0.4);
+    box-shadow: 0 10px 25px rgba(154, 205, 50, 0.2);
 }
 
 .dropdown-link img {
-    width: 22px;
-    height: 22px;
-    border-radius: 4px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     flex-shrink: 0;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(154, 205, 50, 0.3);
+}
+
+.dropdown-link:hover img {
+    transform: scale(1.1);
+    border-color: rgba(154, 205, 50, 0.6);
+    box-shadow: 0 5px 15px rgba(154, 205, 50, 0.3);
+}
+
+.service-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #9ACD32;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.2rem;
+}
+
+.service-subtitle {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.dropdown-link:hover .service-name {
+    color: #ffffff;
+}
+
+.dropdown-link:hover .service-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Responsive dropdown for smaller screens */
+@media (max-width: 1200px) {
+    .dropdown-menu {
+        width: 600px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .dropdown-menu {
+        width: 500px;
+        padding: 1rem;
+    }
+    
+    .dropdown-menu ul {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+    
+    .dropdown-link {
+        padding: 1.2rem 0.8rem;
+        min-height: 120px;
+    }
+    
+    .dropdown-link img {
+        width: 35px;
+        height: 35px;
+    }
 }
 
 /* CTA Button */
