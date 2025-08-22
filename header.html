@@ -235,8 +235,8 @@
         0 25px 80px rgba(0, 0, 0, 0.5),
         0 0 0 1px rgba(154, 205, 50, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.08);
-    min-width: 280px;
-    width: 280px;
+    min-width: 320px;
+    width: 320px;
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -426,6 +426,8 @@
         left: 50%;
         right: auto;
         transform: translateX(-50%) translateY(15px);
+        min-width: 320px;
+        width: 320px;
     }
 
     .services-dropdown:hover .dropdown-menu {
@@ -603,6 +605,8 @@
         backdrop-filter: blur(15px);
         display: flex;
         flex-direction: column;
+        left: auto;
+        right: auto;
     }
 
     .dropdown-menu::before {
@@ -610,7 +614,7 @@
     }
 
     .dropdown.active .dropdown-menu {
-        max-height: 450px;
+        max-height: 500px;
         padding: 1.5rem 0;
         border-color: rgba(154, 205, 50, 0.45);
         background: linear-gradient(145deg, rgba(154, 205, 50, 0.15), rgba(124, 179, 66, 0.1));
@@ -632,13 +636,13 @@
     }
 
     .dropdown-link {
-        padding: 1.2rem 1.8rem;
-        margin: 0 1.2rem 0.8rem;
+        padding: 1.2rem 1rem;
+        margin: 0 1rem 0.8rem;
         border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 12px;
         background: rgba(0, 0, 0, 0.25);
         font-size: 1rem;
-        width: calc(100% - 2.4rem);
+        width: calc(100% - 2rem);
         box-sizing: border-box;
         display: flex;
         align-items: center;
@@ -650,6 +654,7 @@
         font-weight: 500;
         position: relative;
         overflow: hidden;
+        transform: translateX(0);
     }
 
     .dropdown-link:last-child {
@@ -677,7 +682,7 @@
     .dropdown-link:active {
         background: linear-gradient(135deg, rgba(154, 205, 50, 0.25), rgba(124, 179, 66, 0.2));
         color: #ffffff;
-        transform: translateX(10px) scale(1.02);
+        transform: translateX(0) scale(1.02);
         border-color: rgba(154, 205, 50, 0.5);
         box-shadow: 0 6px 20px rgba(154, 205, 50, 0.25);
     }
