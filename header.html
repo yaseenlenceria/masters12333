@@ -416,7 +416,8 @@
         flex-direction: column;
         width: 100%;
         gap: 0;
-        padding: 0 2rem;
+        padding: 0 1rem;
+        box-sizing: border-box;
     }
 
     .nav-menu li {
@@ -426,12 +427,13 @@
 
     .nav-link {
         width: 100%;
-        padding: 1.2rem;
+        padding: 1.2rem 1rem;
         text-align: left;
         font-size: 1.1rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 8px;
         justify-content: space-between;
+        box-sizing: border-box;
     }
 
     .nav-link:hover {
@@ -466,7 +468,7 @@
         border: 1px solid rgba(154, 205, 50, 0.2);
         box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
-        margin: 0.5rem 1rem;
+        margin: 0.5rem 0.8rem;
         max-height: 0;
         overflow: hidden;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -474,6 +476,8 @@
         opacity: 1;
         visibility: visible;
         padding: 0;
+        width: calc(100% - 1.6rem);
+        box-sizing: border-box;
     }
 
     .dropdown.active .dropdown-menu {
@@ -483,13 +487,18 @@
     }
 
     .dropdown-link {
-        padding: 0.9rem 1.5rem;
-        margin: 0 0.5rem;
+        padding: 0.9rem 1rem;
+        margin: 0 0.4rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 6px;
         background: rgba(0, 0, 0, 0.2);
         margin-bottom: 0.3rem;
         font-size: 0.95rem;
+        width: calc(100% - 0.8rem);
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
     }
 
     .dropdown-link:last-child {
@@ -500,8 +509,14 @@
     .dropdown-link:hover {
         background: rgba(154, 205, 50, 0.15);
         color: #9ACD32;
-        transform: translateX(8px);
+        transform: translateX(5px);
         border-color: rgba(154, 205, 50, 0.3);
+    }
+
+    .dropdown-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
     }
 
     .logo-text h2 {
