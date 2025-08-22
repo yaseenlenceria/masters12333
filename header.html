@@ -14,7 +14,7 @@
                 <li><a href="index.html" class="nav-link">Home</a></li>
                 <li class="dropdown" id="services-dropdown">
                     <a href="#" class="nav-link dropdown-toggle" id="services-toggle">
-                        Services <i class="fas fa-chevron-down"></i>
+                        Services <i class="fas fa-chevron-down dropdown-arrow"></i>
                     </a>
                     <ul class="dropdown-menu" id="services-menu">
                         <li><a href="roofmasters.html" class="dropdown-link">
@@ -213,8 +213,31 @@
     font-size: 0.8rem;
 }
 
+.dropdown-arrow {
+    margin-left: 0.5rem;
+}
+
 .dropdown.active .dropdown-toggle i {
     transform: rotate(180deg);
+}
+
+/* Mobile specific arrow styling */
+@media (max-width: 768px) {
+    .dropdown-toggle {
+        position: relative;
+    }
+    
+    .dropdown-arrow {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: transform 0.3s ease;
+    }
+    
+    .dropdown.active .dropdown-arrow {
+        transform: translateY(-50%) rotate(180deg);
+    }
 }
 
 .dropdown-menu {
@@ -439,14 +462,14 @@
     /* Mobile Dropdown */
     .dropdown-menu {
         position: static;
-        background: rgba(154, 205, 50, 0.05);
-        border: none;
-        box-shadow: none;
+        background: rgba(154, 205, 50, 0.08);
+        border: 1px solid rgba(154, 205, 50, 0.2);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         margin: 0.5rem 1rem;
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.4s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         transform: none;
         opacity: 1;
         visibility: visible;
@@ -454,19 +477,31 @@
     }
 
     .dropdown.active .dropdown-menu {
-        max-height: 300px;
-        padding: 1rem 0;
+        max-height: 320px;
+        padding: 0.8rem 0;
+        border-color: rgba(154, 205, 50, 0.4);
     }
 
     .dropdown-link {
-        padding: 1rem 1.5rem;
-        margin: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 0;
+        padding: 0.9rem 1.5rem;
+        margin: 0 0.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+        background: rgba(0, 0, 0, 0.2);
+        margin-bottom: 0.3rem;
+        font-size: 0.95rem;
     }
 
     .dropdown-link:last-child {
-        border-bottom: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 0;
+    }
+
+    .dropdown-link:hover {
+        background: rgba(154, 205, 50, 0.15);
+        color: #9ACD32;
+        transform: translateX(8px);
+        border-color: rgba(154, 205, 50, 0.3);
     }
 
     .logo-text h2 {
@@ -621,10 +656,20 @@ class HeaderController {
             this.servicesToggle.addEventListener('click', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                console.log('Services toggle clicked, is mobile:', this.isMobile());
                 if (this.isMobile()) {
                     this.toggleServicesDropdown();
                 }
             });
+
+            // Also handle touch events for better mobile support
+            this.servicesToggle.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (this.isMobile()) {
+                    this.toggleServicesDropdown();
+                }
+            }, { passive: false });
         }
         
         // Desktop hover for services
@@ -739,6 +784,7 @@ class HeaderController {
     }
     
     toggleServicesDropdown() {
+        console.log('Toggling services dropdown, current state:', this.isDropdownOpen);
         this.isDropdownOpen = !this.isDropdownOpen;
         
         if (this.isDropdownOpen) {
@@ -749,15 +795,26 @@ class HeaderController {
     }
     
     openServicesDropdown() {
+        console.log('Opening services dropdown');
         if (this.servicesDropdown) {
             this.servicesDropdown.classList.add('active');
+            // Add small delay to ensure animation works
+            setTimeout(() => {
+                if (this.servicesMenu) {
+                    this.servicesMenu.style.maxHeight = '320px';
+                }
+            }, 10);
         }
         this.isDropdownOpen = true;
     }
     
     closeServicesDropdown() {
+        console.log('Closing services dropdown');
         if (this.servicesDropdown) {
             this.servicesDropdown.classList.remove('active');
+            if (this.servicesMenu) {
+                this.servicesMenu.style.maxHeight = '0';
+            }
         }
         this.isDropdownOpen = false;
     }
