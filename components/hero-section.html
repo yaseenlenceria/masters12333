@@ -24,8 +24,10 @@
     justify-content: flex-start;
     overflow: hidden;
     padding-left: 80px;
-    margin-top: -80px;
+    margin-top: 0;
     padding-top: 80px;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .hero::before {
@@ -38,6 +40,8 @@
     background: url('../attached_assets/herobc.png') right center/cover no-repeat;
     opacity: 0.15;
     z-index: 1;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .hero::after {
@@ -50,6 +54,8 @@
     background: linear-gradient(135deg, rgba(154, 205, 50, 0.1) 0%, rgba(124, 179, 66, 0.05) 100%);
     clip-path: polygon(40% 0%, 100% 0%, 100% 100%, 20% 100%);
     z-index: 2;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 /* Main Hero Content */
@@ -124,10 +130,12 @@
         padding: 8rem 1rem 4rem;
         text-align: center;
         padding-left: 1rem;
-        margin-top: 70px;
+        margin-top: 0;
+        padding-top: 70px;
         display: flex;
         align-items: center;
         justify-content: center;
+        transform: none !important;
     }
 
     .hero::before {
@@ -185,10 +193,12 @@
     .hero {
         padding: 5rem 1rem 3rem;
         min-height: calc(100vh - 60px);
-        margin-top: 60px;
+        margin-top: 0;
+        padding-top: 60px;
         padding-left: 1rem;
         justify-content: center;
         align-items: center;
+        transform: none !important;
     }
 
     .hero-main-content {

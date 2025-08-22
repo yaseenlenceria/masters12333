@@ -139,19 +139,23 @@ function initializeSmoothScrolling() {
             e.preventDefault();
             const href = e.target.getAttribute('href');
             if (href && href !== '#' && href.length > 1) {
-                const target = document.querySelector(href);
-                if (target) {
-                    const headerHeight = document.querySelector('.header')?.offsetHeight || 80;
-                    const targetPosition = target.offsetTop - headerHeight - 20;
+                try {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        const headerHeight = document.querySelector('.header')?.offsetHeight || 80;
+                        const targetPosition = target.offsetTop - headerHeight - 20;
 
-                    // Smooth scroll with custom easing
-                    smoothScrollTo(targetPosition, 800);
+                        // Smooth scroll with custom easing
+                        smoothScrollTo(targetPosition, 800);
+                    }
+                } catch (error) {
+                    console.warn('Invalid selector:', href);
                 }
             }
         }
     });
 
-    // Add parallax effect for hero section
+    // Add parallax effect for hero section with better performance
     let ticking = false;
     function updateParallax() {
         if (!ticking) {
@@ -160,9 +164,13 @@ function initializeSmoothScrolling() {
                 const parallaxElements = document.querySelectorAll('.hero, .page-header');
 
                 parallaxElements.forEach(el => {
-                    if (el) {
-                        const speed = 0.5;
-                        el.style.transform = `translateY(${scrolled * speed}px)`;
+                    if (el && el.offsetHeight > 0) {
+                        // Only apply parallax when element is visible
+                        const rect = el.getBoundingClientRect();
+                        if (rect.bottom > 0 && rect.top < window.innerHeight) {
+                            const speed = 0.3;
+                            el.style.transform = `translateY(${scrolled * speed}px)`;
+                        }
                     }
                 });
 
@@ -399,22 +407,30 @@ function initializeParallaxEffects() {
             requestAnimationFrame(() => {
                 const scrolled = window.pageYOffset;
 
-                // Parallax for hero sections
+                // Parallax for hero sections with bounds checking
                 const heroElements = document.querySelectorAll('.hero, .page-header');
                 heroElements.forEach(el => {
-                    if (el) {
-                        const speed = 0.3;
-                        el.style.transform = `translateY(${scrolled * speed}px)`;
+                    if (el && el.offsetHeight > 0) {
+                        const rect = el.getBoundingClientRect();
+                        const elementTop = rect.top + scrolled;
+                        const elementHeight = el.offsetHeight;
+                        
+                        // Only apply parallax when hero is visible
+                        if (scrolled < elementTop + elementHeight) {
+                            const speed = 0.2;
+                            const transform = scrolled * speed;
+                            el.style.transform = `translateY(${transform}px)`;
+                        }
                     }
                 });
 
                 // Parallax for floating elements
                 const floatingElements = document.querySelectorAll('.floating-animation, .sub-logo');
                 floatingElements.forEach((el, index) => {
-                    if (el) {
-                        const speed = 0.1 + (index * 0.05);
+                    if (el && el.offsetHeight > 0) {
+                        const speed = 0.05 + (index * 0.02);
                         const yPos = -(scrolled * speed);
-                        el.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.02}deg)`;
+                        el.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.01}deg)`;
                     }
                 });
 
