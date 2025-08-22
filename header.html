@@ -1,4 +1,3 @@
-
 <header class="header" id="main-header">
     <div class="nav-container">
         <div class="nav-logo">
@@ -296,24 +295,21 @@
     box-sizing: border-box;
 }
 
-.dropdown-link:last-child {
-    margin-bottom: 0;
-}
-
 .dropdown-link::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(154, 205, 50, 0.12), transparent);
-    transition: left 0.5s ease;
+    opacity: 0;
+    transition: opacity 0.3s ease;
     z-index: 0;
 }
 
 .dropdown-link:hover::before {
-    left: 100%;
+    opacity: 1;
 }
 
 .dropdown-link:hover {
@@ -551,7 +547,7 @@
         position: relative;
         width: 100%;
     }
-    
+
     .dropdown-arrow {
         position: absolute;
         right: 1rem;
@@ -560,7 +556,7 @@
         transition: transform 0.3s ease;
         font-size: 0.9rem;
     }
-    
+
     .dropdown.active .dropdown-arrow {
         transform: translateY(-50%) rotate(180deg);
     }
@@ -665,17 +661,18 @@
         content: '';
         position: absolute;
         top: 0;
-        left: -100%;
+        left: 0;
         width: 100%;
         height: 100%;
         background: linear-gradient(90deg, transparent, rgba(154, 205, 50, 0.15), transparent);
-        transition: left 0.5s ease;
+        opacity: 0;
+        transition: opacity 0.3s ease;
         z-index: 0;
     }
 
     .dropdown-link:hover::before,
     .dropdown-link:active::before {
-        left: 100%;
+        opacity: 1;
     }
 
     .dropdown-link:hover,
@@ -794,10 +791,10 @@ class HeaderController {
         this.isMenuOpen = false;
         this.isDropdownOpen = false;
         this.lastScrollY = window.scrollY;
-        
+
         this.init();
     }
-    
+
     init() {
         // Wait for elements to be available
         this.waitForElements().then(() => {
@@ -806,7 +803,7 @@ class HeaderController {
             console.log('Header controller initialized successfully');
         });
     }
-    
+
     waitForElements() {
         return new Promise((resolve) => {
             const checkElements = () => {
@@ -817,7 +814,7 @@ class HeaderController {
                 this.servicesToggle = document.getElementById('services-toggle');
                 this.servicesMenu = document.getElementById('services-menu');
                 this.header = document.getElementById('main-header');
-                
+
                 if (this.hamburger && this.navMenu && this.mobileOverlay) {
                     resolve();
                 } else {
@@ -827,7 +824,7 @@ class HeaderController {
             checkElements();
         });
     }
-    
+
     setupEventListeners() {
         // Hamburger menu functionality with better event handling
         if (this.hamburger) {
@@ -837,27 +834,27 @@ class HeaderController {
                 console.log('Hamburger clicked, current state:', this.isMenuOpen);
                 this.toggleMobileMenu();
             });
-            
+
             // Touch event for better mobile support
             this.hamburger.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 this.toggleMobileMenu();
             }, { passive: false });
         }
-        
+
         // Mobile overlay click
         if (this.mobileOverlay) {
             this.mobileOverlay.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.closeMobileMenu();
             });
-            
+
             this.mobileOverlay.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 this.closeMobileMenu();
             }, { passive: false });
         }
-        
+
         // Services dropdown for mobile
         if (this.servicesToggle) {
             this.servicesToggle.addEventListener('click', (e) => {
@@ -878,7 +875,7 @@ class HeaderController {
                 }
             }, { passive: false });
         }
-        
+
         // Desktop hover for services
         if (this.servicesDropdown) {
             this.servicesDropdown.addEventListener('mouseenter', () => {
@@ -886,21 +883,21 @@ class HeaderController {
                     this.openServicesDropdown();
                 }
             });
-            
+
             this.servicesDropdown.addEventListener('mouseleave', () => {
                 if (!this.isMobile()) {
                     this.closeServicesDropdown();
                 }
             });
         }
-        
+
         // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
             if (this.servicesDropdown && !this.servicesDropdown.contains(e.target)) {
                 this.closeServicesDropdown();
             }
         });
-        
+
         // Handle window resize
         window.addEventListener('resize', () => {
             if (!this.isMobile()) {
@@ -908,7 +905,7 @@ class HeaderController {
                 this.closeServicesDropdown();
             }
         });
-        
+
         // Handle escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isMenuOpen) {
@@ -916,91 +913,91 @@ class HeaderController {
             }
         });
     }
-    
+
     isMobile() {
         return window.innerWidth <= 768;
     }
-    
+
     toggleMobileMenu() {
         console.log('Toggle mobile menu called, current state:', this.isMenuOpen);
         this.isMenuOpen = !this.isMenuOpen;
-        
+
         if (this.isMenuOpen) {
             this.openMobileMenu();
         } else {
             this.closeMobileMenu();
         }
     }
-    
+
     openMobileMenu() {
         console.log('Opening mobile menu');
-        
+
         if (this.hamburger) {
             this.hamburger.classList.add('active');
         }
-        
+
         if (this.navMenu) {
             this.navMenu.classList.add('active');
             this.navMenu.classList.add('slide-in-mobile');
         }
-        
+
         if (this.mobileOverlay) {
             this.mobileOverlay.classList.add('active');
         }
-        
+
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
         document.body.style.position = 'fixed';
         document.body.style.width = '100%';
-        
+
         // Remove slide animation after completion
         setTimeout(() => {
             if (this.navMenu) {
                 this.navMenu.classList.remove('slide-in-mobile');
             }
         }, 400);
-        
+
         this.isMenuOpen = true;
         console.log('Mobile menu opened successfully');
     }
-    
+
     closeMobileMenu() {
         console.log('Closing mobile menu');
-        
+
         if (this.hamburger) {
             this.hamburger.classList.remove('active');
         }
-        
+
         if (this.navMenu) {
             this.navMenu.classList.remove('active');
         }
-        
+
         if (this.mobileOverlay) {
             this.mobileOverlay.classList.remove('active');
         }
-        
+
         // Restore body scroll
         document.body.style.overflow = '';
         document.body.style.position = '';
         document.body.style.width = '';
-        
+
         this.isMenuOpen = false;
         this.closeServicesDropdown();
-        
+
         console.log('Mobile menu closed successfully');
     }
-    
+
     toggleServicesDropdown() {
         console.log('Toggling services dropdown, current state:', this.isDropdownOpen);
         this.isDropdownOpen = !this.isDropdownOpen;
-        
+
         if (this.isDropdownOpen) {
             this.openServicesDropdown();
         } else {
             this.closeServicesDropdown();
         }
     }
-    
+
     openServicesDropdown() {
         console.log('Opening services dropdown');
         if (this.servicesDropdown) {
@@ -1014,7 +1011,7 @@ class HeaderController {
         }
         this.isDropdownOpen = true;
     }
-    
+
     closeServicesDropdown() {
         console.log('Closing services dropdown');
         if (this.servicesDropdown) {
@@ -1025,13 +1022,13 @@ class HeaderController {
         }
         this.isDropdownOpen = false;
     }
-    
+
     initScrollEffects() {
         let ticking = false;
-        
+
         const updateHeader = () => {
             const currentScrollY = window.scrollY;
-            
+
             if (this.header) {
                 // Add scrolled class
                 if (currentScrollY > 50) {
@@ -1039,7 +1036,7 @@ class HeaderController {
                 } else {
                     this.header.classList.remove('scrolled');
                 }
-                
+
                 // Hide/show header on scroll (only when menu is closed)
                 if (!this.isMenuOpen) {
                     if (currentScrollY > this.lastScrollY && currentScrollY > 200) {
@@ -1049,18 +1046,18 @@ class HeaderController {
                     }
                 }
             }
-            
+
             this.lastScrollY = currentScrollY;
             ticking = false;
         };
-        
+
         const onScroll = () => {
             if (!ticking) {
                 requestAnimationFrame(updateHeader);
                 ticking = true;
             }
         };
-        
+
         window.addEventListener('scroll', onScroll, { passive: true });
     }
 }
