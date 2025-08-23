@@ -1,12 +1,12 @@
 <header class="header" id="main-header">
     <div class="nav-container">
-        <div class="nav-logo">
+        <a href="/" class="nav-logo">
             <img src="attached_assets/mainlogo.png" alt="The Masters Group Galway Logo" class="main-logo">
             <div class="logo-text">
                 <h2>The Masters Group</h2>
                 <span class="tagline">Galway's Premier Home Services</span>
             </div>
-        </div>
+        </a>
 
         <nav class="nav-menu" id="nav-menu">
             <ul>
@@ -65,13 +65,13 @@
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobile-menu">
         <div class="mobile-menu-content">
-            <div class="mobile-logo">
+            <a href="/" class="mobile-logo">
                 <img src="attached_assets/mainlogo.png" alt="The Masters Group">
                 <div>
                     <h3>The Masters Group</h3>
                     <span>Galway's Premier Home Services</span>
                 </div>
-            </div>
+            </a>
 
             <nav class="mobile-nav">
                 <a href="/" class="mobile-nav-link">
@@ -171,6 +171,12 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav-logo:hover {
+    transform: scale(1.05);
 }
 
 .main-logo {
@@ -519,6 +525,12 @@
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid rgba(154, 205, 50, 0.2);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.mobile-logo:hover {
+    transform: scale(1.02);
 }
 
 .mobile-logo img {
