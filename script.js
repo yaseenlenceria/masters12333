@@ -422,56 +422,30 @@ function smoothScrollTo(targetPosition, duration) {
     requestAnimationFrame(animation);
 }
 
-// Enhanced smooth page transitions
+// Enhanced page transitions
 function initializePageTransitions() {
     document.body.style.opacity = '1';
-    document.body.style.transition = 'opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    document.body.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
 
-    // Smooth page load animation
     if (document.readyState === 'loading') {
         document.body.style.opacity = '0';
 
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-                initializeSmoothTextAnimations();
-            }, 100);
+            document.body.style.opacity = '1';
         });
-    } else {
-        initializeSmoothTextAnimations();
     }
 
-    // Smooth navigation feedback
+    // Enhanced navigation feedback
     document.querySelectorAll('a[href]:not([href^="#"]):not([href^="tel:"]):not([href^="mailto:"])').forEach(link => {
         link.addEventListener('click', (e) => {
             if (link.hostname === window.location.hostname) {
-                link.style.transform = 'scale(0.98)';
-                link.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                link.style.transform = 'scale(0.95)';
+                link.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
                 setTimeout(() => {
                     link.style.transform = 'scale(1)';
-                }, 200);
+                }, 150);
             }
         });
-    });
-}
-
-// Initialize smooth text animations
-function initializeSmoothTextAnimations() {
-    const headings = document.querySelectorAll('h1, h2, h3, .hero-title, .section-title, .page-title');
-    const content = document.querySelectorAll('.page-content, .content-section');
-    
-    // Animate headings with smooth stagger
-    headings.forEach((heading, index) => {
-        setTimeout(() => {
-            heading.classList.add('loaded');
-        }, 150 + (index * 80));
-    });
-    
-    // Animate content sections
-    content.forEach((section, index) => {
-        setTimeout(() => {
-            section.classList.add('loaded');
-        }, 300 + (index * 100));
     });
 }
 
