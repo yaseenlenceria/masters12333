@@ -1,4 +1,3 @@
-
 <header class="header" id="main-header">
     <div class="nav-container">
         <div class="nav-logo">
@@ -11,7 +10,7 @@
 
         <nav class="nav-menu" id="nav-menu">
             <ul>
-                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="/" class="nav-link">Home</a></li>
                 <li class="dropdown">
                     <a href="#" class="nav-link dropdown-toggle">
                         Services <i class="fas fa-chevron-down"></i>
@@ -22,22 +21,22 @@
                             <p>Professional home services across Galway</p>
                         </div>
                         <ul>
-                            <li><a href="roofmasters.html" class="dropdown-link">
+                            <li><a href="/roofmasters" class="dropdown-link">
                                 <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters">
                                 <div class="service-name">RoofMasters</div>
                                 <div class="service-subtitle">Expert Roofing & Repairs</div>
                             </a></li>
-                            <li><a href="dirtmasters.html" class="dropdown-link">
+                            <li><a href="/dirtmasters" class="dropdown-link">
                                 <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters">
                                 <div class="service-name">DirtMasters</div>
                                 <div class="service-subtitle">Power Washing & Cleaning</div>
                             </a></li>
-                            <li><a href="paintmasters.html" class="dropdown-link">
+                            <li><a href="/paintmasters" class="dropdown-link">
                                 <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters">
                                 <div class="service-name">PaintMasters</div>
                                 <div class="service-subtitle">Premium Exterior Painting</div>
                             </a></li>
-                            <li><a href="pavingmasters.html" class="dropdown-link">
+                            <li><a href="/pavingmasters" class="dropdown-link">
                                 <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters">
                                 <div class="service-name">PavingMasters</div>
                                 <div class="service-subtitle">Driveways & Landscaping</div>
@@ -45,7 +44,7 @@
                         </ul>
                     </div>
                 </li>
-                <li><a href="contact.html" class="nav-link">Contact</a></li>
+                <li><a href="/contact" class="nav-link">Contact</a></li>
             </ul>
         </nav>
 
@@ -73,13 +72,13 @@
                     <span>Galway's Premier Home Services</span>
                 </div>
             </div>
-            
+
             <nav class="mobile-nav">
-                <a href="index.html" class="mobile-nav-link">
+                <a href="/" class="mobile-nav-link">
                     <i class="fas fa-home"></i>
                     Home
                 </a>
-                
+
                 <div class="mobile-services">
                     <button class="mobile-services-toggle">
                         <i class="fas fa-tools"></i>
@@ -87,28 +86,28 @@
                         <i class="fas fa-chevron-down"></i>
                     </button>
                     <div class="mobile-services-menu">
-                        <a href="roofmasters.html" class="mobile-service-link">
+                        <a href="/roofmasters" class="mobile-service-link">
                             <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters">
                             <div>
                                 <h4>RoofMasters</h4>
                                 <p>Expert Roofing Services</p>
                             </div>
                         </a>
-                        <a href="dirtmasters.html" class="mobile-service-link">
+                        <a href="/dirtmasters" class="mobile-service-link">
                             <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters">
                             <div>
                                 <h4>DirtMasters</h4>
                                 <p>Professional Power Washing</p>
                             </div>
                         </a>
-                        <a href="paintmasters.html" class="mobile-service-link">
+                        <a href="/paintmasters" class="mobile-service-link">
                             <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters">
                             <div>
                                 <h4>PaintMasters</h4>
                                 <p>Premium Exterior Painting</p>
                             </div>
                         </a>
-                        <a href="pavingmasters.html" class="mobile-service-link">
+                        <a href="/pavingmasters" class="mobile-service-link">
                             <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters">
                             <div>
                                 <h4>PavingMasters</h4>
@@ -117,13 +116,13 @@
                         </a>
                     </div>
                 </div>
-                
-                <a href="contact.html" class="mobile-nav-link">
+
+                <a href="/contact" class="mobile-nav-link">
                     <i class="fas fa-envelope"></i>
                     Contact Us
                 </a>
             </nav>
-            
+
             <div class="mobile-cta">
                 <a href="tel:0877171524" class="mobile-cta-btn">
                     <i class="fas fa-phone"></i>
@@ -417,17 +416,17 @@
         width: 500px;
         padding: 1rem;
     }
-    
+
     .dropdown-menu ul {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.8rem;
     }
-    
+
     .dropdown-link {
         padding: 1.2rem 0.8rem;
         min-height: 120px;
     }
-    
+
     .dropdown-link img {
         width: 35px;
         height: 35px;
@@ -789,7 +788,7 @@ class ModernHeaderController {
                 this.mobileMenuBtn = document.getElementById('mobile-menu-btn');
                 this.mobileMenu = document.getElementById('mobile-menu');
                 this.mobileOverlay = document.getElementById('mobile-overlay');
-                
+
                 // Services elements
                 const servicesDiv = document.querySelector('.mobile-services');
                 if (servicesDiv) {

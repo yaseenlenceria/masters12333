@@ -6,8 +6,29 @@ channel = "stable-24_11"
 packages = ["static-web-server"]
 
 [deployment]
-publicDir = "/"
-deploymentTarget = "static"
+publicDir = "./"
+
+# URL rewrites for clean URLs (remove .html extensions)
+[[deployment.rewrites]]
+from = "/contact"
+to = "/contact.html"
+
+[[deployment.rewrites]]
+from = "/roofmasters"
+to = "/roofmasters.html"
+
+[[deployment.rewrites]]
+from = "/dirtmasters"
+to = "/dirtmasters.html"
+
+[[deployment.rewrites]]
+from = "/paintmasters"
+to = "/paintmasters.html"
+
+[[deployment.rewrites]]
+from = "/pavingmasters"
+to = "/pavingmasters.html"
+
 run = ["sh", "-c", "static-web-server -p 80 -d . --host 0.0.0.0"]
 
 [workflows]

@@ -689,11 +689,11 @@ window.addEventListener('beforeunload', function() {
 window.addEventListener('load', function() {
     // Preload important pages
     const preloadLinks = [
-        'roofmasters.html',
-        'dirtmasters.html', 
-        'paintmasters.html',
-        'pavingmasters.html',
-        'contact.html'
+        '/roofmasters',
+        '/dirtmasters', 
+        '/paintmasters',
+        '/pavingmasters',
+        '/contact'
     ];
 
     preloadLinks.forEach(href => {
