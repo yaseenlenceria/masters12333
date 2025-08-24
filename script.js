@@ -269,6 +269,7 @@ class OptimizedLoadingScreen {
         this.progress = 0;
         this.isComplete = false;
         this.componentProgress = 0;
+        this.isMobile = window.innerWidth <= 768;
 
         if (this.loadingScreen) {
             this.init();
@@ -307,6 +308,12 @@ class OptimizedLoadingScreen {
         const observer = new MutationObserver(() => {
             const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
             loadedComponents = containers.length;
+            
+            // Force completion on mobile if most components are loaded
+            if (this.isMobile && loadedComponents >= 8) {
+                this.progress = 100;
+                this.completeLoading();
+            }
         });
 
         observer.observe(document.body, { 
@@ -314,14 +321,15 @@ class OptimizedLoadingScreen {
             subtree: true 
         });
 
-        // Ensure completion after 3 seconds max
+        // Shorter timeout for mobile devices
+        const maxWaitTime = this.isMobile ? 2000 : 3000;
         setTimeout(() => {
             if (!this.isComplete) {
                 this.progress = 100;
                 this.completeLoading();
             }
             observer.disconnect();
-        }, 3000);
+        }, maxWaitTime);
     }
 
     updateProgressBar() {
@@ -345,7 +353,22 @@ class OptimizedLoadingScreen {
         if (this.loadingScreen) {
             this.loadingScreen.classList.add('hide');
             
-            // Force hide on mobile with additional safety
+            // Immediate hide for mobile devices
+            if (this.isMobile) {
+                this.loadingScreen.style.opacity = '0';
+                this.loadingScreen.style.visibility = 'hidden';
+                this.loadingScreen.style.pointerEvents = 'none';
+                this.loadingScreen.style.transform = 'scale(0.9)';
+                
+                // Remove all child elements immediately on mobile
+                const brandLogos = this.loadingScreen.querySelectorAll('.brand-logo');
+                brandLogos.forEach(logo => {
+                    logo.style.opacity = '0';
+                    logo.style.transform = 'translateY(-50px) scale(0.8)';
+                });
+            }
+            
+            // Force hide with additional safety
             setTimeout(() => {
                 this.loadingScreen.style.display = 'none';
                 this.loadingScreen.style.visibility = 'hidden';
@@ -356,7 +379,7 @@ class OptimizedLoadingScreen {
                 if (this.loadingScreen.parentNode) {
                     this.loadingScreen.parentNode.removeChild(this.loadingScreen);
                 }
-            }, 800);
+            }, this.isMobile ? 400 : 800);
         }
     }
 }
