@@ -3,9 +3,17 @@
 function loadComponent(componentPath, containerId) {
     const container = document.getElementById(containerId);
     if (!container) {
-        // console.warn(`Container ${containerId} not found for component ${componentPath}`);
-        return Promise.resolve();
+        return Promise.resolve(false);
     }
+
+    // Show loading placeholder immediately
+    container.innerHTML = `<div class="loading-placeholder">
+        <div class="loading-spinner"></div>
+        <p>Loading content...</p>
+    </div>`;
+    
+    container.style.visibility = 'visible';
+    container.style.opacity = '1';
 
     return fetch(componentPath + '?v=' + performance.now())
         .then(response => {
@@ -18,6 +26,8 @@ function loadComponent(componentPath, containerId) {
             if (data && data.trim()) {
                 container.innerHTML = data;
                 container.setAttribute('data-loaded', 'true');
+                container.style.visibility = 'visible';
+                container.style.opacity = '1';
 
                 // Execute scripts with error handling
                 const scripts = container.querySelectorAll('script');
@@ -36,17 +46,17 @@ function loadComponent(componentPath, containerId) {
                     }
                 });
 
-                // console.log(`✓ Loaded: ${componentPath}`);
                 return true;
             }
             return false;
         })
         .catch(error => {
-            // console.error(`Error loading ${componentPath}:`, error);
             container.innerHTML = `<div class="loading-placeholder">
                 <div class="loading-spinner"></div>
-                <p>Loading content...</p>
+                <p>Content temporarily unavailable</p>
             </div>`;
+            container.style.visibility = 'visible';
+            container.style.opacity = '1';
             return false;
         });
 }
@@ -78,7 +88,7 @@ class EnhancedAnimationController {
     waitForCriticalComponents() {
         return new Promise((resolve) => {
             let attempts = 0;
-            const maxAttempts = 50;
+            const maxAttempts = 30;
             
             const checkComponents = () => {
                 const criticalContainers = [
@@ -89,15 +99,15 @@ class EnhancedAnimationController {
                 
                 const loadedCritical = criticalContainers.filter(id => {
                     const container = document.getElementById(id);
-                    return container && container.getAttribute('data-loaded') === 'true';
+                    return container && (container.getAttribute('data-loaded') === 'true' || container.innerHTML.trim() !== '');
                 }).length;
 
                 attempts++;
                 
-                if (loadedCritical >= 2 || attempts >= maxAttempts) {
+                if (loadedCritical >= 1 || attempts >= maxAttempts) {
                     resolve();
                 } else {
-                    setTimeout(checkComponents, 100);
+                    setTimeout(checkComponents, 150);
                 }
             };
             
@@ -335,38 +345,44 @@ class ImprovedLoadingScreen {
 
         const updateProgress = () => {
             // Track loaded components
-            const loadedContainers = document.querySelectorAll('[id$="-container"][data-loaded="true"]');
+            const allContainers = document.querySelectorAll('[id$="-container"]');
+            const loadedContainers = Array.from(allContainers).filter(container => 
+                container.getAttribute('data-loaded') === 'true' || 
+                container.innerHTML.trim() !== ''
+            );
             const componentCount = loadedContainers.length;
             
             // Calculate progress based on components and time
-            const componentProgress = (componentCount / totalComponents) * 80;
-            const timeProgress = Math.min((Date.now() - this.startTime) / 2500 * 20, 20);
+            const componentProgress = (componentCount / totalComponents) * 70;
+            const timeProgress = Math.min((Date.now() - this.startTime) / 2000 * 30, 30);
             
             this.progress = Math.min(componentProgress + timeProgress, 100);
             
             // Smooth progress updates
             if (componentCount > lastComponentCount) {
-                this.progress += 5; // Boost for new components
+                this.progress += 3;
                 lastComponentCount = componentCount;
             }
             
             this.updateProgressBar();
 
-            if (this.progress >= 100 || componentCount >= totalComponents) {
+            // Complete when we have most components or after time limit
+            if (this.progress >= 90 || componentCount >= totalComponents - 2) {
                 this.completeLoading();
-            } else {
+            } else if (!this.isComplete) {
                 requestAnimationFrame(updateProgress);
             }
         };
 
         requestAnimationFrame(updateProgress);
 
-        // Force completion after 3 seconds
+        // Force completion after 4 seconds maximum
         setTimeout(() => {
             if (!this.isComplete) {
+                this.progress = 100;
                 this.completeLoading();
             }
-        }, 3000);
+        }, 4000);
     }
 
     updateProgressBar() {
@@ -450,21 +466,37 @@ document.addEventListener('DOMContentLoaded', function() {
         return false;
     }
 
-    // Load components by priority
+    // Load components by priority with staggered timing
     async function loadByPriority(priority) {
         const priorityComponents = components.filter(c => c.priority === priority);
-        const promises = priorityComponents.map(component => 
-            loadComponentWithRetry(component)
-        );
-        await Promise.allSettled(promises);
+        
+        // Load critical components first (priority 1) immediately
+        if (priority === 1) {
+            const promises = priorityComponents.map(component => 
+                loadComponentWithRetry(component)
+            );
+            await Promise.allSettled(promises);
+        } else {
+            // Stagger non-critical components
+            for (const component of priorityComponents) {
+                loadComponentWithRetry(component);
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+        }
     }
 
-    // Load in priority order
+    // Load in priority order with proper timing
     loadByPriority(1)
-        .then(() => loadByPriority(2))
-        .then(() => loadByPriority(3))
         .then(() => {
-            // console.log('All components loaded, initializing animations...');
+            // Initialize animations early for visible content
+            setTimeout(() => {
+                initializeEnhancedFeatures();
+            }, 500);
+            return loadByPriority(2);
+        })
+        .then(() => loadByPriority(3))
+        .catch(error => {
+            console.warn('Component loading completed with some issues:', error);
             initializeEnhancedFeatures();
         });
 });

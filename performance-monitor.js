@@ -15,7 +15,7 @@
             const entries = list.getEntries();
             const lastEntry = entries[entries.length - 1];
             
-            console.log('LCP:', Math.round(lastEntry.startTime));
+            // console.log('LCP:', Math.round(lastEntry.startTime));
             
             // Track in analytics if available
             if (typeof gtag === 'function') {
@@ -33,7 +33,7 @@
         const observer = new PerformanceObserver((list) => {
             const entries = list.getEntries();
             entries.forEach(entry => {
-                console.log('FID:', Math.round(entry.processingStart - entry.startTime));
+                // console.log('FID:', Math.round(entry.processingStart - entry.startTime));
                 
                 if (typeof gtag === 'function') {
                     gtag('event', 'FID', {
@@ -66,7 +66,7 @@
                 }
             });
             
-            console.log('CLS:', clsValue.toFixed(4));
+            // console.log('CLS:', clsValue.toFixed(4));
         });
         
         observer.observe({ entryTypes: ['layout-shift'] });
