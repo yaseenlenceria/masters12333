@@ -32,7 +32,10 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    /* Optimize for faster loading */
+    contain: layout style;
+    will-change: opacity, visibility;
 }
 
 .container {
@@ -104,8 +107,9 @@ body {
 .loading-screen.hide {
     opacity: 0 !important;
     visibility: hidden !important;
-    transform: scale(0.95) !important;
+    transform: scale(0.98) !important;
     pointer-events: none !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .loading-container {
@@ -787,17 +791,24 @@ section.animated {
     transform: translateY(0);
 }
 
-/* Container optimization */
+/* Container optimization - FASTER */
 [id$="-container"] {
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
     contain: layout style;
+    will-change: opacity, visibility;
 }
 
 [id$="-container"]:not(:empty) {
     opacity: 1;
     visibility: visible;
+}
+
+/* Critical containers load immediately */
+#header-container,
+#hero-container {
+    transition: opacity 0.1s ease, visibility 0.1s ease;
 }
 
 /* Responsive Improvements */

@@ -215,7 +215,7 @@ class PremiumLoadingScreen {
         const updateProgress = () => {
             const timeElapsed = Date.now() - this.startTime;
             
-            // Better component tracking for home page
+            // Faster component tracking for home page
             if (this.isHomePage) {
                 // Count actual loaded containers
                 const containers = document.querySelectorAll('[id$="-container"]');
@@ -227,7 +227,6 @@ class PremiumLoadingScreen {
                         if (!this.componentTracker.has(containerId)) {
                             this.componentTracker.add(containerId);
                             loadedCount++;
-                            console.log(`📦 Component loaded: ${containerId} (${this.componentTracker.size}/13)`);
                         }
                     }
                 });
@@ -240,34 +239,24 @@ class PremiumLoadingScreen {
                 const hasHeader = header && header.innerHTML.trim() ? 1 : 0;
                 const hasHero = hero && hero.innerHTML.trim() ? 1 : 0;
                 
-                // Better progress calculation
-                const componentProgress = Math.min((this.loadedComponents / this.totalComponents) * 80, 80);
-                const criticalProgress = (hasHeader + hasHero) * 10; // 20% for critical components
+                // Faster progress calculation
+                const componentProgress = Math.min((this.loadedComponents / this.totalComponents) * 70, 70);
+                const criticalProgress = (hasHeader + hasHero) * 15; // 30% for critical components
                 this.progress = Math.min(componentProgress + criticalProgress, 100);
-                
-                console.log(`📊 Progress: ${this.progress}% (${this.loadedComponents}/${this.totalComponents} components, header: ${hasHeader}, hero: ${hasHero})`);
             } else {
-                // For other pages, check if main content is loaded
-                const mainContent = document.querySelector('main, .main-content, .page-content');
+                // For other pages, much faster completion
                 const header = document.querySelector('header, .header');
-                const footer = document.querySelector('footer, .footer');
+                const hasHeader = header && header.innerHTML.trim() ? 1 : 0;
                 
-                this.loadedComponents = 0;
-                if (header) this.loadedComponents++;
-                if (mainContent) this.loadedComponents++;
-                if (footer) this.loadedComponents++;
-                if (document.readyState === 'complete') this.loadedComponents++;
-                
-                const componentProgress = Math.min((this.loadedComponents / this.totalComponents) * 60, 60);
-                const timeProgress = Math.min((timeElapsed / 2000) * 40, 40);
-                this.progress = Math.min(componentProgress + timeProgress, 100);
+                this.loadedComponents = hasHeader ? 3 : 1;
+                this.progress = Math.min((timeElapsed / 800) * 100, 100);
             }
             
             this.updateProgressBar();
             
-            // Improved completion logic
-            const minTime = this.isMobile ? 2000 : 1500; // Longer minimum time
-            const hasEnoughComponents = this.loadedComponents >= Math.max(8, this.totalComponents * 0.6);
+            // Much faster completion logic
+            const minTime = this.isMobile ? 800 : 600; // Reduced minimum time
+            const hasEnoughComponents = this.loadedComponents >= Math.max(3, this.totalComponents * 0.4);
             const hasMinTime = timeElapsed >= minTime;
             const isDocumentReady = document.readyState === 'complete';
             const hasHeader = document.querySelector('header, .header, #main-header');
@@ -275,9 +264,9 @@ class PremiumLoadingScreen {
             // For home page, ensure header is loaded before completing
             const canComplete = this.isHomePage ? 
                 (hasHeader && hasEnoughComponents && hasMinTime) :
-                (hasEnoughComponents && hasMinTime);
+                (hasMinTime);
             
-            if (this.progress >= 95 || canComplete || (isDocumentReady && timeElapsed > minTime * 2 && hasHeader)) {
+            if (this.progress >= 90 || canComplete || (isDocumentReady && timeElapsed > minTime && hasHeader)) {
                 this.completeLoading();
             } else if (!this.isComplete) {
                 requestAnimationFrame(updateProgress);
@@ -286,11 +275,10 @@ class PremiumLoadingScreen {
         
         requestAnimationFrame(updateProgress);
         
-        // Adjusted timeout for better UX - longer to ensure everything loads
-        const maxWait = this.isHomePage ? (this.isMobile ? 6000 : 5000) : (this.isMobile ? 3000 : 2500);
+        // Much shorter timeout for faster UX
+        const maxWait = this.isHomePage ? (this.isMobile ? 2500 : 2000) : (this.isMobile ? 1200 : 1000);
         setTimeout(() => {
             if (!this.isComplete) {
-                console.log('⚠️ Loading timeout reached, completing...');
                 this.progress = 100;
                 this.completeLoading();
             }
@@ -631,8 +619,18 @@ function initializeCardEffects(card) {
     });
 }
 
+// Prevent double initialization
+let isInitialized = false;
+let currentLoadingScreen = null;
+
 // Enhanced Component Loading System
 document.addEventListener('DOMContentLoaded', function() {
+    if (isInitialized) {
+        console.log('⚠️ Already initialized, skipping...');
+        return;
+    }
+    isInitialized = true;
+    
     console.log('🚀 Initializing Premium Website Experience');
     
     // Detect if this is the home page first
@@ -650,8 +648,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.documentElement.style.setProperty('--disable-animations', '1');
 
     // Initialize premium loading screen (only for home page)
-    let loadingScreen = null;
-    if (isHomePage) {
+    if (isHomePage && !currentLoadingScreen) {
         // Force loading screen to be visible immediately
         const existingLoadingScreen = document.getElementById('loading-screen');
         if (existingLoadingScreen) {
@@ -663,19 +660,21 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ Loading screen forced visible');
         }
         
-        loadingScreen = new PremiumLoadingScreen();
+        currentLoadingScreen = new PremiumLoadingScreen();
         console.log('🎬 Loading screen initialized for home page');
-    } else {
-        // For non-home pages, show content faster but still prevent blinking
+    } else if (!isHomePage) {
+        // For non-home pages, show content immediately
         setTimeout(() => {
             document.body.style.visibility = 'visible';
             document.body.style.opacity = '1';
-            document.body.style.transition = 'opacity 0.3s ease';
-        }, 100);
+            document.body.style.transition = 'opacity 0.2s ease';
+        }, 50);
     }
     
-    // Initialize animation controller
-    window.animationController = new ModernAnimationController();
+    // Initialize animation controller only once
+    if (!window.animationController) {
+        window.animationController = new ModernAnimationController();
+    }
 
     if (isHomePage) {
         // Component configuration with priorities for home page - Header first!
@@ -698,7 +697,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let loadedCount = 0;
         const totalComponents = components.length;
 
-        // Load components by priority
+        // Load components by priority - OPTIMIZED
         async function loadComponentsByPriority() {
             const priorities = [...new Set(components.map(c => c.priority))].sort();
             
@@ -711,88 +710,129 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            for (const priority of priorities) {
-                const priorityComponents = components.filter(c => c.priority === priority);
+            // Load critical components first (header + hero) immediately
+            const criticalComponents = components.filter(c => c.priority === 1);
+            await Promise.all(criticalComponents.map(async (component) => {
+                try {
+                    await loadComponent(component.file, component.id);
+                    loadedCount++;
+                    
+                    // Show container immediately
+                    const container = document.getElementById(component.id);
+                    if (container) {
+                        container.style.transition = 'opacity 0.2s ease, visibility 0.2s ease';
+                        container.style.opacity = '1';
+                        container.style.visibility = 'visible';
+                    }
+                    
+                    // Initialize header immediately when loaded
+                    if (component.id === 'header-container') {
+                        setTimeout(() => {
+                            if (window.initModernHeader) {
+                                window.initModernHeader();
+                            } else {
+                                initializeHeaderFallback();
+                            }
+                        }, 100);
+                    }
+                } catch (error) {
+                    console.warn(`⚠️ Failed to load: ${component.file}`);
+                    loadedCount++;
+                }
+            }));
+            
+            // Load remaining components in background without blocking
+            const remainingComponents = components.filter(c => c.priority > 1);
+            loadRemainingComponentsAsync(remainingComponents);
+            
+            // Re-enable animations immediately after critical components
+            setTimeout(() => {
+                document.documentElement.style.removeProperty('--disable-animations');
+                initializeEnhancedFeatures();
+            }, 200);
+        }
+        
+        // Load remaining components asynchronously without blocking UI
+        function loadRemainingComponentsAsync(remainingComponents) {
+            const priorities = [...new Set(remainingComponents.map(c => c.priority))].sort();
+            
+            let currentPriorityIndex = 0;
+            
+            function loadNextBatch() {
+                if (currentPriorityIndex >= priorities.length) {
+                    console.log('🎉 All components loaded successfully!');
+                    return;
+                }
                 
-                await Promise.all(priorityComponents.map(async (component) => {
+                const priority = priorities[currentPriorityIndex];
+                const priorityComponents = remainingComponents.filter(c => c.priority === priority);
+                
+                Promise.all(priorityComponents.map(async (component) => {
                     try {
                         await loadComponent(component.file, component.id);
                         loadedCount++;
                         
-                        // Show container smoothly after loading
+                        // Show container smoothly
                         const container = document.getElementById(component.id);
                         if (container) {
-                            setTimeout(() => {
-                                container.style.transition = 'opacity 0.3s ease, visibility 0.3s ease';
-                                container.style.opacity = '1';
-                                container.style.visibility = 'visible';
-                            }, 50);
+                            container.style.transition = 'opacity 0.2s ease, visibility 0.2s ease';
+                            container.style.opacity = '1';
+                            container.style.visibility = 'visible';
                         }
-                        
-                        // Initialize header immediately when loaded
-                        if (component.id === 'header-container') {
-                            setTimeout(() => {
-                                if (window.initModernHeader) {
-                                    window.initModernHeader();
-                                } else {
-                                    // Fallback header initialization
-                                    initializeHeaderFallback();
-                                }
-                                console.log('🔧 Header initialized immediately');
-                            }, 300);
-                        }
-                        
-                        console.log(`✅ Priority ${priority}: ${component.file} (${loadedCount}/${totalComponents})`);
                     } catch (error) {
                         console.warn(`⚠️ Failed to load: ${component.file}`);
                         loadedCount++;
                     }
-                }));
-                
-                // Reduced delay between priority groups for faster loading
-                if (priority < Math.max(...priorities)) {
-                    await new Promise(resolve => setTimeout(resolve, 50));
-                }
+                })).then(() => {
+                    currentPriorityIndex++;
+                    // Load next batch with minimal delay
+                    setTimeout(loadNextBatch, 25);
+                });
             }
             
-            console.log('🎉 All components loaded successfully!');
-            
-            // Re-enable animations
-            document.documentElement.style.removeProperty('--disable-animations');
-            
-            initializeEnhancedFeatures();
+            loadNextBatch();
         }
 
         loadComponentsByPriority();
     } else {
-        // For other pages, just wait for document ready and initialize features
-        console.log('📄 Non-home page detected, using simplified loading');
+        // For other pages, load immediately
+        console.log('📄 Non-home page detected, fast loading');
         
-        // Show page content immediately for non-home pages
+        // Show page content immediately
         document.body.style.opacity = '1';
+        document.body.style.visibility = 'visible';
         
-        // Load header and footer for service pages
+        // Load header and footer for service pages immediately
         const hasHeader = document.getElementById('header-container');
         const hasFooter = document.getElementById('footer-container');
         
         if (hasHeader) {
-            loadComponent('header.html', 'header-container');
+            loadComponent('header.html', 'header-container').then(() => {
+                setTimeout(() => {
+                    if (window.initModernHeader) {
+                        window.initModernHeader();
+                    } else {
+                        initializeHeaderFallback();
+                    }
+                }, 50);
+            });
         }
         if (hasFooter) {
             loadComponent('footer.html', 'footer-container');
         }
         
-        // Simple loading for other pages
+        // Fast loading for other pages
         setTimeout(() => {
+            document.documentElement.style.removeProperty('--disable-animations');
             initializeEnhancedFeatures();
-        }, 300);
+        }, 100);
         
-        // Initialize animations quickly for non-home pages
+        // Initialize animations immediately for non-home pages
         setTimeout(() => {
             if (window.animationController) {
                 window.animationController.init();
             }
-        }, 500);
+        }, 200);
     }
 });
 
