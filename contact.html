@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
@@ -25,295 +24,133 @@
     <meta name="twitter:description" content="Get your free quote for home services in Galway. Expert roofing, power washing, painting & paving contractors.">
     <meta name="twitter:image" content="https://themastersgroup.ie/attached_assets/herobc.png">
 
-    <!-- Performance optimizations -->
-    <link rel="preload" href="style.css" as="style">
-    <link rel="preload" href="script.js" as="script">
-    <link rel="preload" href="attached_assets/mainlogo.png" as="image" type="image/png" fetchpriority="high">
-    
     <link href="style.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="scroll-container">
-        <!-- Load Header Component -->
-        <div id="header-container"></div>
+    <!-- Load Header Component -->
+    <div id="header-container"></div>
 
-        <!-- Hero Section -->
-        <section class="contact-hero">
-            <div class="hero-bg">
-                <div class="bg-circle bg-circle-1"></div>
-                <div class="bg-circle bg-circle-2"></div>
-                <div class="bg-circle bg-circle-3"></div>
-            </div>
-            <div class="container">
-                <div class="hero-content">
-                    <h1 class="hero-title">Contact The Masters Group</h1>
-                    <p class="hero-subtitle">Get your free quote today - Premier home services across Galway City & County</p>
-                    <div class="hero-badges">
-                        <span class="badge">✓ Free Quotes</span>
-                        <span class="badge">✓ 24/7 Emergency Service</span>
-                        <span class="badge">✓ Fully Insured</span>
-                    </div>
+    <!-- Page Header -->
+    <section class="page-header" style="background: linear-gradient(135deg, #9ACD32 0%, #7CB342 50%, #689F38 100%); color: white; padding: 9rem 0 4rem; text-align: center; margin-top: 80px; position: relative; overflow: hidden;">
+        <div class="container" style="position: relative; z-index: 2;">
+            <h1 style="font-size: 3.2rem; margin-bottom: 1rem; font-weight: 800; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">Contact The Masters Group Galway</h1>
+            <p style="font-size: 1.3rem; opacity: 0.95; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">Get your free quote today - Premier home services across Galway City & County</p>
+        </div>
+    </section>
+
+    <!-- Contact Cards -->
+    <section style="padding: 4rem 0; background: #1a1a1a;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
+                <div style="background: #222222; border: 2px solid #333333; padding: 1.5rem; text-align: center; transition: all 0.3s ease; position: relative; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+                    <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters Galway Logo" style="height: 60px; margin-bottom: 1rem;">
+                    <h3 style="color: #ffffff; margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">RoofMasters Galway</h3>
+                    <p style="color: #9ACD32; margin-bottom: 0.5rem;"><i class="fas fa-phone" aria-hidden="true"></i> 087 717 1524</p>
+                    <p style="color: #cccccc; font-size: 0.85rem; margin-bottom: 1rem;">24/7 Emergency Service</p>
+                    <a href="tel:0877171524" class="btn btn-primary" style="font-size: 0.9rem; padding: 10px 20px;">Call Now</a>
+                </div>
+                <div style="background: #222222; border: 2px solid #333333; padding: 1.5rem; text-align: center; transition: all 0.3s ease; position: relative; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+                    <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters Galway Logo" style="height: 60px; margin-bottom: 1rem;">
+                    <h3 style="color: #ffffff; margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">DirtMasters Galway</h3>
+                    <p style="color: #9ACD32; margin-bottom: 0.5rem;"><i class="fas fa-phone" aria-hidden="true"></i> 091 707 971</p>
+                    <p style="color: #cccccc; font-size: 0.85rem; margin-bottom: 1rem;">Mon-Sat: 8am-6pm</p>
+                    <a href="tel:091707971" class="btn btn-primary" style="font-size: 0.9rem; padding: 10px 20px;">Call Now</a>
+                </div>
+                <div style="background: #222222; border: 2px solid #333333; padding: 1.5rem; text-align: center; transition: all 0.3s ease; position: relative; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+                    <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters Galway Logo" style="height: 60px; margin-bottom: 1rem;">
+                    <h3 style="color: #ffffff; margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">PaintMasters Galway</h3>
+                    <p style="color: #9ACD32; margin-bottom: 0.5rem;"><i class="fas fa-phone" aria-hidden="true"></i> 087 717 1524</p>
+                    <p style="color: #cccccc; font-size: 0.85rem; margin-bottom: 1rem;">Mon-Fri: 08:00-19:00</p>
+                    <a href="tel:0877171524" class="btn btn-primary" style="font-size: 0.9rem; padding: 10px 20px;">Call Now</a>
+                </div>
+                <div style="background: #222222; border: 2px solid #333333; padding: 1.5rem; text-align: center; transition: all 0.3s ease; position: relative; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+                    <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters Galway Logo" style="height: 60px; margin-bottom: 1rem;">
+                    <h3 style="color: #ffffff; margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">PavingMasters Galway</h3>
+                    <p style="color: #9ACD32; margin-bottom: 0.5rem;"><i class="fas fa-phone" aria-hidden="true"></i> 087 108 4840</p>
+                    <p style="color: #cccccc; font-size: 0.85rem; margin-bottom: 1rem;">50+ 5-Star Reviews</p>
+                    <a href="tel:0871084840" class="btn btn-primary" style="font-size: 0.9rem; padding: 10px 20px;">Call Now</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Quick Contact Cards -->
-        <section class="quick-contact">
-            <div class="container">
-                <h2 class="section-title">Quick Contact</h2>
-                <div class="contact-grid-rows">
-                    <div class="contact-card service-card">
-                        <div class="card-header">
-                            <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters Galway Logo" class="service-logo">
-                            <h3>RoofMasters Galway</h3>
-                        </div>
-                        <div class="card-content">
-                            <div class="contact-item">
-                                <i class="fas fa-phone"></i>
-                                <span>087 717 1524</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-clock"></i>
-                                <span>24/7 Emergency Service</span>
-                            </div>
-                            <p class="service-desc">Expert roofing solutions, repairs & maintenance</p>
-                            <a href="tel:0877171524" class="btn btn-primary">
-                                <i class="fas fa-phone"></i> Call Now
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="contact-card service-card">
-                        <div class="card-header">
-                            <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters Galway Logo" class="service-logo">
-                            <h3>DirtMasters Galway</h3>
-                        </div>
-                        <div class="card-content">
-                            <div class="contact-item">
-                                <i class="fas fa-phone"></i>
-                                <span>091 707 971</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-clock"></i>
-                                <span>Mon-Sat: 8am-6pm</span>
-                            </div>
-                            <p class="service-desc">Professional power washing & exterior cleaning</p>
-                            <a href="tel:091707971" class="btn btn-primary">
-                                <i class="fas fa-phone"></i> Call Now
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="contact-card service-card">
-                        <div class="card-header">
-                            <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters Galway Logo" class="service-logo">
-                            <h3>PaintMasters Galway</h3>
-                        </div>
-                        <div class="card-content">
-                            <div class="contact-item">
-                                <i class="fas fa-phone"></i>
-                                <span>087 717 1524</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-clock"></i>
-                                <span>Mon-Fri: 8am-7pm</span>
-                            </div>
-                            <p class="service-desc">Premium exterior painting & protective coatings</p>
-                            <a href="tel:0877171524" class="btn btn-primary">
-                                <i class="fas fa-phone"></i> Call Now
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="contact-card service-card">
-                        <div class="card-header">
-                            <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters Galway Logo" class="service-logo">
-                            <h3>PavingMasters Galway</h3>
-                        </div>
-                        <div class="card-content">
-                            <div class="contact-item">
-                                <i class="fas fa-phone"></i>
-                                <span>087 108 4840</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-star"></i>
-                                <span>50+ 5-Star Reviews</span>
-                            </div>
-                            <p class="service-desc">Expert paving, driveways & landscaping</p>
-                            <a href="tel:0871084840" class="btn btn-primary">
-                                <i class="fas fa-phone"></i> Call Now
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Form Section -->
-        <section class="contact-form-section">
-            <div class="container">
-                <div class="form-wrapper">
-                    <div class="form-header">
-                        <h2>Get Your Free Quote</h2>
-                        <p>Fill out the form below and we'll get back to you within 24 hours with a detailed quote for your project.</p>
-                    </div>
-                    
-                    <form class="contact-form" id="contact-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="firstName">
-                                    <i class="fas fa-user"></i>
-                                    First Name *
-                                </label>
-                                <input type="text" id="firstName" name="firstName" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastName">
-                                    <i class="fas fa-user"></i>
-                                    Last Name *
-                                </label>
-                                <input type="text" id="lastName" name="lastName" required>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email">
-                                    <i class="fas fa-envelope"></i>
-                                    Email Address *
-                                </label>
-                                <input type="email" id="email" name="email" required autocomplete="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">
-                                    <i class="fas fa-phone"></i>
-                                    Phone Number *
-                                </label>
-                                <input type="tel" id="phone" name="phone" required autocomplete="tel">
-                            </div>
-                        </div>
-
+    <!-- Contact Form -->
+    <section style="padding: 4rem 0; background: #f8fafc;">
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <h2 style="text-align: center; color: #1e40af; font-size: 2.5rem; margin-bottom: 3rem;">Get Your Free Quote</h2>
+                <form style="background: white; padding: 3rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);" aria-labelledby="quote-form-heading">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
                         <div class="form-group">
-                            <label for="service">
-                                <i class="fas fa-tools"></i>
-                                Service Required *
-                            </label>
-                            <select id="service" name="service" required>
-                                <option value="">Select a service</option>
-                                <option value="roofing">🏠 RoofMasters - Roofing Services</option>
-                                <option value="power-washing">💧 DirtMasters - Power Washing</option>
-                                <option value="painting">🎨 PaintMasters - Exterior Painting</option>
-                                <option value="paving">🛤️ PavingMasters - Paving & Landscaping</option>
-                                <option value="multiple">🔧 Multiple Services</option>
-                                <option value="other">❓ Other</option>
-                            </select>
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required aria-required="true">
                         </div>
-
                         <div class="form-group">
-                            <label for="address">
-                                <i class="fas fa-map-marker-alt"></i>
-                                Property Address in Galway
-                            </label>
-                            <input type="text" id="address" name="address" placeholder="Full address including area in Galway" autocomplete="street-address">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required aria-required="true">
                         </div>
+                    </div>
 
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
                         <div class="form-group">
-                            <label for="message">
-                                <i class="fas fa-comment"></i>
-                                Project Details *
-                            </label>
-                            <textarea id="message" name="message" placeholder="Please describe your project requirements, property size, and any specific needs..." required rows="5"></textarea>
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required aria-required="true" autocomplete="email">
                         </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required aria-required="true" autocomplete="tel">
+                        </div>
+                    </div>
 
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary btn-large">
-                                <i class="fas fa-paper-plane"></i>
-                                Send Free Quote Request
-                            </button>
-                            <button type="reset" class="btn btn-secondary">
-                                <i class="fas fa-undo"></i>
-                                Clear Form
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    <div class="form-group">
+                        <label for="service">Service Required *</label>
+                        <select id="service" name="service" required aria-required="true">
+                            <option value="">Select a service</option>
+                            <option value="roofing">RoofMasters - Roofing Services</option>
+                            <option value="power-washing">DirtMasters - Power Washing</option>
+                            <option value="painting">PaintMasters - Exterior Painting</option>
+                            <option value="paving">PavingMasters - Paving & Landscaping</option>
+                            <option value="multiple">Multiple Services</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Property Address in Galway</label>
+                        <input type="text" id="address" name="address" placeholder="Full address including area in Galway" autocomplete="street-address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Project Details *</label>
+                        <textarea id="message" name="message" placeholder="Please describe your project requirements, property size, and any specific needs..." required aria-required="true"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button type="submit" class="btn btn-primary">Send Free Quote Request</button>
+                        <button type="reset" class="btn btn-secondary">Clear Form</button>
+                    </div>
+                </form>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Emergency Contact -->
-        <section class="emergency-contact">
-            <div class="container">
-                <div class="emergency-content">
-                    <div class="emergency-icon">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <div class="emergency-text">
-                        <h2>Emergency Services Available 24/7</h2>
-                        <p>24/7 emergency roofing services and urgent home repairs across Galway</p>
-                    </div>
-                    <div class="emergency-action">
-                        <a href="tel:0877171524" class="btn btn-emergency">
-                            <i class="fas fa-phone"></i> 
-                            Emergency: 087 717 1524
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- Emergency Contact -->
+    <section style="background: #ef4444; color: white; padding: 4rem 0;">
+        <div class="container" style="text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700;">Emergency Services Available 24/7</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">24/7 emergency roofing services and urgent home repairs across Galway</p>
+            <a href="tel:0877171524" style="display: inline-block; background: white; color: #ef4444; padding: 1rem 2rem; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.2rem;" aria-label="Call emergency roofing service">
+                <i class="fas fa-phone" aria-hidden="true"></i> Emergency: 087 717 1524
+            </a>
+        </div>
+    </section>
 
-        <!-- Contact Info & Map -->
-        <section class="contact-info-section">
-            <div class="container">
-                <div class="contact-info-grid">
-                    <div class="contact-details">
-                        <h3>Get In Touch</h3>
-                        <div class="info-list">
-                            <div class="info-item">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <div>
-                                    <strong>Service Area</strong>
-                                    <p>Galway City & County<br>50km radius from Galway City</p>
-                                </div>
-                            </div>
-                            <div class="info-item">
-                                <i class="fas fa-envelope"></i>
-                                <div>
-                                    <strong>Email</strong>
-                                    <p><a href="mailto:info@themastersgroup.ie">info@themastersgroup.ie</a></p>
-                                </div>
-                            </div>
-                            <div class="info-item">
-                                <i class="fas fa-clock"></i>
-                                <div>
-                                    <strong>Business Hours</strong>
-                                    <p>Monday - Saturday: 8:00 AM - 6:00 PM<br>Sunday: Emergency calls only</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="service-areas">
-                        <h3>Areas We Serve</h3>
-                        <div class="areas-grid">
-                            <span class="area-badge primary">Galway City</span>
-                            <span class="area-badge">Salthill</span>
-                            <span class="area-badge">Oranmore</span>
-                            <span class="area-badge">Claregalway</span>
-                            <span class="area-badge">Tuam</span>
-                            <span class="area-badge">Loughrea</span>
-                            <span class="area-badge">Athenry</span>
-                            <span class="area-badge">Ballinasloe</span>
-                            <span class="area-badge">Kilcolgan</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!-- Gallery Component -->
+    <div id="gallery-container"></div>
 
-        <!-- Load Footer Component -->
-        <div id="footer-container"></div>
-    </div>
+    <!-- Load Footer Component -->
+    <div id="footer-container"></div>
 
     <script src="script.js"></script>
 </body>
