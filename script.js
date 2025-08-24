@@ -343,12 +343,20 @@ class OptimizedLoadingScreen {
 
     hide() {
         if (this.loadingScreen) {
-            this.loadingScreen.style.transition = 'opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            this.loadingScreen.style.opacity = '0';
-
+            this.loadingScreen.classList.add('hide');
+            
+            // Force hide on mobile with additional safety
             setTimeout(() => {
                 this.loadingScreen.style.display = 'none';
-            }, 600);
+                this.loadingScreen.style.visibility = 'hidden';
+                this.loadingScreen.style.opacity = '0';
+                this.loadingScreen.style.pointerEvents = 'none';
+                
+                // Remove from DOM completely as safety measure
+                if (this.loadingScreen.parentNode) {
+                    this.loadingScreen.parentNode.removeChild(this.loadingScreen);
+                }
+            }, 800);
         }
     }
 }
