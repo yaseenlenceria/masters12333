@@ -1,4 +1,5 @@
-// Component Loading System
+
+// Enhanced Component Loading System
 function loadComponent(componentPath, containerId) {
     const container = document.getElementById(containerId);
     if (!container) {
@@ -6,7 +7,7 @@ function loadComponent(componentPath, containerId) {
         return Promise.resolve();
     }
 
-    return fetch(componentPath + '?v=' + performance.now())
+    return fetch(componentPath + '?v=' + Date.now())
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}: Failed to load ${componentPath}`);
@@ -17,13 +18,14 @@ function loadComponent(componentPath, containerId) {
             if (data && data.trim()) {
                 container.innerHTML = data;
 
-                // Execute scripts with error handling
+                // Execute scripts with proper error handling
                 const scripts = container.querySelectorAll('script');
                 scripts.forEach(script => {
                     try {
                         const newScript = document.createElement('script');
                         if (script.src) {
                             newScript.src = script.src;
+                            newScript.async = false;
                         } else {
                             newScript.textContent = script.textContent;
                         }
@@ -34,50 +36,234 @@ function loadComponent(componentPath, containerId) {
                     }
                 });
 
-                console.log(`✓ Loaded: ${componentPath}`);
+                console.log(`✅ Loaded: ${componentPath}`);
+                
+                // Trigger component-specific initializations
+                initializeComponentFeatures(container);
+                
                 return true;
             }
             return false;
         })
         .catch(error => {
-            console.error(`Error loading ${componentPath}:`, error);
-            container.innerHTML = `<div style="padding: 1rem; text-align: center; color: #666; background: rgba(0,0,0,0.1); border-radius: 8px;">
-                <p>Loading...</p>
+            console.error(`❌ Error loading ${componentPath}:`, error);
+            container.innerHTML = `<div class="loading-fallback">
+                <p>Content loading...</p>
             </div>`;
             return false;
         });
 }
 
-// Enhanced Animation Controller with Smooth Performance
-class SmoothAnimationController {
+// Initialize component-specific features
+function initializeComponentFeatures(container) {
+    // Initialize FAQ functionality
+    const faqItems = container.querySelectorAll('.faq-item');
+    faqItems.forEach(initializeFAQItem);
+    
+    // Initialize hover effects
+    const cards = container.querySelectorAll('.service-card, .feature-card, .testimonial-card');
+    cards.forEach(initializeCardEffects);
+    
+    // Initialize scroll animations
+    const animElements = container.querySelectorAll('[class*="animate"], .scroll-animate');
+    animElements.forEach(element => {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(30px)';
+        setTimeout(() => {
+            element.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }, 100);
+    });
+}
+
+// Enhanced Loading Screen Controller
+class PremiumLoadingScreen {
+    constructor() {
+        this.loadingScreen = document.getElementById('loading-screen');
+        this.progressFill = document.querySelector('.progress-fill');
+        this.loadingPercentage = document.querySelector('.loading-percentage');
+        this.progress = 0;
+        this.isComplete = false;
+        this.startTime = Date.now();
+        this.isMobile = window.innerWidth <= 768;
+        this.loadedComponents = 0;
+        this.totalComponents = 13;
+        
+        if (this.loadingScreen) {
+            console.log('🚀 Initializing Premium Loading Screen');
+            this.init();
+        }
+    }
+
+    init() {
+        this.loadingScreen.style.display = 'flex';
+        this.loadingScreen.style.opacity = '1';
+        this.loadingScreen.style.visibility = 'visible';
+        
+        // Start loading animation
+        this.animateLoadingElements();
+        this.startProgressTracking();
+    }
+    
+    animateLoadingElements() {
+        // Animate brand logos with staggered timing
+        const brandLogos = this.loadingScreen.querySelectorAll('.brand-logo');
+        brandLogos.forEach((logo, index) => {
+            logo.style.opacity = '0';
+            logo.style.transform = 'translateY(30px) scale(0.8)';
+            logo.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+            
+            setTimeout(() => {
+                logo.style.opacity = '1';
+                logo.style.transform = 'translateY(0) scale(1)';
+            }, 500 + (index * 200));
+        });
+    }
+
+    startProgressTracking() {
+        const updateProgress = () => {
+            const timeElapsed = Date.now() - this.startTime;
+            const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
+            this.loadedComponents = containers.length;
+            
+            // Calculate realistic progress
+            const componentProgress = Math.min((this.loadedComponents / this.totalComponents) * 70, 70);
+            const timeProgress = Math.min((timeElapsed / 3000) * 30, 30);
+            this.progress = Math.min(componentProgress + timeProgress, 100);
+            
+            this.updateProgressBar();
+            
+            // Complete when we have enough components and minimum time
+            const minTime = this.isMobile ? 2000 : 1500;
+            const hasEnoughComponents = this.loadedComponents >= (this.isMobile ? 8 : 10);
+            const hasMinTime = timeElapsed >= minTime;
+            
+            if (this.progress >= 100 || (hasEnoughComponents && hasMinTime)) {
+                this.completeLoading();
+            } else if (!this.isComplete) {
+                requestAnimationFrame(updateProgress);
+            }
+        };
+        
+        requestAnimationFrame(updateProgress);
+        
+        // Safety timeout
+        setTimeout(() => {
+            if (!this.isComplete) {
+                console.log('⚠️ Loading timeout reached, completing...');
+                this.progress = 100;
+                this.completeLoading();
+            }
+        }, this.isMobile ? 4000 : 3500);
+    }
+
+    updateProgressBar() {
+        if (this.progressFill && this.loadingPercentage) {
+            this.progressFill.style.width = this.progress + '%';
+            this.loadingPercentage.textContent = Math.round(this.progress) + '%';
+        }
+    }
+
+    completeLoading() {
+        if (this.isComplete) return;
+        
+        this.isComplete = true;
+        this.progress = 100;
+        this.updateProgressBar();
+        
+        console.log(`✅ Loading complete: ${this.loadedComponents}/${this.totalComponents} components loaded`);
+        
+        // Smooth completion animation
+        setTimeout(() => {
+            this.hide();
+        }, this.isMobile ? 800 : 600);
+    }
+
+    hide() {
+        if (!this.loadingScreen) return;
+        
+        console.log('🎉 Hiding loading screen with smooth animation');
+        
+        // Start hide animation
+        this.loadingScreen.classList.add('hide');
+        
+        // Enhanced mobile hiding
+        if (this.isMobile) {
+            this.loadingScreen.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            this.loadingScreen.style.opacity = '0';
+            this.loadingScreen.style.visibility = 'hidden';
+            this.loadingScreen.style.transform = 'scale(0.95)';
+            this.loadingScreen.style.pointerEvents = 'none';
+            
+            // Hide all child elements immediately on mobile
+            const children = this.loadingScreen.querySelectorAll('*');
+            children.forEach(child => {
+                child.style.opacity = '0';
+                child.style.transform = 'translateY(-20px) scale(0.9)';
+            });
+        }
+        
+        // Complete removal
+        setTimeout(() => {
+            if (this.loadingScreen && this.loadingScreen.parentNode) {
+                this.loadingScreen.style.display = 'none';
+                this.loadingScreen.remove();
+                console.log('✅ Loading screen completely removed');
+                
+                // Initialize page animations
+                this.initializePageAnimations();
+            }
+        }, this.isMobile ? 1000 : 800);
+    }
+    
+    initializePageAnimations() {
+        // Smooth page reveal
+        document.body.style.opacity = '1';
+        
+        // Initialize scroll-based animations
+        if (window.animationController) {
+            window.animationController.init();
+        }
+        
+        console.log('🎨 Page animations initialized');
+    }
+}
+
+// Enhanced Animation Controller
+class ModernAnimationController {
     constructor() {
         this.observers = [];
         this.animatedElements = new Set();
         this.isInitialized = false;
-        this.init();
     }
 
     init() {
         if (this.isInitialized) return;
-
-        // Wait for components to load before initializing animations
+        
+        console.log('🎬 Initializing Modern Animation Controller');
+        
         this.waitForComponents().then(() => {
             this.initializeScrollAnimations();
-            this.initializeSmoothAnimations();
+            this.initializeHoverEffects();
             this.initializeTextAnimations();
-            this.initializeLoadingAnimations();
             this.isInitialized = true;
-            console.log('✓ Smooth animations initialized');
+            console.log('✅ All animations initialized');
         });
     }
 
     waitForComponents() {
         return new Promise((resolve) => {
+            let attempts = 0;
+            const maxAttempts = 50;
+            
             const checkComponents = () => {
+                attempts++;
                 const totalContainers = document.querySelectorAll('[id$="-container"]').length;
                 const loadedContainers = document.querySelectorAll('[id$="-container"]:not(:empty)').length;
-
-                if (loadedContainers >= totalContainers * 0.8 || totalContainers === 0) {
+                
+                if (loadedContainers >= Math.max(8, totalContainers * 0.7) || attempts >= maxAttempts) {
+                    console.log(`📊 Components ready: ${loadedContainers}/${totalContainers}`);
                     resolve();
                 } else {
                     setTimeout(checkComponents, 100);
@@ -89,8 +275,8 @@ class SmoothAnimationController {
 
     initializeScrollAnimations() {
         const observerOptions = {
-            threshold: [0, 0.1, 0.2, 0.5],
-            rootMargin: '0px 0px -50px 0px'
+            threshold: [0, 0.1, 0.3],
+            rootMargin: '0px 0px -100px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -102,22 +288,20 @@ class SmoothAnimationController {
             });
         }, observerOptions);
 
-        // Observe all animatable elements
+        // Observe elements with better selectors
         const elementsToAnimate = document.querySelectorAll(`
             .service-card, .feature-card, .contact-card, .testimonial-card,
-            .gallery-item, .project-item, .stats-item, .benefit-item,
-            .process-step, .faq-item, .area-badge, h1, h2, h3, h4, h5, h6,
-            .hero-title, .section-title, .card, .content-section,
-            .service-icon, .feature-icon
+            .gallery-item, .process-step, .stats-item, .faq-item,
+            .area-badge, .benefit-item, section, .content-section,
+            h1, h2, h3, h4, h5, h6, .hero-title, .section-title
         `);
 
         elementsToAnimate.forEach((el) => {
             if (!this.animatedElements.has(el)) {
-                // Set initial state for smooth animation
+                // Set initial state
                 el.style.opacity = '0';
-                el.style.transform = 'translateY(30px) scale(0.95)';
+                el.style.transform = 'translateY(40px) scale(0.95)';
                 el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                el.style.willChange = 'transform, opacity';
                 observer.observe(el);
             }
         });
@@ -126,40 +310,27 @@ class SmoothAnimationController {
     }
 
     animateElement(element) {
-        // Determine animation type based on element
-        let animationType = 'fadeInUp';
         let delay = 0;
-
-        if (element.matches('h1, h2, h3, .hero-title, .section-title')) {
-            animationType = 'textReveal';
-            delay = 100;
-        } else if (element.matches('.service-card, .feature-card')) {
-            animationType = 'cardSlideIn';
+        
+        // Different animations based on element type
+        if (element.matches('.service-card, .feature-card')) {
             delay = 200;
+            this.animateCounter(element);
         } else if (element.matches('.stats-item')) {
-            animationType = 'bounceIn';
             delay = 300;
             this.animateCounter(element);
-        } else if (element.matches('.gallery-item, .project-item')) {
-            animationType = 'scaleIn';
-            delay = 150;
+        } else if (element.matches('h1, h2, h3, .section-title')) {
+            delay = 100;
         }
 
-        // Apply smooth animation
         setTimeout(() => {
             element.style.opacity = '1';
             element.style.transform = 'translateY(0) scale(1)';
-            element.classList.add('animated', animationType);
-
-            // Remove will-change after animation for performance
-            setTimeout(() => {
-                element.style.willChange = 'auto';
-            }, 1000);
+            element.classList.add('animated');
         }, delay);
     }
 
-    initializeSmoothAnimations() {
-        // Enhanced hover effects with better performance
+    initializeHoverEffects() {
         const interactiveElements = document.querySelectorAll(`
             .btn, .service-card, .feature-card, .contact-card,
             .testimonial-card, .gallery-item, .area-badge
@@ -169,57 +340,31 @@ class SmoothAnimationController {
             el.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
             el.addEventListener('mouseenter', () => {
-                el.style.willChange = 'transform';
                 if (el.matches('.btn')) {
                     el.style.transform = 'translateY(-3px) scale(1.02)';
                 } else if (el.matches('.service-card, .feature-card')) {
-                    el.style.transform = 'translateY(-8px) scale(1.02)';
-                    el.style.boxShadow = '0 20px 40px rgba(154, 205, 50, 0.15)';
+                    el.style.transform = 'translateY(-10px) scale(1.02)';
+                    el.style.boxShadow = '0 25px 50px rgba(154, 205, 50, 0.2)';
                 } else {
-                    el.style.transform = 'translateY(-2px) scale(1.01)';
+                    el.style.transform = 'translateY(-5px) scale(1.01)';
                 }
             });
 
             el.addEventListener('mouseleave', () => {
                 el.style.transform = 'translateY(0) scale(1)';
                 el.style.boxShadow = '';
-                setTimeout(() => {
-                    el.style.willChange = 'auto';
-                }, 300);
             });
         });
     }
 
     initializeTextAnimations() {
-        // Smooth text reveal animations for headings
         const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-
         headings.forEach((heading, index) => {
-            heading.style.opacity = '0';
-            heading.style.transform = 'translateY(20px)';
-            heading.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
             setTimeout(() => {
+                heading.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
                 heading.style.opacity = '1';
                 heading.style.transform = 'translateY(0)';
-                heading.classList.add('text-revealed');
-            }, 200 + (index * 100));
-        });
-    }
-
-    initializeLoadingAnimations() {
-        // Staggered loading animations for page sections
-        const sections = document.querySelectorAll('.content-section, section');
-
-        sections.forEach((section, index) => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
-            setTimeout(() => {
-                section.style.opacity = '1';
-                section.style.transform = 'translateY(0)';
-            }, 300 + (index * 150));
+            }, index * 100);
         });
     }
 
@@ -228,6 +373,8 @@ class SmoothAnimationController {
         if (!numberElement) return;
 
         const finalNumber = parseInt(numberElement.textContent.replace(/\D/g, ''));
+        if (isNaN(finalNumber)) return;
+        
         const duration = 2000;
         let startTime = null;
         const suffix = numberElement.textContent.replace(/[0-9]/g, '');
@@ -260,247 +407,147 @@ class SmoothAnimationController {
     }
 }
 
-// Enhanced Loading Screen Controller
-class OptimizedLoadingScreen {
-    constructor() {
-        this.loadingScreen = document.getElementById('loading-screen');
-        this.progressFill = document.querySelector('.progress-fill');
-        this.loadingPercentage = document.querySelector('.loading-percentage');
-        this.progress = 0;
-        this.isComplete = false;
-        this.componentProgress = 0;
-        this.isMobile = window.innerWidth <= 768;
+// Enhanced FAQ System
+function initializeFAQItem(item) {
+    const question = item.querySelector('.faq-question');
+    const answer = item.querySelector('.faq-answer');
 
-        if (this.loadingScreen) {
-            this.init();
+    if (question && answer) {
+        answer.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        answer.style.overflow = 'hidden';
+
+        if (!item.classList.contains('active')) {
+            answer.style.maxHeight = '0px';
+            answer.style.opacity = '0';
+        } else {
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            answer.style.opacity = '1';
         }
-    }
 
-    init() {
-        this.loadingScreen.style.display = 'flex';
-        this.startSmartLoading();
-    }
+        question.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isActive = item.classList.contains('active');
 
-    startSmartLoading() {
-        // Track actual component loading progress
-        const totalComponents = 13;
-        let loadedComponents = 0;
-        this.actualComponentsLoaded = 0;
+            // Close other FAQs
+            document.querySelectorAll('.faq-item').forEach(otherItem => {
+                if (otherItem !== item && otherItem.classList.contains('active')) {
+                    const otherAnswer = otherItem.querySelector('.faq-answer');
+                    otherAnswer.style.maxHeight = '0px';
+                    otherAnswer.style.opacity = '0';
+                    otherItem.classList.remove('active');
+                }
+            });
 
-        const updateProgress = () => {
-            // Get actual loaded components count
-            const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
-            this.actualComponentsLoaded = containers.length;
-            
-            // More realistic progress calculation for mobile
-            const componentProgress = (this.actualComponentsLoaded / totalComponents) * 60;
-            const timeElapsed = Date.now() - this.startTime;
-            const timeProgress = Math.min((timeElapsed / (this.isMobile ? 2500 : 3000)) * 40, 40);
-
-            this.progress = Math.min(componentProgress + timeProgress, 100);
-            this.updateProgressBar();
-
-            // Only complete when we have sufficient components loaded AND minimum time has passed
-            const minTimeElapsed = this.isMobile ? 1500 : 1000;
-            const hasEnoughComponents = this.actualComponentsLoaded >= (this.isMobile ? 8 : 10);
-            const hasMinTime = timeElapsed >= minTimeElapsed;
-
-            if (this.progress >= 100 || (hasEnoughComponents && hasMinTime)) {
-                this.completeLoading();
+            // Toggle current
+            if (!isActive) {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+                answer.style.opacity = '1';
             } else {
-                requestAnimationFrame(updateProgress);
-            }
-        };
-
-        this.startTime = Date.now();
-        requestAnimationFrame(updateProgress);
-
-        // Listen for component loads with better detection
-        const observer = new MutationObserver((mutations) => {
-            let hasNewContent = false;
-            mutations.forEach(mutation => {
-                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                    mutation.addedNodes.forEach(node => {
-                        if (node.nodeType === Node.ELEMENT_NODE && 
-                            (node.tagName === 'SECTION' || node.tagName === 'DIV' || 
-                             node.querySelector && node.querySelector('section, .content-section'))) {
-                            hasNewContent = true;
-                        }
-                    });
-                }
-            });
-            
-            if (hasNewContent) {
-                const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
-                loadedComponents = containers.length;
-                console.log(`Components loaded: ${loadedComponents}/${totalComponents}`);
+                item.classList.remove('active');
+                answer.style.maxHeight = '0px';
+                answer.style.opacity = '0';
             }
         });
-
-        observer.observe(document.body, { 
-            childList: true, 
-            subtree: true 
-        });
-
-        // Safety timeout - longer for mobile to ensure smooth experience
-        const maxWaitTime = this.isMobile ? 3000 : 3500;
-        setTimeout(() => {
-            if (!this.isComplete) {
-                console.log('Loading timeout reached, completing...');
-                this.progress = 100;
-                this.completeLoading();
-            }
-            observer.disconnect();
-        }, maxWaitTime);
-    }
-
-    updateProgressBar() {
-        if (this.progressFill && this.loadingPercentage) {
-            this.progressFill.style.width = this.progress + '%';
-            this.loadingPercentage.textContent = Math.round(this.progress) + '%';
-        }
-    }
-
-    completeLoading() {
-        if (this.isComplete) return;
-        
-        this.isComplete = true;
-        this.progress = 100;
-        this.updateProgressBar();
-
-        console.log(`Loading complete: ${this.actualComponentsLoaded}/13 components loaded`);
-
-        // Longer delay on mobile to ensure smooth transition
-        const hideDelay = this.isMobile ? 800 : 500;
-        setTimeout(() => {
-            this.hide();
-        }, hideDelay);
-    }
-
-    hide() {
-        if (!this.loadingScreen) return;
-
-        console.log('Hiding loading screen...');
-        
-        // Add hide class for CSS transition
-        this.loadingScreen.classList.add('hide');
-        
-        // Enhanced mobile hiding logic
-        if (this.isMobile) {
-            // Immediate style changes for mobile
-            this.loadingScreen.style.opacity = '0';
-            this.loadingScreen.style.visibility = 'hidden';
-            this.loadingScreen.style.pointerEvents = 'none';
-            this.loadingScreen.style.transform = 'scale(0.9)';
-            this.loadingScreen.style.zIndex = '-1';
-            
-            // Hide all brand logos immediately
-            const brandLogos = this.loadingScreen.querySelectorAll('.brand-logo');
-            brandLogos.forEach((logo, index) => {
-                logo.style.opacity = '0';
-                logo.style.transform = 'translateY(-30px) scale(0.7)';
-                logo.style.transition = 'all 0.3s ease';
-            });
-
-            // Hide loading elements
-            const loadingElements = this.loadingScreen.querySelectorAll('.loading-logo, .loading-progress, .loading-text');
-            loadingElements.forEach(element => {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(-20px) scale(0.8)';
-            });
-        }
-        
-        // Force complete removal after animation
-        const removalDelay = this.isMobile ? 600 : 1000;
-        setTimeout(() => {
-            if (this.loadingScreen && this.loadingScreen.parentNode) {
-                this.loadingScreen.style.display = 'none';
-                this.loadingScreen.style.visibility = 'hidden';
-                this.loadingScreen.style.opacity = '0';
-                this.loadingScreen.style.pointerEvents = 'none';
-                
-                // Complete DOM removal
-                try {
-                    this.loadingScreen.parentNode.removeChild(this.loadingScreen);
-                    console.log('Loading screen completely removed from DOM');
-                } catch (e) {
-                    console.warn('Loading screen already removed');
-                }
-            }
-        }, removalDelay);
     }
 }
 
-// Enhanced Component Loading with Better Error Handling
+// Enhanced Card Effects
+function initializeCardEffects(card) {
+    card.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+    
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-10px) scale(1.02)';
+        card.style.boxShadow = '0 20px 40px rgba(154, 205, 50, 0.15)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0) scale(1)';
+        card.style.boxShadow = '';
+    });
+}
+
+// Enhanced Component Loading System
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Initializing optimized website...');
+    console.log('🚀 Initializing Premium Website Experience');
+    
+    // Set initial page state
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.5s ease';
 
-    // Initialize loading screen
-    const loadingScreen = new OptimizedLoadingScreen();
+    // Initialize premium loading screen
+    const loadingScreen = new PremiumLoadingScreen();
+    
+    // Initialize animation controller
+    window.animationController = new ModernAnimationController();
 
-    // Component configuration
+    // Component configuration with priorities
     const components = [
-        { id: 'header-container', file: 'header.html', critical: true },
-        { id: 'hero-container', file: 'components/hero-section.html', critical: true },
-        { id: 'benefits-container', file: 'components/benefits-banner.html' },
-        { id: 'services-container', file: 'components/services-overview.html' },
-        { id: 'why-choose-container', file: 'components/why-choose.html' },
-        { id: 'service-areas-container', file: 'components/service-areas.html' },
-        { id: 'gallery-container', file: 'components/gallery.html' },
-        { id: 'testimonials-container', file: 'components/testimonials.html' },
-        { id: 'process-container', file: 'components/process.html' },
-        { id: 'stats-container', file: 'components/stats.html' },
-        { id: 'faq-container', file: 'components/faq.html' },
-        { id: 'contact-cta-container', file: 'components/contact-cta.html' },
-        { id: 'footer-container', file: 'footer.html' }
+        { id: 'header-container', file: 'header.html', priority: 1 },
+        { id: 'hero-container', file: 'components/hero-section.html', priority: 1 },
+        { id: 'benefits-container', file: 'components/benefits-banner.html', priority: 2 },
+        { id: 'services-container', file: 'components/services-overview.html', priority: 2 },
+        { id: 'why-choose-container', file: 'components/why-choose.html', priority: 3 },
+        { id: 'service-areas-container', file: 'components/service-areas.html', priority: 3 },
+        { id: 'gallery-container', file: 'components/gallery.html', priority: 3 },
+        { id: 'testimonials-container', file: 'components/testimonials.html', priority: 4 },
+        { id: 'process-container', file: 'components/process.html', priority: 4 },
+        { id: 'stats-container', file: 'components/stats.html', priority: 4 },
+        { id: 'faq-container', file: 'components/faq.html', priority: 5 },
+        { id: 'contact-cta-container', file: 'components/contact-cta.html', priority: 2 },
+        { id: 'footer-container', file: 'footer.html', priority: 5 }
     ];
 
     let loadedCount = 0;
     const totalComponents = components.length;
 
-    // Load critical components first
-    const criticalComponents = components.filter(c => c.critical);
-    const nonCriticalComponents = components.filter(c => !c.critical);
-
-    async function loadComponentsSequentially(componentList, delay = 50) {
-        for (const component of componentList) {
-            try {
-                await loadComponent(component.file, component.id);
-                loadedCount++;
-                console.log(`✅ Loaded: ${component.file} (${loadedCount}/${totalComponents})`);
-
-                // Small delay for smooth loading
-                await new Promise(resolve => setTimeout(resolve, delay));
-            } catch (error) {
-                console.warn(`⚠️ Failed to load: ${component.file}`);
-                loadedCount++;
+    // Load components by priority
+    async function loadComponentsByPriority() {
+        const priorities = [...new Set(components.map(c => c.priority))].sort();
+        
+        for (const priority of priorities) {
+            const priorityComponents = components.filter(c => c.priority === priority);
+            
+            await Promise.all(priorityComponents.map(async (component) => {
+                try {
+                    await loadComponent(component.file, component.id);
+                    loadedCount++;
+                    console.log(`✅ Priority ${priority}: ${component.file} (${loadedCount}/${totalComponents})`);
+                } catch (error) {
+                    console.warn(`⚠️ Failed to load: ${component.file}`);
+                    loadedCount++;
+                }
+            }));
+            
+            // Small delay between priority groups
+            if (priority < Math.max(...priorities)) {
+                await new Promise(resolve => setTimeout(resolve, 100));
             }
         }
+        
+        console.log('🎉 All components loaded successfully!');
+        initializeEnhancedFeatures();
     }
 
-    // Load components with priority
-    loadComponentsSequentially(criticalComponents, 100)
-        .then(() => loadComponentsSequentially(nonCriticalComponents, 50))
-        .then(() => {
-            console.log('🎉 All components loaded successfully!');
-            initializeEnhancedFeatures();
-        });
+    loadComponentsByPriority();
 });
 
-// Enhanced Feature Initialization
+// Initialize Enhanced Features
 function initializeEnhancedFeatures() {
-    // Initialize smooth animation controller
-    window.animationController = new SmoothAnimationController();
-
-    // Initialize other features
+    // Initialize scroll behavior
     initializeOptimizedScrolling();
+    
+    // Initialize forms
     initializeEnhancedForms();
+    
+    // Initialize performance optimizations
     initializePerformanceOptimizations();
-
+    
+    // Initialize all FAQ systems
     setTimeout(() => {
-        initializeFAQSystem();
-        console.log('✅ All enhanced features initialized');
-    }, 200);
+        document.querySelectorAll('.faq-item').forEach(initializeFAQItem);
+        console.log('✅ Enhanced features initialized');
+    }, 300);
 }
 
 // Optimized Smooth Scrolling
@@ -528,7 +575,7 @@ function initializeOptimizedScrolling() {
     });
 }
 
-// Enhanced Smooth Scroll Function
+// Smooth Scroll Function
 function smoothScrollTo(targetPosition, duration, callback) {
     const startPosition = window.pageYOffset;
     const distance = targetPosition - startPosition;
@@ -556,57 +603,6 @@ function smoothScrollTo(targetPosition, duration, callback) {
     requestAnimationFrame(animation);
 }
 
-// Enhanced FAQ System
-function initializeFAQSystem() {
-    const faqItems = document.querySelectorAll('.faq-item');
-
-    faqItems.forEach((item) => {
-        const question = item.querySelector('.faq-question');
-        const answer = item.querySelector('.faq-answer');
-
-        if (question && answer) {
-            // Set up smooth transitions
-            answer.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            answer.style.overflow = 'hidden';
-
-            // Set initial state
-            if (!item.classList.contains('active')) {
-                answer.style.maxHeight = '0px';
-                answer.style.opacity = '0';
-            } else {
-                answer.style.maxHeight = answer.scrollHeight + 'px';
-                answer.style.opacity = '1';
-            }
-
-            question.addEventListener('click', (e) => {
-                e.preventDefault();
-                const isActive = item.classList.contains('active');
-
-                // Close all other FAQ items
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item && otherItem.classList.contains('active')) {
-                        const otherAnswer = otherItem.querySelector('.faq-answer');
-                        otherAnswer.style.maxHeight = '0px';
-                        otherAnswer.style.opacity = '0';
-                        otherItem.classList.remove('active');
-                    }
-                });
-
-                // Toggle current item
-                if (!isActive) {
-                    item.classList.add('active');
-                    answer.style.maxHeight = answer.scrollHeight + 'px';
-                    answer.style.opacity = '1';
-                } else {
-                    item.classList.remove('active');
-                    answer.style.maxHeight = '0px';
-                    answer.style.opacity = '0';
-                }
-            });
-        }
-    });
-}
-
 // Enhanced Form Handling
 function initializeEnhancedForms() {
     const forms = document.querySelectorAll('form');
@@ -619,7 +615,7 @@ function initializeEnhancedForms() {
 
             input.addEventListener('focus', () => {
                 input.style.transform = 'scale(1.02)';
-                input.style.boxShadow = '0 0 0 3px rgba(154, 205, 50, 0.1)';
+                input.style.boxShadow = '0 0 0 3px rgba(154, 205, 50, 0.15)';
             });
 
             input.addEventListener('blur', () => {
@@ -637,10 +633,17 @@ function initializePerformanceOptimizations() {
     images.forEach(img => {
         img.loading = 'lazy';
         img.decoding = 'async';
-        img.style.transition = 'opacity 0.3s ease';
+        
+        if (!img.style.transition) {
+            img.style.transition = 'opacity 0.3s ease';
+        }
 
         img.addEventListener('load', () => {
             img.style.opacity = '1';
+        });
+        
+        img.addEventListener('error', () => {
+            img.style.opacity = '0.5';
         });
     });
 
@@ -651,14 +654,19 @@ function initializePerformanceOptimizations() {
             clearTimeout(scrollTimeout);
         }
         scrollTimeout = setTimeout(() => {
-            // Scroll-based animations here
+            // Scroll-based optimizations
         }, 16);
     }, { passive: true });
 }
 
 // Global error handling
 window.addEventListener('error', (e) => {
-    console.warn('Non-critical error:', e.message);
+    console.warn('⚠️ Non-critical error:', e.message);
+});
+
+window.addEventListener('unhandledrejection', (e) => {
+    console.warn('⚠️ Unhandled promise rejection:', e.reason);
+    e.preventDefault();
 });
 
 // Cleanup on page unload
@@ -667,3 +675,10 @@ window.addEventListener('beforeunload', () => {
         window.animationController.destroy();
     }
 });
+
+// Expose for debugging
+window.debugInfo = {
+    loadingScreen: null,
+    animationController: null,
+    getLoadedComponents: () => document.querySelectorAll('[id$="-container"]:not(:empty)').length
+};
