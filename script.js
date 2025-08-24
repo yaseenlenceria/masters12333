@@ -88,12 +88,57 @@ class PremiumLoadingScreen {
         this.startTime = Date.now();
         this.isMobile = window.innerWidth <= 768;
         this.loadedComponents = 0;
-        this.totalComponents = 13;
+        this.totalComponents = this.detectPageType();
+        this.isHomePage = window.location.pathname === '/' || window.location.pathname.includes('index.html');
+        
+        // Create loading screen if it doesn't exist
+        if (!this.loadingScreen && !this.isComplete) {
+            this.createLoadingScreen();
+        }
         
         if (this.loadingScreen) {
             console.log('🚀 Initializing Premium Loading Screen');
             this.init();
         }
+    }
+
+    detectPageType() {
+        const containers = document.querySelectorAll('[id$="-container"]');
+        return Math.max(containers.length, 3); // Minimum 3 components for any page
+    }
+
+    createLoadingScreen() {
+        console.log('📱 Creating loading screen for this page');
+        
+        const loadingHTML = `
+            <div id="loading-screen" class="loading-screen">
+                <div class="loading-container">
+                    <div class="loading-logo">
+                        <img src="attached_assets/mainlogo.png" alt="The Masters Group" class="main-logo">
+                        <div class="loading-text">
+                            <h1>The Masters Group</h1>
+                            <p>Loading Page...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="loading-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="loading-percentage">0%</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.insertAdjacentHTML('afterbegin', loadingHTML);
+        this.loadingScreen = document.getElementById('loading-screen');
+        this.progressFill = document.querySelector('.progress-fill');
+        this.loadingPercentage = document.querySelector('.loading-percentage');
+        
+        // Set initial state
+        document.body.style.overflow = 'hidden';
+        this.loadingScreen.style.zIndex = '10000';
     }
 
     init() {
@@ -124,22 +169,38 @@ class PremiumLoadingScreen {
     startProgressTracking() {
         const updateProgress = () => {
             const timeElapsed = Date.now() - this.startTime;
-            const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
-            this.loadedComponents = containers.length;
+            
+            // Different tracking for different page types
+            if (this.isHomePage) {
+                const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
+                this.loadedComponents = containers.length;
+            } else {
+                // For other pages, check if main content is loaded
+                const mainContent = document.querySelector('main, .main-content, .page-content');
+                const header = document.querySelector('header, .header');
+                const footer = document.querySelector('footer, .footer');
+                
+                this.loadedComponents = 0;
+                if (header) this.loadedComponents++;
+                if (mainContent) this.loadedComponents++;
+                if (footer) this.loadedComponents++;
+                if (document.readyState === 'complete') this.loadedComponents++;
+            }
             
             // Calculate realistic progress
-            const componentProgress = Math.min((this.loadedComponents / this.totalComponents) * 70, 70);
-            const timeProgress = Math.min((timeElapsed / 3000) * 30, 30);
+            const componentProgress = Math.min((this.loadedComponents / this.totalComponents) * 60, 60);
+            const timeProgress = Math.min((timeElapsed / 2000) * 40, 40);
             this.progress = Math.min(componentProgress + timeProgress, 100);
             
             this.updateProgressBar();
             
             // Complete when we have enough components and minimum time
-            const minTime = this.isMobile ? 2000 : 1500;
-            const hasEnoughComponents = this.loadedComponents >= (this.isMobile ? 8 : 10);
+            const minTime = this.isMobile ? 1000 : 800;
+            const hasEnoughComponents = this.loadedComponents >= Math.max(1, this.totalComponents * 0.5);
             const hasMinTime = timeElapsed >= minTime;
+            const isDocumentReady = document.readyState === 'complete';
             
-            if (this.progress >= 100 || (hasEnoughComponents && hasMinTime)) {
+            if (this.progress >= 100 || (hasEnoughComponents && hasMinTime) || (isDocumentReady && timeElapsed > minTime)) {
                 this.completeLoading();
             } else if (!this.isComplete) {
                 requestAnimationFrame(updateProgress);
@@ -148,14 +209,15 @@ class PremiumLoadingScreen {
         
         requestAnimationFrame(updateProgress);
         
-        // Safety timeout
+        // Safety timeout - shorter for non-home pages
+        const maxWait = this.isHomePage ? (this.isMobile ? 4000 : 3500) : (this.isMobile ? 2500 : 2000);
         setTimeout(() => {
             if (!this.isComplete) {
                 console.log('⚠️ Loading timeout reached, completing...');
                 this.progress = 100;
                 this.completeLoading();
             }
-        }, this.isMobile ? 4000 : 3500);
+        }, maxWait);
     }
 
     updateProgressBar() {
@@ -203,6 +265,9 @@ class PremiumLoadingScreen {
                 child.style.transform = 'translateY(-20px) scale(0.9)';
             });
         }
+        
+        // Restore body overflow
+        document.body.style.overflow = '';
         
         // Complete removal
         setTimeout(() => {
@@ -481,55 +546,81 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize animation controller
     window.animationController = new ModernAnimationController();
 
-    // Component configuration with priorities
-    const components = [
-        { id: 'header-container', file: 'header.html', priority: 1 },
-        { id: 'hero-container', file: 'components/hero-section.html', priority: 1 },
-        { id: 'benefits-container', file: 'components/benefits-banner.html', priority: 2 },
-        { id: 'services-container', file: 'components/services-overview.html', priority: 2 },
-        { id: 'why-choose-container', file: 'components/why-choose.html', priority: 3 },
-        { id: 'service-areas-container', file: 'components/service-areas.html', priority: 3 },
-        { id: 'gallery-container', file: 'components/gallery.html', priority: 3 },
-        { id: 'testimonials-container', file: 'components/testimonials.html', priority: 4 },
-        { id: 'process-container', file: 'components/process.html', priority: 4 },
-        { id: 'stats-container', file: 'components/stats.html', priority: 4 },
-        { id: 'faq-container', file: 'components/faq.html', priority: 5 },
-        { id: 'contact-cta-container', file: 'components/contact-cta.html', priority: 2 },
-        { id: 'footer-container', file: 'footer.html', priority: 5 }
-    ];
+    // Detect if this is the home page
+    const isHomePage = window.location.pathname === '/' || window.location.pathname.includes('index.html');
 
-    let loadedCount = 0;
-    const totalComponents = components.length;
+    if (isHomePage) {
+        // Component configuration with priorities for home page
+        const components = [
+            { id: 'header-container', file: 'header.html', priority: 1 },
+            { id: 'hero-container', file: 'components/hero-section.html', priority: 1 },
+            { id: 'benefits-container', file: 'components/benefits-banner.html', priority: 2 },
+            { id: 'services-container', file: 'components/services-overview.html', priority: 2 },
+            { id: 'why-choose-container', file: 'components/why-choose.html', priority: 3 },
+            { id: 'service-areas-container', file: 'components/service-areas.html', priority: 3 },
+            { id: 'gallery-container', file: 'components/gallery.html', priority: 3 },
+            { id: 'testimonials-container', file: 'components/testimonials.html', priority: 4 },
+            { id: 'process-container', file: 'components/process.html', priority: 4 },
+            { id: 'stats-container', file: 'components/stats.html', priority: 4 },
+            { id: 'faq-container', file: 'components/faq.html', priority: 5 },
+            { id: 'contact-cta-container', file: 'components/contact-cta.html', priority: 2 },
+            { id: 'footer-container', file: 'footer.html', priority: 5 }
+        ];
 
-    // Load components by priority
-    async function loadComponentsByPriority() {
-        const priorities = [...new Set(components.map(c => c.priority))].sort();
-        
-        for (const priority of priorities) {
-            const priorityComponents = components.filter(c => c.priority === priority);
+        let loadedCount = 0;
+        const totalComponents = components.length;
+
+        // Load components by priority
+        async function loadComponentsByPriority() {
+            const priorities = [...new Set(components.map(c => c.priority))].sort();
             
-            await Promise.all(priorityComponents.map(async (component) => {
-                try {
-                    await loadComponent(component.file, component.id);
-                    loadedCount++;
-                    console.log(`✅ Priority ${priority}: ${component.file} (${loadedCount}/${totalComponents})`);
-                } catch (error) {
-                    console.warn(`⚠️ Failed to load: ${component.file}`);
-                    loadedCount++;
+            for (const priority of priorities) {
+                const priorityComponents = components.filter(c => c.priority === priority);
+                
+                await Promise.all(priorityComponents.map(async (component) => {
+                    try {
+                        await loadComponent(component.file, component.id);
+                        loadedCount++;
+                        console.log(`✅ Priority ${priority}: ${component.file} (${loadedCount}/${totalComponents})`);
+                    } catch (error) {
+                        console.warn(`⚠️ Failed to load: ${component.file}`);
+                        loadedCount++;
+                    }
+                }));
+                
+                // Small delay between priority groups
+                if (priority < Math.max(...priorities)) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
                 }
-            }));
-            
-            // Small delay between priority groups
-            if (priority < Math.max(...priorities)) {
-                await new Promise(resolve => setTimeout(resolve, 100));
             }
+            
+            console.log('🎉 All components loaded successfully!');
+            initializeEnhancedFeatures();
         }
-        
-        console.log('🎉 All components loaded successfully!');
-        initializeEnhancedFeatures();
-    }
 
-    loadComponentsByPriority();
+        loadComponentsByPriority();
+    } else {
+        // For other pages, just wait for document ready and initialize features
+        console.log('📄 Non-home page detected, using simplified loading');
+        
+        // Simple loading for other pages
+        setTimeout(() => {
+            initializeEnhancedFeatures();
+        }, 500);
+        
+        // Monitor document ready state
+        if (document.readyState === 'complete') {
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 800);
+        } else {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    document.body.style.opacity = '1';
+                }, 800);
+            });
+        }
+    }
 });
 
 // Initialize Enhanced Features
