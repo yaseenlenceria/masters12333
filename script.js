@@ -1,4 +1,5 @@
-// Component Loading System
+
+// Component Loading System with Enhanced Error Handling
 function loadComponent(componentPath, containerId) {
     const container = document.getElementById(containerId);
     if (!container) {
@@ -16,6 +17,7 @@ function loadComponent(componentPath, containerId) {
         .then(data => {
             if (data && data.trim()) {
                 container.innerHTML = data;
+                container.setAttribute('data-loaded', 'true');
 
                 // Execute scripts with error handling
                 const scripts = container.querySelectorAll('script');
@@ -41,147 +43,205 @@ function loadComponent(componentPath, containerId) {
         })
         .catch(error => {
             console.error(`Error loading ${componentPath}:`, error);
-            container.innerHTML = `<div style="padding: 1rem; text-align: center; color: #666; background: rgba(0,0,0,0.1); border-radius: 8px;">
-                <p>Loading...</p>
+            container.innerHTML = `<div class="loading-placeholder">
+                <div class="loading-spinner"></div>
+                <p>Loading content...</p>
             </div>`;
             return false;
         });
 }
 
-// Enhanced Animation Controller with Smooth Performance
-class SmoothAnimationController {
+// Enhanced Animation Controller with Better Performance
+class EnhancedAnimationController {
     constructor() {
         this.observers = [];
         this.animatedElements = new Set();
         this.isInitialized = false;
-        this.init();
+        this.animationQueue = [];
+        this.rafId = null;
     }
 
     init() {
         if (this.isInitialized) return;
 
-        // Wait for components to load before initializing animations
-        this.waitForComponents().then(() => {
+        // Wait for critical components before initializing
+        this.waitForCriticalComponents().then(() => {
             this.initializeScrollAnimations();
-            this.initializeSmoothAnimations();
-            this.initializeTextAnimations();
             this.initializeLoadingAnimations();
+            this.initializeInteractionAnimations();
+            this.startAnimationLoop();
             this.isInitialized = true;
-            console.log('✓ Smooth animations initialized');
+            console.log('✅ Enhanced animations initialized');
         });
     }
 
-    waitForComponents() {
+    waitForCriticalComponents() {
         return new Promise((resolve) => {
+            let attempts = 0;
+            const maxAttempts = 50;
+            
             const checkComponents = () => {
-                const totalContainers = document.querySelectorAll('[id$="-container"]').length;
-                const loadedContainers = document.querySelectorAll('[id$="-container"]:not(:empty)').length;
+                const criticalContainers = [
+                    'header-container',
+                    'hero-container',
+                    'services-container'
+                ];
+                
+                const loadedCritical = criticalContainers.filter(id => {
+                    const container = document.getElementById(id);
+                    return container && container.getAttribute('data-loaded') === 'true';
+                }).length;
 
-                if (loadedContainers >= totalContainers * 0.8 || totalContainers === 0) {
+                attempts++;
+                
+                if (loadedCritical >= 2 || attempts >= maxAttempts) {
                     resolve();
                 } else {
                     setTimeout(checkComponents, 100);
                 }
             };
+            
             checkComponents();
         });
     }
 
     initializeScrollAnimations() {
         const observerOptions = {
-            threshold: [0, 0.1, 0.2, 0.5],
-            rootMargin: '0px 0px -50px 0px'
+            threshold: [0, 0.1, 0.3, 0.5],
+            rootMargin: '50px 0px -100px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting && !this.animatedElements.has(entry.target)) {
-                    this.animatedElements.add(entry.target);
-                    this.animateElement(entry.target);
+                if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+                    if (!this.animatedElements.has(entry.target)) {
+                        this.animatedElements.add(entry.target);
+                        this.queueAnimation(entry.target);
+                    }
                 }
             });
         }, observerOptions);
 
-        // Observe all animatable elements
-        const elementsToAnimate = document.querySelectorAll(`
-            .service-card, .feature-card, .contact-card, .testimonial-card,
-            .gallery-item, .project-item, .stats-item, .benefit-item,
-            .process-step, .faq-item, .area-badge, h1, h2, h3, h4, h5, h6,
-            .hero-title, .section-title, .card, .content-section,
-            .service-icon, .feature-icon
-        `);
+        // Observe elements with better selector
+        setTimeout(() => {
+            const elementsToAnimate = document.querySelectorAll(`
+                .service-card, .feature-card, .contact-card, .testimonial-card,
+                .gallery-item, .project-item, .stats-item, .benefit-item,
+                .process-step, .faq-item, .area-badge, section,
+                .hero-title, .section-title, .hero-subtitle
+            `);
 
-        elementsToAnimate.forEach((el) => {
-            if (!this.animatedElements.has(el)) {
-                // Set initial state for smooth animation
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px) scale(0.95)';
-                el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                el.style.willChange = 'transform, opacity';
-                observer.observe(el);
-            }
-        });
+            elementsToAnimate.forEach((el) => {
+                if (!this.animatedElements.has(el) && !el.classList.contains('no-animate')) {
+                    this.prepareElementForAnimation(el);
+                    observer.observe(el);
+                }
+            });
+        }, 500);
 
         this.observers.push(observer);
     }
 
+    prepareElementForAnimation(element) {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(40px) scale(0.95)';
+        element.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        element.style.willChange = 'transform, opacity';
+    }
+
+    queueAnimation(element) {
+        this.animationQueue.push({
+            element,
+            timestamp: performance.now()
+        });
+    }
+
+    startAnimationLoop() {
+        const processQueue = () => {
+            if (this.animationQueue.length > 0) {
+                const batch = this.animationQueue.splice(0, 3); // Process 3 at a time
+                batch.forEach(({ element }, index) => {
+                    setTimeout(() => {
+                        this.animateElement(element);
+                    }, index * 100);
+                });
+            }
+            
+            this.rafId = requestAnimationFrame(processQueue);
+        };
+        
+        processQueue();
+    }
+
     animateElement(element) {
-        // Determine animation type based on element
+        if (!element || this.animatedElements.has(element)) return;
+
         let animationType = 'fadeInUp';
         let delay = 0;
 
+        // Determine animation based on element type
         if (element.matches('h1, h2, h3, .hero-title, .section-title')) {
-            animationType = 'textReveal';
-            delay = 100;
+            animationType = 'slideInDown';
+            delay = 0;
         } else if (element.matches('.service-card, .feature-card')) {
-            animationType = 'cardSlideIn';
-            delay = 200;
+            animationType = 'slideInUp';
+            delay = 100;
         } else if (element.matches('.stats-item')) {
             animationType = 'bounceIn';
-            delay = 300;
+            delay = 200;
             this.animateCounter(element);
         } else if (element.matches('.gallery-item, .project-item')) {
-            animationType = 'scaleIn';
+            animationType = 'zoomIn';
             delay = 150;
+        } else if (element.matches('.area-badge')) {
+            animationType = 'slideInRight';
+            delay = 50;
         }
 
-        // Apply smooth animation
         setTimeout(() => {
             element.style.opacity = '1';
             element.style.transform = 'translateY(0) scale(1)';
             element.classList.add('animated', animationType);
 
-            // Remove will-change after animation for performance
+            // Clean up performance flags
             setTimeout(() => {
                 element.style.willChange = 'auto';
             }, 1000);
         }, delay);
     }
 
-    initializeSmoothAnimations() {
-        // Enhanced hover effects with better performance
+    initializeLoadingAnimations() {
+        // Stagger section animations
+        const sections = document.querySelectorAll('section, .content-section');
+        sections.forEach((section, index) => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+            setTimeout(() => {
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
+            }, 200 + (index * 150));
+        });
+    }
+
+    initializeInteractionAnimations() {
+        // Enhanced hover effects
         const interactiveElements = document.querySelectorAll(`
             .btn, .service-card, .feature-card, .contact-card,
             .testimonial-card, .gallery-item, .area-badge
         `);
 
         interactiveElements.forEach(el => {
-            el.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
+            el.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            
             el.addEventListener('mouseenter', () => {
                 el.style.willChange = 'transform';
-                if (el.matches('.btn')) {
-                    el.style.transform = 'translateY(-3px) scale(1.02)';
-                } else if (el.matches('.service-card, .feature-card')) {
-                    el.style.transform = 'translateY(-8px) scale(1.02)';
-                    el.style.boxShadow = '0 20px 40px rgba(154, 205, 50, 0.15)';
-                } else {
-                    el.style.transform = 'translateY(-2px) scale(1.01)';
-                }
+                this.applyHoverAnimation(el);
             });
 
             el.addEventListener('mouseleave', () => {
-                el.style.transform = 'translateY(0) scale(1)';
+                el.style.transform = '';
                 el.style.boxShadow = '';
                 setTimeout(() => {
                     el.style.willChange = 'auto';
@@ -190,54 +250,39 @@ class SmoothAnimationController {
         });
     }
 
-    initializeTextAnimations() {
-        // Smooth text reveal animations for headings
-        const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-
-        headings.forEach((heading, index) => {
-            heading.style.opacity = '0';
-            heading.style.transform = 'translateY(20px)';
-            heading.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
-            setTimeout(() => {
-                heading.style.opacity = '1';
-                heading.style.transform = 'translateY(0)';
-                heading.classList.add('text-revealed');
-            }, 200 + (index * 100));
-        });
-    }
-
-    initializeLoadingAnimations() {
-        // Staggered loading animations for page sections
-        const sections = document.querySelectorAll('.content-section, section');
-
-        sections.forEach((section, index) => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
-            setTimeout(() => {
-                section.style.opacity = '1';
-                section.style.transform = 'translateY(0)';
-            }, 300 + (index * 150));
-        });
+    applyHoverAnimation(element) {
+        if (element.matches('.btn')) {
+            element.style.transform = 'translateY(-3px) scale(1.02)';
+            element.style.boxShadow = '0 15px 30px rgba(154, 205, 50, 0.3)';
+        } else if (element.matches('.service-card, .feature-card')) {
+            element.style.transform = 'translateY(-10px) rotateY(2deg)';
+            element.style.boxShadow = '0 25px 50px rgba(154, 205, 50, 0.15)';
+        } else if (element.matches('.area-badge')) {
+            element.style.transform = 'translateY(-3px) scale(1.05)';
+            element.style.boxShadow = '0 10px 20px rgba(154, 205, 50, 0.2)';
+        } else {
+            element.style.transform = 'translateY(-5px) scale(1.02)';
+        }
     }
 
     animateCounter(element) {
         const numberElement = element.querySelector('.stats-number, .number, [data-count]');
         if (!numberElement) return;
 
-        const finalNumber = parseInt(numberElement.textContent.replace(/\D/g, ''));
+        const text = numberElement.textContent;
+        const finalNumber = parseInt(text.replace(/\D/g, ''));
+        if (isNaN(finalNumber)) return;
+
+        const suffix = text.replace(/[0-9]/g, '');
         const duration = 2000;
         let startTime = null;
-        const suffix = numberElement.textContent.replace(/[0-9]/g, '');
 
         const animate = (currentTime) => {
             if (!startTime) startTime = currentTime;
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
 
-            const currentNumber = Math.floor(finalNumber * this.easeOutQuart(progress));
+            const currentNumber = Math.floor(finalNumber * this.easeOutCubic(progress));
             numberElement.textContent = currentNumber.toLocaleString() + suffix;
 
             if (progress < 1) {
@@ -248,27 +293,31 @@ class SmoothAnimationController {
         requestAnimationFrame(animate);
     }
 
-    easeOutQuart(t) {
-        return 1 - Math.pow(1 - t, 4);
+    easeOutCubic(t) {
+        return 1 - Math.pow(1 - t, 3);
     }
 
     destroy() {
+        if (this.rafId) {
+            cancelAnimationFrame(this.rafId);
+        }
         this.observers.forEach(observer => observer.disconnect());
         this.observers = [];
         this.animatedElements.clear();
+        this.animationQueue = [];
         this.isInitialized = false;
     }
 }
 
-// Enhanced Loading Screen Controller
-class OptimizedLoadingScreen {
+// Improved Loading Screen Controller
+class ImprovedLoadingScreen {
     constructor() {
         this.loadingScreen = document.getElementById('loading-screen');
         this.progressFill = document.querySelector('.progress-fill');
         this.loadingPercentage = document.querySelector('.loading-percentage');
         this.progress = 0;
         this.isComplete = false;
-        this.componentProgress = 0;
+        this.startTime = Date.now();
 
         if (this.loadingScreen) {
             this.init();
@@ -277,155 +326,166 @@ class OptimizedLoadingScreen {
 
     init() {
         this.loadingScreen.style.display = 'flex';
-        this.startSmartLoading();
+        this.startProgressTracking();
     }
 
-    startSmartLoading() {
-        // Track actual component loading progress
+    startProgressTracking() {
         const totalComponents = 13;
-        let loadedComponents = 0;
+        let lastComponentCount = 0;
 
         const updateProgress = () => {
-            // Combine component loading with time-based progress
-            const componentProgress = (loadedComponents / totalComponents) * 70;
-            const timeProgress = Math.min((Date.now() - this.startTime) / 3000 * 30, 30);
-
+            // Track loaded components
+            const loadedContainers = document.querySelectorAll('[id$="-container"][data-loaded="true"]');
+            const componentCount = loadedContainers.length;
+            
+            // Calculate progress based on components and time
+            const componentProgress = (componentCount / totalComponents) * 80;
+            const timeProgress = Math.min((Date.now() - this.startTime) / 2500 * 20, 20);
+            
             this.progress = Math.min(componentProgress + timeProgress, 100);
+            
+            // Smooth progress updates
+            if (componentCount > lastComponentCount) {
+                this.progress += 5; // Boost for new components
+                lastComponentCount = componentCount;
+            }
+            
             this.updateProgressBar();
 
-            if (this.progress >= 100) {
+            if (this.progress >= 100 || componentCount >= totalComponents) {
                 this.completeLoading();
             } else {
                 requestAnimationFrame(updateProgress);
             }
         };
 
-        this.startTime = Date.now();
         requestAnimationFrame(updateProgress);
 
-        // Listen for component loads
-        const observer = new MutationObserver(() => {
-            const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
-            loadedComponents = containers.length;
-        });
-
-        observer.observe(document.body, { 
-            childList: true, 
-            subtree: true 
-        });
-
-        // Ensure completion after 3 seconds max
+        // Force completion after 3 seconds
         setTimeout(() => {
             if (!this.isComplete) {
-                this.progress = 100;
                 this.completeLoading();
             }
-            observer.disconnect();
         }, 3000);
     }
 
     updateProgressBar() {
         if (this.progressFill && this.loadingPercentage) {
-            this.progressFill.style.width = this.progress + '%';
-            this.loadingPercentage.textContent = Math.round(this.progress) + '%';
+            this.progressFill.style.width = Math.min(this.progress, 100) + '%';
+            this.loadingPercentage.textContent = Math.round(Math.min(this.progress, 100)) + '%';
         }
     }
 
     completeLoading() {
+        if (this.isComplete) return;
+        
         this.isComplete = true;
         this.progress = 100;
         this.updateProgressBar();
 
         setTimeout(() => {
             this.hide();
-        }, 500);
+        }, 300);
     }
 
     hide() {
         if (this.loadingScreen) {
-            this.loadingScreen.style.transition = 'opacity 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            this.loadingScreen.style.transition = 'opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             this.loadingScreen.style.opacity = '0';
 
             setTimeout(() => {
                 this.loadingScreen.style.display = 'none';
-            }, 600);
+                document.body.classList.add('loaded');
+            }, 800);
         }
     }
 }
 
-// Enhanced Component Loading with Better Error Handling
+// Enhanced Component Loading with Retry Logic
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Initializing optimized website...');
+    console.log('DOM loaded, initializing components...');
 
-    // Initialize loading screen
-    const loadingScreen = new OptimizedLoadingScreen();
+    // Initialize improved loading screen
+    const loadingScreen = new ImprovedLoadingScreen();
 
-    // Component configuration
+    // Component configuration with priorities
     const components = [
-        { id: 'header-container', file: 'header.html', critical: true },
-        { id: 'hero-container', file: 'components/hero-section.html', critical: true },
-        { id: 'benefits-container', file: 'components/benefits-banner.html' },
-        { id: 'services-container', file: 'components/services-overview.html' },
-        { id: 'why-choose-container', file: 'components/why-choose.html' },
-        { id: 'service-areas-container', file: 'components/service-areas.html' },
-        { id: 'gallery-container', file: 'components/gallery.html' },
-        { id: 'testimonials-container', file: 'components/testimonials.html' },
-        { id: 'process-container', file: 'components/process.html' },
-        { id: 'stats-container', file: 'components/stats.html' },
-        { id: 'faq-container', file: 'components/faq.html' },
-        { id: 'contact-cta-container', file: 'components/contact-cta.html' },
-        { id: 'footer-container', file: 'footer.html' }
+        { id: 'header-container', file: 'header.html', priority: 1, critical: true },
+        { id: 'hero-container', file: 'components/hero-section.html', priority: 1, critical: true },
+        { id: 'benefits-container', file: 'components/benefits-banner.html', priority: 2 },
+        { id: 'services-container', file: 'components/services-overview.html', priority: 1, critical: true },
+        { id: 'why-choose-container', file: 'components/why-choose.html', priority: 2 },
+        { id: 'service-areas-container', file: 'components/service-areas.html', priority: 2 },
+        { id: 'gallery-container', file: 'components/gallery.html', priority: 3 },
+        { id: 'testimonials-container', file: 'components/testimonials.html', priority: 3 },
+        { id: 'process-container', file: 'components/process.html', priority: 3 },
+        { id: 'stats-container', file: 'components/stats.html', priority: 3 },
+        { id: 'faq-container', file: 'components/faq.html', priority: 3 },
+        { id: 'contact-cta-container', file: 'components/contact-cta.html', priority: 2 },
+        { id: 'footer-container', file: 'footer.html', priority: 2 }
     ];
 
+    console.log('Starting component loading...');
+    
     let loadedCount = 0;
     const totalComponents = components.length;
 
-    // Load critical components first
-    const criticalComponents = components.filter(c => c.critical);
-    const nonCriticalComponents = components.filter(c => !c.critical);
-
-    async function loadComponentsSequentially(componentList, delay = 50) {
-        for (const component of componentList) {
+    async function loadComponentWithRetry(component, retries = 2) {
+        for (let i = 0; i <= retries; i++) {
             try {
-                await loadComponent(component.file, component.id);
-                loadedCount++;
-                console.log(`✅ Loaded: ${component.file} (${loadedCount}/${totalComponents})`);
-
-                // Small delay for smooth loading
-                await new Promise(resolve => setTimeout(resolve, delay));
+                const success = await loadComponent(component.file, component.id);
+                if (success) {
+                    loadedCount++;
+                    console.log(`✓ Loaded: ${component.file} (${loadedCount}/${totalComponents})`);
+                    return true;
+                }
             } catch (error) {
-                console.warn(`⚠️ Failed to load: ${component.file}`);
-                loadedCount++;
+                if (i === retries) {
+                    console.warn(`⚠️ Failed to load after ${retries + 1} attempts: ${component.file}`);
+                    loadedCount++;
+                }
+                await new Promise(resolve => setTimeout(resolve, 200 * (i + 1)));
             }
         }
+        return false;
     }
 
-    // Load components with priority
-    loadComponentsSequentially(criticalComponents, 100)
-        .then(() => loadComponentsSequentially(nonCriticalComponents, 50))
+    // Load components by priority
+    async function loadByPriority(priority) {
+        const priorityComponents = components.filter(c => c.priority === priority);
+        const promises = priorityComponents.map(component => 
+            loadComponentWithRetry(component)
+        );
+        await Promise.allSettled(promises);
+    }
+
+    // Load in priority order
+    loadByPriority(1)
+        .then(() => loadByPriority(2))
+        .then(() => loadByPriority(3))
         .then(() => {
-            console.log('🎉 All components loaded successfully!');
+            console.log('All components loaded, initializing animations...');
             initializeEnhancedFeatures();
         });
 });
 
 // Enhanced Feature Initialization
 function initializeEnhancedFeatures() {
-    // Initialize smooth animation controller
-    window.animationController = new SmoothAnimationController();
+    // Initialize animation controller
+    window.animationController = new EnhancedAnimationController();
+    window.animationController.init();
 
-    // Initialize other features
-    initializeOptimizedScrolling();
-    initializeEnhancedForms();
-    initializePerformanceOptimizations();
-
+    // Initialize other enhanced features
     setTimeout(() => {
+        initializeOptimizedScrolling();
+        initializeEnhancedForms();
         initializeFAQSystem();
+        initializeImageOptimization();
         console.log('✅ All enhanced features initialized');
-    }, 200);
+    }, 300);
 }
 
-// Optimized Smooth Scrolling
+// Enhanced Smooth Scrolling
 function initializeOptimizedScrolling() {
     let isScrolling = false;
 
@@ -441,7 +501,7 @@ function initializeOptimizedScrolling() {
                     const headerHeight = document.querySelector('.header')?.offsetHeight || 80;
                     const targetPosition = target.offsetTop - headerHeight - 20;
 
-                    smoothScrollTo(targetPosition, 800, () => {
+                    smoothScrollTo(targetPosition, 1000, () => {
                         isScrolling = false;
                     });
                 }
@@ -487,42 +547,47 @@ function initializeFAQSystem() {
         const answer = item.querySelector('.faq-answer');
 
         if (question && answer) {
-            // Set up smooth transitions
-            answer.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            // Enhanced smooth transitions
+            answer.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
             answer.style.overflow = 'hidden';
 
             // Set initial state
             if (!item.classList.contains('active')) {
                 answer.style.maxHeight = '0px';
                 answer.style.opacity = '0';
-            } else {
-                answer.style.maxHeight = answer.scrollHeight + 'px';
-                answer.style.opacity = '1';
+                answer.style.paddingTop = '0px';
+                answer.style.paddingBottom = '0px';
             }
 
             question.addEventListener('click', (e) => {
                 e.preventDefault();
                 const isActive = item.classList.contains('active');
 
-                // Close all other FAQ items
+                // Close others
                 faqItems.forEach(otherItem => {
                     if (otherItem !== item && otherItem.classList.contains('active')) {
                         const otherAnswer = otherItem.querySelector('.faq-answer');
                         otherAnswer.style.maxHeight = '0px';
                         otherAnswer.style.opacity = '0';
+                        otherAnswer.style.paddingTop = '0px';
+                        otherAnswer.style.paddingBottom = '0px';
                         otherItem.classList.remove('active');
                     }
                 });
 
-                // Toggle current item
+                // Toggle current
                 if (!isActive) {
                     item.classList.add('active');
                     answer.style.maxHeight = answer.scrollHeight + 'px';
                     answer.style.opacity = '1';
+                    answer.style.paddingTop = '1rem';
+                    answer.style.paddingBottom = '1rem';
                 } else {
                     item.classList.remove('active');
                     answer.style.maxHeight = '0px';
                     answer.style.opacity = '0';
+                    answer.style.paddingTop = '0px';
+                    answer.style.paddingBottom = '0px';
                 }
             });
         }
@@ -537,11 +602,11 @@ function initializeEnhancedForms() {
         const inputs = form.querySelectorAll('input, textarea, select');
 
         inputs.forEach(input => {
-            input.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            input.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
 
             input.addEventListener('focus', () => {
                 input.style.transform = 'scale(1.02)';
-                input.style.boxShadow = '0 0 0 3px rgba(154, 205, 50, 0.1)';
+                input.style.boxShadow = '0 0 0 3px rgba(154, 205, 50, 0.2)';
             });
 
             input.addEventListener('blur', () => {
@@ -552,35 +617,30 @@ function initializeEnhancedForms() {
     });
 }
 
-// Performance Optimizations
-function initializePerformanceOptimizations() {
-    // Optimize images
+// Image Optimization
+function initializeImageOptimization() {
     const images = document.querySelectorAll('img');
+    
     images.forEach(img => {
         img.loading = 'lazy';
         img.decoding = 'async';
-        img.style.transition = 'opacity 0.3s ease';
-
-        img.addEventListener('load', () => {
-            img.style.opacity = '1';
-        });
-    });
-
-    // Debounce scroll events
-    let scrollTimeout;
-    window.addEventListener('scroll', () => {
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
+        
+        if (!img.complete) {
+            img.style.opacity = '0';
+            img.style.transform = 'scale(0.95)';
+            img.style.transition = 'all 0.3s ease';
+            
+            img.addEventListener('load', () => {
+                img.style.opacity = '1';
+                img.style.transform = 'scale(1)';
+            });
         }
-        scrollTimeout = setTimeout(() => {
-            // Scroll-based animations here
-        }, 16);
-    }, { passive: true });
+    });
 }
 
 // Global error handling
 window.addEventListener('error', (e) => {
-    console.warn('Non-critical error:', e.message);
+    console.warn('Non-critical error handled:', e.message);
 });
 
 // Cleanup on page unload
