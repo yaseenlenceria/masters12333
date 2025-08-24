@@ -229,38 +229,38 @@ class AnimationController {
     }
 
     initializeParallaxEffects() {
-        // Disable parallax on mobile for better performance
-        const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
-        if (isMobile) {
-            console.log('Mobile device detected, disabling parallax for performance');
-            return;
-        }
-
         let ticking = false;
-        let scrollTimeout;
 
         const updateParallax = () => {
             if (!ticking) {
                 requestAnimationFrame(() => {
                     const scrolled = window.pageYOffset;
 
-                    // Throttle parallax updates for performance
-                    if (scrollTimeout) {
-                        clearTimeout(scrollTimeout);
-                    }
+                    // Parallax for background elements (not hero)
+                    const parallaxElements = document.querySelectorAll('.bg-circle, .floating-animation:not(.hero *)');
+                    parallaxElements.forEach((el, index) => {
+                        if (el && el.offsetParent) {
+                            const speed = 0.02 + (index * 0.01);
+                            const yPos = -(scrolled * speed);
+                            el.style.transform = `translateY(${yPos}px) rotate(${scrolled * 0.01}deg)`;
+                        }
+                    });
 
-                    scrollTimeout = setTimeout(() => {
-                        // Parallax for background elements (not hero)
-                        const parallaxElements = document.querySelectorAll('.bg-circle, .floating-animation:not(.hero *)');
-                        parallaxElements.forEach((el, index) => {
-                            if (el && el.offsetParent) {
-                                const speed = 0.01 + (index * 0.005); // Reduced speed
-                                const yPos = -(scrolled * speed);
-                                el.style.transform = `translateY(${yPos}px)`;
+                    // Page header parallax
+                    const pageHeaders = document.querySelectorAll('.page-header');
+                    pageHeaders.forEach(el => {
+                        if (el && el.offsetHeight > 0) {
+                            const rect = el.getBoundingClientRect();
+                            const elementTop = rect.top + scrolled;
+                            const elementHeight = el.offsetHeight;
+
+                            if (scrolled < elementTop + elementHeight) {
+                                const speed = 0.1;
+                                const transform = scrolled * speed;
+                                el.style.transform = `translateY(${transform}px)`;
                             }
-                        });
-                    }, 16); // ~60fps throttle
+                        }
+                    });
 
                     ticking = false;
                 });
@@ -348,37 +348,23 @@ function initializeSmoothScrolling() {
     });
 }
 
-// Mobile-optimized smooth scroll function
-function smoothScrollTo(targetPosition, duration = 600) {
-    const isMobile = window.innerWidth <= 768;
-    const scrollContainer = document.querySelector('.scroll-container') || window;
-    const startPosition = scrollContainer.scrollTop || window.pageYOffset;
+// Custom smooth scroll function
+function smoothScrollTo(targetPosition, duration) {
+    const startPosition = window.pageYOffset;
     const distance = targetPosition - startPosition;
-    
-    // Faster duration on mobile for better responsiveness
-    const actualDuration = isMobile ? Math.min(duration, 400) : duration;
     let startTime = null;
 
-    function easeOutCubic(t) {
-        return 1 - Math.pow(1 - t, 3);
+    function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
     }
 
     function animation(currentTime) {
         if (startTime === null) startTime = currentTime;
         const timeElapsed = currentTime - startTime;
-        const progress = Math.min(timeElapsed / actualDuration, 1);
-        const easeProgress = easeOutCubic(progress);
+        const progress = Math.min(timeElapsed / duration, 1);
+        const easeProgress = easeInOutCubic(progress);
 
-        const currentPosition = startPosition + distance * easeProgress;
-        
-        if (scrollContainer.scrollTo) {
-            scrollContainer.scrollTo({
-                top: currentPosition,
-                behavior: 'auto'
-            });
-        } else {
-            window.scrollTo(0, currentPosition);
-        }
+        window.scrollTo(0, startPosition + distance * easeProgress);
 
         if (progress < 1) {
             requestAnimationFrame(animation);
@@ -670,18 +656,13 @@ window.addEventListener('load', function() {
     });
 });
 
-// Optimized Component loading for mobile performance
+// Enhanced Component loading with Safari compatibility
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, starting optimized component loading...');
+    console.log('DOM loaded, initializing components...');
 
-    // Critical components load first
-    const criticalComponents = [
+    const components = [
         { id: 'header-container', file: 'header.html' },
-        { id: 'hero-container', file: 'components/hero-section.html' }
-    ];
-
-    // Non-critical components load lazily
-    const deferredComponents = [
+        { id: 'hero-container', file: 'components/hero-section.html' },
         { id: 'benefits-container', file: 'components/benefits-banner.html' },
         { id: 'services-container', file: 'components/services-overview.html' },
         { id: 'why-choose-container', file: 'components/why-choose.html' },
@@ -696,7 +677,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     let loadedComponents = 0;
-    const totalComponents = criticalComponents.length + deferredComponents.length;
+    const totalComponents = components.length;
 
     // Safari-compatible component loading function
     function loadComponent(component, retryCount = 0) {
@@ -794,54 +775,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Mobile-optimized loading strategy
-    console.log('Starting optimized component loading...');
+    // Load all components
+    console.log('Starting component loading...');
 
-    // Load critical components first (header & hero)
-    const loadCriticalComponents = async () => {
-        for (const component of criticalComponents) {
-            await loadComponent(component);
-            await new Promise(resolve => setTimeout(resolve, 50)); // Minimal delay
-        }
-        
-        // Initialize animations early for critical components
-        if (typeof initializeAllComponents === 'function') {
-            initializeAllComponents();
-        }
-        
-        // Start loading deferred components after critical ones
-        loadDeferredComponents();
-    };
+    // Load components sequentially for better reliability in Safari
+    let loadPromise = Promise.resolve();
 
-    // Load non-critical components with intersection observer
-    const loadDeferredComponents = () => {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const componentId = entry.target.id;
-                    const component = deferredComponents.find(c => c.id === componentId);
-                    if (component) {
-                        loadComponent(component);
-                        observer.unobserve(entry.target);
-                    }
-                }
+    components.forEach((component, index) => {
+        loadPromise = loadPromise.then(() => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    loadComponent(component).finally(resolve);
+                }, index * 100); // 100ms stagger for Safari
             });
-        }, {
-            rootMargin: '200px 0px', // Load when component is 200px from viewport
-            threshold: 0.01
         });
-
-        // Observe all deferred component containers
-        deferredComponents.forEach(component => {
-            const container = document.getElementById(component.id);
-            if (container) {
-                observer.observe(container);
-            }
-        });
-    };
-
-    // Start loading
-    loadCriticalComponents();
+    });
 
     // Fallback initialization
     setTimeout(() => {
