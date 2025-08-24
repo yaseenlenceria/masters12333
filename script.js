@@ -214,10 +214,21 @@ class PremiumLoadingScreen {
         const updateProgress = () => {
             const timeElapsed = Date.now() - this.startTime;
             
-            // Different tracking for different page types
+            // Better component tracking for home page
             if (this.isHomePage) {
                 const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
                 this.loadedComponents = containers.length;
+                
+                // Check for critical components specifically
+                const header = document.querySelector('header, .header');
+                const hero = document.querySelector('#hero-container');
+                const hasHeader = header ? 1 : 0;
+                const hasHero = hero && hero.innerHTML.trim() ? 1 : 0;
+                
+                // Weight critical components more heavily
+                const criticalProgress = (hasHeader + hasHero) * 15; // 30% for header + hero
+                const regularProgress = Math.min((this.loadedComponents / this.totalComponents) * 70, 70);
+                this.progress = Math.min(criticalProgress + regularProgress, 100);
             } else {
                 // For other pages, check if main content is loaded
                 const mainContent = document.querySelector('main, .main-content, .page-content');
@@ -229,22 +240,27 @@ class PremiumLoadingScreen {
                 if (mainContent) this.loadedComponents++;
                 if (footer) this.loadedComponents++;
                 if (document.readyState === 'complete') this.loadedComponents++;
+                
+                const componentProgress = Math.min((this.loadedComponents / this.totalComponents) * 60, 60);
+                const timeProgress = Math.min((timeElapsed / 2000) * 40, 40);
+                this.progress = Math.min(componentProgress + timeProgress, 100);
             }
-            
-            // Calculate realistic progress
-            const componentProgress = Math.min((this.loadedComponents / this.totalComponents) * 60, 60);
-            const timeProgress = Math.min((timeElapsed / 2000) * 40, 40);
-            this.progress = Math.min(componentProgress + timeProgress, 100);
             
             this.updateProgressBar();
             
-            // Complete when we have enough components and minimum time
-            const minTime = this.isMobile ? 1000 : 800;
-            const hasEnoughComponents = this.loadedComponents >= Math.max(1, this.totalComponents * 0.5);
+            // Improved completion logic
+            const minTime = this.isMobile ? 1500 : 1200; // Slightly longer minimum
+            const hasEnoughComponents = this.loadedComponents >= Math.max(3, this.totalComponents * 0.4);
             const hasMinTime = timeElapsed >= minTime;
             const isDocumentReady = document.readyState === 'complete';
+            const hasHeader = document.querySelector('header, .header');
             
-            if (this.progress >= 100 || (hasEnoughComponents && hasMinTime) || (isDocumentReady && timeElapsed > minTime)) {
+            // For home page, ensure header is loaded before completing
+            const canComplete = this.isHomePage ? 
+                (hasHeader && hasEnoughComponents && hasMinTime) :
+                (hasEnoughComponents && hasMinTime);
+            
+            if (this.progress >= 100 || canComplete || (isDocumentReady && timeElapsed > minTime && hasHeader)) {
                 this.completeLoading();
             } else if (!this.isComplete) {
                 requestAnimationFrame(updateProgress);
@@ -253,8 +269,8 @@ class PremiumLoadingScreen {
         
         requestAnimationFrame(updateProgress);
         
-        // Safety timeout - shorter for non-home pages
-        const maxWait = this.isHomePage ? (this.isMobile ? 4000 : 3500) : (this.isMobile ? 2500 : 2000);
+        // Adjusted timeout for better UX
+        const maxWait = this.isHomePage ? (this.isMobile ? 5000 : 4000) : (this.isMobile ? 2500 : 2000);
         setTimeout(() => {
             if (!this.isComplete) {
                 console.log('⚠️ Loading timeout reached, completing...');
@@ -645,12 +661,13 @@ document.addEventListener('DOMContentLoaded', function() {
     window.animationController = new ModernAnimationController();
 
     if (isHomePage) {
-        // Component configuration with priorities for home page
+        // Component configuration with priorities for home page - Header first!
         const components = [
-            { id: 'header-container', file: 'header.html', priority: 1 },
-            { id: 'hero-container', file: 'components/hero-section.html', priority: 1 },
+            { id: 'header-container', file: 'header.html', priority: 1, critical: true },
+            { id: 'hero-container', file: 'components/hero-section.html', priority: 1, critical: true },
             { id: 'benefits-container', file: 'components/benefits-banner.html', priority: 2 },
             { id: 'services-container', file: 'components/services-overview.html', priority: 2 },
+            { id: 'contact-cta-container', file: 'components/contact-cta.html', priority: 2 },
             { id: 'why-choose-container', file: 'components/why-choose.html', priority: 3 },
             { id: 'service-areas-container', file: 'components/service-areas.html', priority: 3 },
             { id: 'gallery-container', file: 'components/gallery.html', priority: 3 },
@@ -658,7 +675,6 @@ document.addEventListener('DOMContentLoaded', function() {
             { id: 'process-container', file: 'components/process.html', priority: 4 },
             { id: 'stats-container', file: 'components/stats.html', priority: 4 },
             { id: 'faq-container', file: 'components/faq.html', priority: 5 },
-            { id: 'contact-cta-container', file: 'components/contact-cta.html', priority: 2 },
             { id: 'footer-container', file: 'footer.html', priority: 5 }
         ];
 
@@ -694,6 +710,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                 container.style.opacity = '1';
                                 container.style.visibility = 'visible';
                             }, 50);
+                        }
+                        
+                        // Initialize header immediately when loaded
+                        if (component.id === 'header-container') {
+                            setTimeout(() => {
+                                initModernHeader();
+                                console.log('🔧 Header initialized immediately');
+                            }, 200);
                         }
                         
                         console.log(`✅ Priority ${priority}: ${component.file} (${loadedCount}/${totalComponents})`);

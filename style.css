@@ -62,6 +62,15 @@ body {
     /* Prevent any layout shifts */
     contain: strict;
     will-change: opacity, visibility, transform;
+    /* Force loading screen to stay visible until explicitly hidden */
+    transform: scale(1) !important;
+}
+
+/* Ensure loading screen shows immediately on page load */
+.loading-screen:not(.hide) {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 /* Simplified loading screen for non-home pages */
@@ -91,10 +100,116 @@ body {
 }
 
 .loading-screen.hide {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: scale(0.95) !important;
+    pointer-events: none !important;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 500px;
+    width: 90%;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    border: 1px solid rgba(154, 205, 50, 0.2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+.loading-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.loading-logo .main-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+    animation: logoFloat 3s ease-in-out infinite;
+}
+
+.loading-text h1 {
+    color: #9ACD32;
+    font-size: 1.8rem;
+    margin: 0 0 0.5rem 0;
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(154, 205, 50, 0.5);
+}
+
+.loading-text p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+.loading-brands {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.brand-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(154, 205, 50, 0.2);
+    transition: all 0.3s ease;
     opacity: 0;
-    visibility: hidden;
-    transform: scale(0.95);
-    pointer-events: none;
+    transform: translateY(20px);
+    animation: brandFloat 4s ease-in-out infinite, fadeInUp 0.8s ease 1.2s both;
+}
+
+.brand-logo img {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.5rem;
+    border-radius: 10px;
+}
+
+.brand-logo span {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.loading-progress {
+    width: 100%;
+}
+
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes brandFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .loading-container {
