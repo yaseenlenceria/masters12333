@@ -7,6 +7,11 @@ function loadComponent(componentPath, containerId) {
         return Promise.resolve();
     }
 
+    // Hide container immediately to prevent blinking
+    container.style.opacity = '0';
+    container.style.visibility = 'hidden';
+    container.style.transition = 'none';
+
     return fetch(componentPath + '?v=' + Date.now())
         .then(response => {
             if (!response.ok) {
@@ -16,10 +21,12 @@ function loadComponent(componentPath, containerId) {
         })
         .then(data => {
             if (data && data.trim()) {
-                container.innerHTML = data;
-
+                // Create a temporary container to avoid layout shifts
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                
                 // Execute scripts with proper error handling
-                const scripts = container.querySelectorAll('script');
+                const scripts = tempDiv.querySelectorAll('script');
                 scripts.forEach(script => {
                     try {
                         const newScript = document.createElement('script');
@@ -36,11 +43,20 @@ function loadComponent(componentPath, containerId) {
                     }
                 });
 
-                console.log(`✅ Loaded: ${componentPath}`);
+                // Insert content all at once to minimize reflows
+                container.innerHTML = tempDiv.innerHTML;
                 
                 // Trigger component-specific initializations
                 initializeComponentFeatures(container);
                 
+                // Show container smoothly after everything is loaded
+                requestAnimationFrame(() => {
+                    container.style.transition = 'opacity 0.3s ease, visibility 0.3s ease';
+                    container.style.opacity = '1';
+                    container.style.visibility = 'visible';
+                });
+
+                console.log(`✅ Loaded: ${componentPath}`);
                 return true;
             }
             return false;
@@ -50,6 +66,8 @@ function loadComponent(componentPath, containerId) {
             container.innerHTML = `<div class="loading-fallback">
                 <p>Content loading...</p>
             </div>`;
+            container.style.opacity = '1';
+            container.style.visibility = 'visible';
             return false;
         });
 }
@@ -317,21 +335,27 @@ class PremiumLoadingScreen {
     }
     
     initializePageAnimations() {
-        // Smooth page reveal
-        document.body.style.opacity = '1';
-        document.body.style.visibility = 'visible';
+        // Enable animations again
+        document.documentElement.style.removeProperty('--disable-animations');
         
-        // Initialize scroll-based animations
+        // Smooth page reveal without blinking
+        setTimeout(() => {
+            document.body.style.transition = 'opacity 0.5s ease, visibility 0.5s ease';
+            document.body.style.opacity = '1';
+            document.body.style.visibility = 'visible';
+        }, 100);
+        
+        // Initialize scroll-based animations after page is visible
         if (window.animationController) {
             setTimeout(() => {
                 window.animationController.init();
-            }, 100);
+            }, 300);
         }
         
         // Initialize enhanced features
         setTimeout(() => {
             initializeEnhancedFeatures();
-        }, 200);
+        }, 400);
         
         console.log('🎨 Page animations initialized');
     }
@@ -584,25 +608,37 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log(`🏠 DOMContentLoaded - Page: ${path}, isHomePage: ${isHomePage}`);
     
-    // Set initial page state
+    // CRITICAL: Hide page content immediately to prevent blinking
     document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
+    document.body.style.visibility = 'hidden';
+    document.body.style.transition = 'none'; // Remove transition to prevent blinking
+    
+    // Prevent any animations during loading
+    document.documentElement.style.setProperty('--disable-animations', '1');
 
     // Initialize premium loading screen (only for home page)
     let loadingScreen = null;
     if (isHomePage) {
-        // Ensure loading screen is visible and properly initialized
+        // Force loading screen to be visible immediately
         const existingLoadingScreen = document.getElementById('loading-screen');
         if (existingLoadingScreen) {
-            existingLoadingScreen.style.display = 'flex';
-            existingLoadingScreen.style.opacity = '1';
-            existingLoadingScreen.style.visibility = 'visible';
-            existingLoadingScreen.style.zIndex = '10000';
-            console.log('✅ Found existing loading screen, ensuring visibility');
+            existingLoadingScreen.style.display = 'flex !important';
+            existingLoadingScreen.style.opacity = '1 !important';
+            existingLoadingScreen.style.visibility = 'visible !important';
+            existingLoadingScreen.style.zIndex = '10000 !important';
+            existingLoadingScreen.style.position = 'fixed !important';
+            console.log('✅ Loading screen forced visible');
         }
         
         loadingScreen = new PremiumLoadingScreen();
         console.log('🎬 Loading screen initialized for home page');
+    } else {
+        // For non-home pages, show content faster but still prevent blinking
+        setTimeout(() => {
+            document.body.style.visibility = 'visible';
+            document.body.style.opacity = '1';
+            document.body.style.transition = 'opacity 0.3s ease';
+        }, 100);
     }
     
     // Initialize animation controller
@@ -633,6 +669,15 @@ document.addEventListener('DOMContentLoaded', function() {
         async function loadComponentsByPriority() {
             const priorities = [...new Set(components.map(c => c.priority))].sort();
             
+            // Hide all containers initially to prevent blinking
+            components.forEach(component => {
+                const container = document.getElementById(component.id);
+                if (container) {
+                    container.style.opacity = '0';
+                    container.style.visibility = 'hidden';
+                }
+            });
+            
             for (const priority of priorities) {
                 const priorityComponents = components.filter(c => c.priority === priority);
                 
@@ -640,6 +685,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     try {
                         await loadComponent(component.file, component.id);
                         loadedCount++;
+                        
+                        // Show container smoothly after loading
+                        const container = document.getElementById(component.id);
+                        if (container) {
+                            setTimeout(() => {
+                                container.style.transition = 'opacity 0.3s ease, visibility 0.3s ease';
+                                container.style.opacity = '1';
+                                container.style.visibility = 'visible';
+                            }, 50);
+                        }
+                        
                         console.log(`✅ Priority ${priority}: ${component.file} (${loadedCount}/${totalComponents})`);
                     } catch (error) {
                         console.warn(`⚠️ Failed to load: ${component.file}`);
@@ -647,13 +703,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }));
                 
-                // Small delay between priority groups
+                // Reduced delay between priority groups for faster loading
                 if (priority < Math.max(...priorities)) {
-                    await new Promise(resolve => setTimeout(resolve, 100));
+                    await new Promise(resolve => setTimeout(resolve, 50));
                 }
             }
             
             console.log('🎉 All components loaded successfully!');
+            
+            // Re-enable animations
+            document.documentElement.style.removeProperty('--disable-animations');
+            
             initializeEnhancedFeatures();
         }
 

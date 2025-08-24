@@ -1,3 +1,19 @@
+:root {
+    --disable-animations: 0;
+    --animation-speed: 1s;
+    --animation-delay: 0s;
+}
+
+/* Disable all animations when loading */
+html[style*="--disable-animations: 1"] *,
+html[style*="--disable-animations: 1"] *::before,
+html[style*="--disable-animations: 1"] *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0.01ms !important;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -10,11 +26,13 @@ body {
     color: #ffffff;
     background: #1a1a1a;
     overflow-x: hidden;
-    opacity: 1;
+    opacity: 0;
+    visibility: hidden;
     font-display: swap;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
 .container {
@@ -26,21 +44,24 @@ body {
 
 /* Enhanced Loading Screen Styles */
 .loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    opacity: 1;
-    visibility: visible;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 10000 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     pointer-events: auto;
+    /* Prevent any layout shifts */
+    contain: strict;
+    will-change: opacity, visibility, transform;
 }
 
 /* Simplified loading screen for non-home pages */
@@ -628,14 +649,32 @@ section {
     padding: 5rem 0;
     position: relative;
     opacity: 0;
+    visibility: hidden;
     transform: translateY(30px);
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Prevent layout shifts */
+    contain: layout style;
+    will-change: opacity, visibility, transform;
 }
 
 .content-section.loaded,
 section.animated {
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
+}
+
+/* Container optimization */
+[id$="-container"] {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    contain: layout style;
+}
+
+[id$="-container"]:not(:empty) {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Responsive Improvements */
@@ -713,7 +752,35 @@ section.animated {
     }
 }
 
-/* Performance Optimizations */
+/* Critical Performance Optimizations */
+/* Prevent FOUC (Flash of Unstyled Content) */
+.loading {
+    visibility: hidden !important;
+}
+
+/* Optimize images for faster loading */
+img {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+img[src] {
+    opacity: 1;
+}
+
+/* Prevent layout shifts during loading */
+img[width][height] {
+    aspect-ratio: attr(width) / attr(height);
+}
+
+/* Critical resource hints */
+.loading-screen img {
+    loading: eager;
+    decoding: sync;
+    fetchpriority: high;
+}
+
+/* Performance optimizations */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -723,6 +790,23 @@ section.animated {
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
+}
+
+/* GPU acceleration for smooth animations */
+.loading-screen,
+.service-card,
+.feature-card,
+.btn {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+}
+
+/* Reduce paint complexity */
+.loading-screen *,
+.service-card *,
+.feature-card * {
+    contain: layout style paint;
 }
 
 /* Enhanced Focus States */
