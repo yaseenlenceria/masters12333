@@ -866,6 +866,14 @@ img:hover {
     margin: 0 auto;
 }
 
+.contact-grid-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
 .contact-card {
     background: linear-gradient(135deg, #222222 0%, #1a1a1a 100%);
     border: 2px solid #333333;
@@ -1249,6 +1257,11 @@ img:hover {
         grid-template-columns: repeat(2, 1fr);
     }
     
+    .contact-grid-rows {
+        max-width: 700px;
+        gap: 1.2rem;
+    }
+    
     .contact-info-grid {
         grid-template-columns: 1fr;
         gap: 3rem;
@@ -1282,6 +1295,12 @@ img:hover {
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+    
+    .contact-grid-rows {
+        max-width: 100%;
+        gap: 1rem;
+        padding: 0 1rem;
     }
     
     .contact-form {
