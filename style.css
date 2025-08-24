@@ -14,6 +14,29 @@ body {
     font-display: swap;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    
+    /* Mobile scroll optimization */
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    
+    /* Prevent iOS bounce */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* Smooth scrolling container for mobile */
+.scroll-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
 }
 
 .container {
@@ -31,6 +54,39 @@ img, video {
     transform: translateZ(0);
     max-width: 100%;
     height: auto;
+    
+    /* Optimize for mobile */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Mobile performance optimizations */
+@media (max-width: 768px) {
+    * {
+        /* Reduce paint complexity on mobile */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-perspective: 1000;
+        perspective: 1000;
+    }
+    
+    /* Disable complex animations on mobile */
+    .floating-animation,
+    .parallax-element,
+    .bg-particle {
+        animation: none !important;
+        transform: none !important;
+    }
+    
+    /* Simplify hover effects for touch devices */
+    .service-card:hover,
+    .feature-card:hover,
+    .contact-card:hover {
+        transform: translateY(-2px) !important;
+        transition: transform 0.2s ease !important;
+    }
 }
 
 /* Preload critical resources */
@@ -573,16 +629,34 @@ img:hover {
 
 /* Mobile Touch Optimizations */
 @media (hover: none) and (pointer: coarse) {
+    /* Fast touch feedback */
     .btn:active,
     .service-card:active,
     .feature-card:active,
     .contact-card:active {
         transform: scale(0.98);
-        transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.1s ease;
     }
 
-    .floating-animation {
-        animation: none; /* Disable floating on mobile for performance */
+    /* Disable resource-heavy animations on mobile */
+    .floating-animation,
+    .pulse-slow,
+    .gradient-animate {
+        animation: none !important;
+        background-size: 100% 100% !important;
+    }
+    
+    /* Optimize scrolling for touch */
+    body, html {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+        overscroll-behavior-y: contain;
+    }
+    
+    /* Reduce motion blur on fast scrolling */
+    * {
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
     }
 }
 
