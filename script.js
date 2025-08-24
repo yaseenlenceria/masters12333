@@ -306,54 +306,6 @@ const deferredComponents = [
     'components/faq.html', 'components/contact-cta.html'
 ];
 
-// Load components with priority system
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, starting optimized component loading...');
-
-    try {
-        // Load critical components first
-        criticalComponents.forEach(component => {
-            if (component === 'header.html') {
-                loadComponent(component, 'header-container');
-            } else if (component === 'components/hero-section.html' && document.getElementById('hero-container')) {
-                loadComponent(component, 'hero-container');
-            }
-        });
-
-        // Load other components after a short delay to not block rendering
-        requestIdleCallback(() => {
-            const componentMappings = {
-                'benefits-container': 'components/benefits-banner.html',
-                'services-container': 'components/services-overview.html',
-                'why-choose-container': 'components/why-choose.html',
-                'service-areas-container': 'components/service-areas.html',
-                'gallery-container': 'components/gallery.html',
-                'testimonials-container': 'components/testimonials.html',
-                'process-container': 'components/process.html',
-                'stats-container': 'components/stats.html',
-                'faq-container': 'components/faq.html',
-                'contact-cta-container': 'components/contact-cta.html',
-                'footer-container': 'footer.html'
-            };
-
-            Object.entries(componentMappings).forEach(([containerId, componentPath]) => {
-                const container = document.getElementById(containerId);
-                if (container) {
-                    loadComponent(componentPath, containerId);
-                }
-            });
-        }, { timeout: 2000 });
-
-        // Initialize components after critical loading
-        setTimeout(() => {
-            initializeAllComponents();
-        }, 200);
-
-    } catch (error) {
-        console.error('Error during component initialization:', error);
-    }
-});
-
 // Initialize all components and animations
 function initializeAllComponents() {
     // Initialize animation controller
@@ -702,4 +654,150 @@ window.addEventListener('load', function() {
         link.href = href;
         document.head.appendChild(link);
     });
+});
+
+// Enhanced Component loading with Safari compatibility
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing components...');
+
+    const components = [
+        { id: 'header-container', file: 'header.html' },
+        { id: 'hero-container', file: 'components/hero-section.html' },
+        { id: 'benefits-container', file: 'components/benefits-banner.html' },
+        { id: 'services-container', file: 'components/services-overview.html' },
+        { id: 'why-choose-container', file: 'components/why-choose.html' },
+        { id: 'service-areas-container', file: 'components/service-areas.html' },
+        { id: 'gallery-container', file: 'components/gallery.html' },
+        { id: 'testimonials-container', file: 'components/testimonials.html' },
+        { id: 'process-container', file: 'components/process.html' },
+        { id: 'stats-container', file: 'components/stats.html' },
+        { id: 'faq-container', file: 'components/faq.html' },
+        { id: 'contact-cta-container', file: 'components/contact-cta.html' },
+        { id: 'footer-container', file: 'footer.html' }
+    ];
+
+    let loadedComponents = 0;
+    const totalComponents = components.length;
+
+    // Safari-compatible component loading function
+    function loadComponent(component, retryCount = 0) {
+        const maxRetries = 3;
+        const container = document.getElementById(component.id);
+
+        if (!container) {
+            console.warn(`Container ${component.id} not found`);
+            return Promise.resolve();
+        }
+
+        console.log(`Loading ${component.file}...`);
+
+        return new Promise((resolve, reject) => {
+            // Use XMLHttpRequest for better Safari compatibility
+            const xhr = new XMLHttpRequest();
+
+            xhr.open('GET', component.file + '?v=' + Date.now(), true);
+            xhr.setRequestHeader('Cache-Control', 'no-cache');
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            container.innerHTML = xhr.responseText;
+
+                            // Execute any scripts in the loaded content
+                            const scripts = container.querySelectorAll('script');
+                            scripts.forEach(script => {
+                                try {
+                                    const newScript = document.createElement('script');
+                                    newScript.type = 'text/javascript';
+
+                                    if (script.src) {
+                                        newScript.src = script.src;
+                                        newScript.async = false;
+                                    } else {
+                                        newScript.textContent = script.textContent;
+                                    }
+
+                                    document.head.appendChild(newScript);
+                                    if (script.parentNode) {
+                                        script.parentNode.removeChild(script);
+                                    }
+                                } catch (e) {
+                                    console.warn('Script execution warning:', e);
+                                }
+                            });
+
+                            loadedComponents++;
+                            console.log(`✓ Loaded: ${component.file} (${loadedComponents}/${totalComponents})`);
+
+                            // Initialize scroll animations when all components are loaded
+                            if (loadedComponents === totalComponents) {
+                                console.log('All components loaded, initializing animations...');
+                                setTimeout(() => {
+                                    if (typeof initializeScrollAnimations === 'function') {
+                                        initializeScrollAnimations();
+                                    }
+                                }, 500);
+                            }
+
+                            resolve();
+                        } catch (error) {
+                            console.error(`Error processing ${component.file}:`, error);
+                            reject(error);
+                        }
+                    } else {
+                        const error = new Error(`HTTP error! status: ${xhr.status}`);
+                        console.error(`Failed to load ${component.file}:`, error);
+
+                        if (retryCount < maxRetries) {
+                            console.log(`Retrying ${component.file} (${retryCount + 1}/${maxRetries})`);
+                            setTimeout(() => {
+                                loadComponent(component, retryCount + 1).then(resolve).catch(reject);
+                            }, 1000 * (retryCount + 1));
+                        } else {
+                            container.innerHTML = `<div style="color: #ff6b6b; padding: 20px; text-align: center; background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); border-radius: 8px; margin: 10px 0;">
+                                <p>⚠️ Failed to load component: ${component.file}</p>
+                                <p style="font-size: 0.9em; opacity: 0.8;">Please refresh the page or check your connection.</p>
+                            </div>`;
+                            reject(error);
+                        }
+                    }
+                }
+            };
+
+            xhr.onerror = function() {
+                const error = new Error('Network error');
+                console.error(`Network error loading ${component.file}`);
+                reject(error);
+            };
+
+            xhr.send();
+        });
+    }
+
+    // Load all components
+    console.log('Starting component loading...');
+
+    // Load components sequentially for better reliability in Safari
+    let loadPromise = Promise.resolve();
+
+    components.forEach((component, index) => {
+        loadPromise = loadPromise.then(() => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    loadComponent(component).finally(resolve);
+                }, index * 100); // 100ms stagger for Safari
+            });
+        });
+    });
+
+    // Fallback initialization
+    setTimeout(() => {
+        if (loadedComponents < totalComponents) {
+            console.warn(`Only ${loadedComponents}/${totalComponents} components loaded. Initializing anyway...`);
+            if (typeof initializeScrollAnimations === 'function') {
+                initializeScrollAnimations();
+            }
+        }
+    }, 5000);
 });
