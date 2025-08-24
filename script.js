@@ -285,16 +285,27 @@ class OptimizedLoadingScreen {
         // Track actual component loading progress
         const totalComponents = 13;
         let loadedComponents = 0;
+        this.actualComponentsLoaded = 0;
 
         const updateProgress = () => {
-            // Combine component loading with time-based progress
-            const componentProgress = (loadedComponents / totalComponents) * 70;
-            const timeProgress = Math.min((Date.now() - this.startTime) / 3000 * 30, 30);
+            // Get actual loaded components count
+            const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
+            this.actualComponentsLoaded = containers.length;
+            
+            // More realistic progress calculation for mobile
+            const componentProgress = (this.actualComponentsLoaded / totalComponents) * 60;
+            const timeElapsed = Date.now() - this.startTime;
+            const timeProgress = Math.min((timeElapsed / (this.isMobile ? 2500 : 3000)) * 40, 40);
 
             this.progress = Math.min(componentProgress + timeProgress, 100);
             this.updateProgressBar();
 
-            if (this.progress >= 100) {
+            // Only complete when we have sufficient components loaded AND minimum time has passed
+            const minTimeElapsed = this.isMobile ? 1500 : 1000;
+            const hasEnoughComponents = this.actualComponentsLoaded >= (this.isMobile ? 8 : 10);
+            const hasMinTime = timeElapsed >= minTimeElapsed;
+
+            if (this.progress >= 100 || (hasEnoughComponents && hasMinTime)) {
                 this.completeLoading();
             } else {
                 requestAnimationFrame(updateProgress);
@@ -304,15 +315,25 @@ class OptimizedLoadingScreen {
         this.startTime = Date.now();
         requestAnimationFrame(updateProgress);
 
-        // Listen for component loads
-        const observer = new MutationObserver(() => {
-            const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
-            loadedComponents = containers.length;
+        // Listen for component loads with better detection
+        const observer = new MutationObserver((mutations) => {
+            let hasNewContent = false;
+            mutations.forEach(mutation => {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    mutation.addedNodes.forEach(node => {
+                        if (node.nodeType === Node.ELEMENT_NODE && 
+                            (node.tagName === 'SECTION' || node.tagName === 'DIV' || 
+                             node.querySelector && node.querySelector('section, .content-section'))) {
+                            hasNewContent = true;
+                        }
+                    });
+                }
+            });
             
-            // Force completion on mobile if most components are loaded
-            if (this.isMobile && loadedComponents >= 8) {
-                this.progress = 100;
-                this.completeLoading();
+            if (hasNewContent) {
+                const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
+                loadedComponents = containers.length;
+                console.log(`Components loaded: ${loadedComponents}/${totalComponents}`);
             }
         });
 
@@ -321,10 +342,11 @@ class OptimizedLoadingScreen {
             subtree: true 
         });
 
-        // Shorter timeout for mobile devices
-        const maxWaitTime = this.isMobile ? 2000 : 3000;
+        // Safety timeout - longer for mobile to ensure smooth experience
+        const maxWaitTime = this.isMobile ? 3000 : 3500;
         setTimeout(() => {
             if (!this.isComplete) {
+                console.log('Loading timeout reached, completing...');
                 this.progress = 100;
                 this.completeLoading();
             }
@@ -340,47 +362,72 @@ class OptimizedLoadingScreen {
     }
 
     completeLoading() {
+        if (this.isComplete) return;
+        
         this.isComplete = true;
         this.progress = 100;
         this.updateProgressBar();
 
+        console.log(`Loading complete: ${this.actualComponentsLoaded}/13 components loaded`);
+
+        // Longer delay on mobile to ensure smooth transition
+        const hideDelay = this.isMobile ? 800 : 500;
         setTimeout(() => {
             this.hide();
-        }, 500);
+        }, hideDelay);
     }
 
     hide() {
-        if (this.loadingScreen) {
-            this.loadingScreen.classList.add('hide');
+        if (!this.loadingScreen) return;
+
+        console.log('Hiding loading screen...');
+        
+        // Add hide class for CSS transition
+        this.loadingScreen.classList.add('hide');
+        
+        // Enhanced mobile hiding logic
+        if (this.isMobile) {
+            // Immediate style changes for mobile
+            this.loadingScreen.style.opacity = '0';
+            this.loadingScreen.style.visibility = 'hidden';
+            this.loadingScreen.style.pointerEvents = 'none';
+            this.loadingScreen.style.transform = 'scale(0.9)';
+            this.loadingScreen.style.zIndex = '-1';
             
-            // Immediate hide for mobile devices
-            if (this.isMobile) {
-                this.loadingScreen.style.opacity = '0';
-                this.loadingScreen.style.visibility = 'hidden';
-                this.loadingScreen.style.pointerEvents = 'none';
-                this.loadingScreen.style.transform = 'scale(0.9)';
-                
-                // Remove all child elements immediately on mobile
-                const brandLogos = this.loadingScreen.querySelectorAll('.brand-logo');
-                brandLogos.forEach(logo => {
-                    logo.style.opacity = '0';
-                    logo.style.transform = 'translateY(-50px) scale(0.8)';
-                });
-            }
-            
-            // Force hide with additional safety
-            setTimeout(() => {
+            // Hide all brand logos immediately
+            const brandLogos = this.loadingScreen.querySelectorAll('.brand-logo');
+            brandLogos.forEach((logo, index) => {
+                logo.style.opacity = '0';
+                logo.style.transform = 'translateY(-30px) scale(0.7)';
+                logo.style.transition = 'all 0.3s ease';
+            });
+
+            // Hide loading elements
+            const loadingElements = this.loadingScreen.querySelectorAll('.loading-logo, .loading-progress, .loading-text');
+            loadingElements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(-20px) scale(0.8)';
+            });
+        }
+        
+        // Force complete removal after animation
+        const removalDelay = this.isMobile ? 600 : 1000;
+        setTimeout(() => {
+            if (this.loadingScreen && this.loadingScreen.parentNode) {
                 this.loadingScreen.style.display = 'none';
                 this.loadingScreen.style.visibility = 'hidden';
                 this.loadingScreen.style.opacity = '0';
                 this.loadingScreen.style.pointerEvents = 'none';
                 
-                // Remove from DOM completely as safety measure
-                if (this.loadingScreen.parentNode) {
+                // Complete DOM removal
+                try {
                     this.loadingScreen.parentNode.removeChild(this.loadingScreen);
+                    console.log('Loading screen completely removed from DOM');
+                } catch (e) {
+                    console.warn('Loading screen already removed');
                 }
-            }, this.isMobile ? 400 : 800);
-        }
+            }
+        }, removalDelay);
     }
 }
 

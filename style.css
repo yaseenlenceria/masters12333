@@ -326,7 +326,7 @@ body {
         height: 35px;
     }
 
-    /* Force loading screen to hide properly on small mobile */
+    /* Enhanced mobile loading screen behavior */
     .loading-screen {
         position: fixed;
         top: 0;
@@ -334,19 +334,36 @@ body {
         width: 100vw;
         height: 100vh;
         z-index: 10000;
+        will-change: opacity, transform, visibility;
     }
 
     .loading-screen.hide {
         opacity: 0 !important;
         visibility: hidden !important;
-        pointer-events: none;
-        transform: scale(0.9);
-        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none !important;
+        transform: scale(0.9) !important;
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        z-index: -1 !important;
     }
 
-    .loading-screen.hide * {
+    .loading-screen.hide .brand-logo {
         opacity: 0 !important;
-        transform: translateY(-20px) scale(0.9) !important;
+        transform: translateY(-30px) scale(0.7) !important;
+        transition: all 0.4s ease !important;
+    }
+
+    .loading-screen.hide .loading-logo,
+    .loading-screen.hide .loading-progress,
+    .loading-screen.hide .loading-text {
+        opacity: 0 !important;
+        transform: translateY(-20px) scale(0.8) !important;
+        transition: all 0.5s ease !important;
+    }
+
+    /* Ensure complete hiding on mobile */
+    .loading-screen.hide::before,
+    .loading-screen.hide::after {
+        display: none !important;
     }
 }
 
