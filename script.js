@@ -80,7 +80,11 @@ function initializeComponentFeatures(container) {
 // Enhanced Loading Screen Controller
 class PremiumLoadingScreen {
     constructor() {
-        this.isHomePage = window.location.pathname === '/' || window.location.pathname.includes('index.html') || window.location.pathname === '';
+        // Improved home page detection
+        const path = window.location.pathname;
+        this.isHomePage = path === '/' || path === '/index.html' || path === '' || path.endsWith('/');
+        
+        console.log(`🏠 Page detected: ${path}, isHomePage: ${this.isHomePage}`);
         
         // Only initialize loading screen for home page
         if (!this.isHomePage) {
@@ -90,8 +94,6 @@ class PremiumLoadingScreen {
         }
         
         this.loadingScreen = document.getElementById('loading-screen');
-        this.progressFill = document.querySelector('.progress-fill');
-        this.loadingPercentage = document.querySelector('.loading-percentage');
         this.progress = 0;
         this.isComplete = false;
         this.startTime = Date.now();
@@ -99,14 +101,30 @@ class PremiumLoadingScreen {
         this.loadedComponents = 0;
         this.totalComponents = this.detectPageType();
         
-        // Create loading screen if it doesn't exist
-        if (!this.loadingScreen && !this.isComplete) {
-            this.createLoadingScreen();
-        }
+        // Initialize elements after ensuring loading screen exists
+        this.initializeElements();
         
         if (this.loadingScreen) {
             console.log('🚀 Initializing Premium Loading Screen for Home Page');
             this.init();
+        } else {
+            console.error('❌ Loading screen not found, creating fallback');
+            this.createLoadingScreen();
+            this.initializeElements();
+            this.init();
+        }
+    }
+    
+    initializeElements() {
+        this.progressFill = document.querySelector('.progress-fill');
+        this.loadingPercentage = document.querySelector('.loading-percentage');
+        
+        if (!this.progressFill || !this.loadingPercentage) {
+            console.warn('⚠️ Loading screen elements not found, will retry');
+            setTimeout(() => {
+                this.progressFill = document.querySelector('.progress-fill');
+                this.loadingPercentage = document.querySelector('.loading-percentage');
+            }, 100);
         }
     }
 
@@ -251,31 +269,42 @@ class PremiumLoadingScreen {
     }
 
     hide() {
-        if (!this.loadingScreen) return;
+        if (!this.loadingScreen) {
+            console.warn('⚠️ No loading screen to hide, showing page anyway');
+            this.initializePageAnimations();
+            return;
+        }
         
         console.log('🎉 Hiding loading screen with smooth animation');
         
         // Start hide animation
         this.loadingScreen.classList.add('hide');
         
+        // Apply hiding styles immediately
+        this.loadingScreen.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        this.loadingScreen.style.opacity = '0';
+        this.loadingScreen.style.visibility = 'hidden';
+        this.loadingScreen.style.transform = 'scale(0.95)';
+        this.loadingScreen.style.pointerEvents = 'none';
+        
         // Enhanced mobile hiding
         if (this.isMobile) {
-            this.loadingScreen.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-            this.loadingScreen.style.opacity = '0';
-            this.loadingScreen.style.visibility = 'hidden';
-            this.loadingScreen.style.transform = 'scale(0.95)';
-            this.loadingScreen.style.pointerEvents = 'none';
-            
             // Hide all child elements immediately on mobile
             const children = this.loadingScreen.querySelectorAll('*');
             children.forEach(child => {
                 child.style.opacity = '0';
                 child.style.transform = 'translateY(-20px) scale(0.9)';
+                child.style.transition = 'all 0.3s ease';
             });
         }
         
-        // Restore body overflow
+        // Restore body overflow and show page immediately
         document.body.style.overflow = '';
+        
+        // Show page content immediately
+        setTimeout(() => {
+            this.initializePageAnimations();
+        }, 200);
         
         // Complete removal
         setTimeout(() => {
@@ -283,9 +312,6 @@ class PremiumLoadingScreen {
                 this.loadingScreen.style.display = 'none';
                 this.loadingScreen.remove();
                 console.log('✅ Loading screen completely removed');
-                
-                // Initialize page animations
-                this.initializePageAnimations();
             }
         }, this.isMobile ? 1000 : 800);
     }
@@ -293,11 +319,19 @@ class PremiumLoadingScreen {
     initializePageAnimations() {
         // Smooth page reveal
         document.body.style.opacity = '1';
+        document.body.style.visibility = 'visible';
         
         // Initialize scroll-based animations
         if (window.animationController) {
-            window.animationController.init();
+            setTimeout(() => {
+                window.animationController.init();
+            }, 100);
         }
+        
+        // Initialize enhanced features
+        setTimeout(() => {
+            initializeEnhancedFeatures();
+        }, 200);
         
         console.log('🎨 Page animations initialized');
     }
@@ -544,18 +578,35 @@ function initializeCardEffects(card) {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Initializing Premium Website Experience');
     
+    // Detect if this is the home page first
+    const path = window.location.pathname;
+    const isHomePage = path === '/' || path === '/index.html' || path === '' || path.endsWith('/');
+    
+    console.log(`🏠 DOMContentLoaded - Page: ${path}, isHomePage: ${isHomePage}`);
+    
     // Set initial page state
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 0.5s ease';
 
     // Initialize premium loading screen (only for home page)
-    const loadingScreen = new PremiumLoadingScreen();
+    let loadingScreen = null;
+    if (isHomePage) {
+        // Ensure loading screen is visible and properly initialized
+        const existingLoadingScreen = document.getElementById('loading-screen');
+        if (existingLoadingScreen) {
+            existingLoadingScreen.style.display = 'flex';
+            existingLoadingScreen.style.opacity = '1';
+            existingLoadingScreen.style.visibility = 'visible';
+            existingLoadingScreen.style.zIndex = '10000';
+            console.log('✅ Found existing loading screen, ensuring visibility');
+        }
+        
+        loadingScreen = new PremiumLoadingScreen();
+        console.log('🎬 Loading screen initialized for home page');
+    }
     
     // Initialize animation controller
     window.animationController = new ModernAnimationController();
-
-    // Detect if this is the home page
-    const isHomePage = window.location.pathname === '/' || window.location.pathname.includes('index.html') || window.location.pathname === '';
 
     if (isHomePage) {
         // Component configuration with priorities for home page
