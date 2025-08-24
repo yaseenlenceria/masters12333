@@ -43,14 +43,6 @@ body {
     margin: 0 auto;
     padding: 0 20px;
     width: 100%;
-    box-sizing: border-box;
-}
-
-/* Ensure all sections respect container boundaries */
-section, .content-section {
-    overflow-x: hidden;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 /* Optimized Loading Screen Styles */
@@ -732,9 +724,7 @@ section.animated {
 @media (max-width: 1024px) {
     .container {
         padding: 0 15px;
-        max-width: 100%;
     }
-}
 
     .service-card,
     .feature-card {
