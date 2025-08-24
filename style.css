@@ -708,6 +708,18 @@ section.animated {
     transition: opacity 0.1s ease, visibility 0.1s ease;
 }
 
+/* Ensure header is always visible above loading screen */
+#header-container {
+    position: relative;
+    z-index: 10001;
+}
+
+/* Force header visibility when content is loaded */
+#header-container:not(:empty) {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
 /* Responsive Improvements */
 @media (max-width: 1024px) {
     .container {

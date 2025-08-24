@@ -229,6 +229,17 @@ class OptimizedLoadingScreen {
 
         console.log('🎉 Hiding loading screen');
 
+        // Ensure header is visible immediately
+        const headerContainer = document.getElementById('header-container');
+        if (headerContainer) {
+            headerContainer.style.opacity = '1';
+            headerContainer.style.visibility = 'visible';
+        }
+
+        // Show body content immediately
+        document.body.style.opacity = '1';
+        document.body.style.visibility = 'visible';
+
         // Start hide animation
         this.loadingScreen.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
         this.loadingScreen.style.opacity = '0';
@@ -239,12 +250,8 @@ class OptimizedLoadingScreen {
         // Restore body scroll
         document.body.style.overflow = '';
 
-        // Show page content
+        // Initialize animations immediately
         setTimeout(() => {
-            document.body.style.opacity = '1';
-            document.body.style.visibility = 'visible';
-
-            // Initialize animations
             if (window.animationController) {
                 window.animationController.init();
             }
@@ -256,7 +263,7 @@ class OptimizedLoadingScreen {
                     console.log('✅ Loading screen removed');
                 }
             }, 600);
-        }, 200);
+        }, 100);
     }
 }
 
@@ -684,8 +691,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const criticalComponents = components.filter(c => c.priority === 1);
         Promise.all(criticalComponents.map(c => loadComponent(c.file, c.id)))
             .then(() => {
+                // Ensure header container is visible
+                const headerContainer = document.getElementById('header-container');
+                if (headerContainer) {
+                    headerContainer.style.opacity = '1';
+                    headerContainer.style.visibility = 'visible';
+                }
+
                 // Initialize header immediately
-                window.headerController = new OptimizedHeaderController();
+                setTimeout(() => {
+                    window.headerController = new OptimizedHeaderController();
+                }, 100);
 
                 // Load remaining components asynchronously
                 const remainingComponents = components.filter(c => c.priority > 1);
