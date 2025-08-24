@@ -48,11 +48,9 @@ function loadComponent(componentPath, containerId) {
         });
 }
 
-// Enhanced Animation Controller with Smooth Performance
-class SmoothAnimationController {
+// Simplified Animation Controller 
+class SimpleAnimationController {
     constructor() {
-        this.observers = [];
-        this.animatedElements = new Set();
         this.isInitialized = false;
         this.init();
     }
@@ -60,14 +58,11 @@ class SmoothAnimationController {
     init() {
         if (this.isInitialized) return;
 
-        // Wait for components to load before initializing animations
+        // Wait for components to load before initializing
         this.waitForComponents().then(() => {
-            this.initializeScrollAnimations();
-            this.initializeSmoothAnimations();
-            this.initializeTextAnimations();
-            this.initializeLoadingAnimations();
+            this.initializeBasicAnimations();
             this.isInitialized = true;
-            console.log('✓ Smooth animations initialized');
+            console.log('✓ Simple animations initialized');
         });
     }
 
@@ -87,175 +82,40 @@ class SmoothAnimationController {
         });
     }
 
-    initializeScrollAnimations() {
-        const observerOptions = {
-            threshold: [0, 0.1, 0.2, 0.5],
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting && !this.animatedElements.has(entry.target)) {
-                    this.animatedElements.add(entry.target);
-                    this.animateElement(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        // Observe all animatable elements
-        const elementsToAnimate = document.querySelectorAll(`
-            .service-card, .feature-card, .contact-card, .testimonial-card,
-            .gallery-item, .project-item, .stats-item, .benefit-item,
-            .process-step, .faq-item, .area-badge, h1, h2, h3, h4, h5, h6,
-            .hero-title, .section-title, .card, .content-section,
-            .service-icon, .feature-icon
-        `);
-
-        elementsToAnimate.forEach((el) => {
-            if (!this.animatedElements.has(el)) {
-                // Set initial state for smooth animation
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px) scale(0.95)';
-                el.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                el.style.willChange = 'transform, opacity';
-                observer.observe(el);
-            }
-        });
-
-        this.observers.push(observer);
-    }
-
-    animateElement(element) {
-        // Determine animation type based on element
-        let animationType = 'fadeInUp';
-        let delay = 0;
-
-        if (element.matches('h1, h2, h3, .hero-title, .section-title')) {
-            animationType = 'textReveal';
-            delay = 100;
-        } else if (element.matches('.service-card, .feature-card')) {
-            animationType = 'cardSlideIn';
-            delay = 200;
-        } else if (element.matches('.stats-item')) {
-            animationType = 'bounceIn';
-            delay = 300;
-            this.animateCounter(element);
-        } else if (element.matches('.gallery-item, .project-item')) {
-            animationType = 'scaleIn';
-            delay = 150;
-        }
-
-        // Apply smooth animation
-        setTimeout(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0) scale(1)';
-            element.classList.add('animated', animationType);
-
-            // Remove will-change after animation for performance
-            setTimeout(() => {
-                element.style.willChange = 'auto';
-            }, 1000);
-        }, delay);
-    }
-
-    initializeSmoothAnimations() {
-        // Enhanced hover effects with better performance
+    initializeBasicAnimations() {
+        // Simple hover effects only
         const interactiveElements = document.querySelectorAll(`
             .btn, .service-card, .feature-card, .contact-card,
             .testimonial-card, .gallery-item, .area-badge
         `);
 
         interactiveElements.forEach(el => {
-            el.style.transition = 'all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            el.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
 
             el.addEventListener('mouseenter', () => {
-                el.style.willChange = 'transform';
                 if (el.matches('.btn')) {
-                    el.style.transform = 'translateY(-3px) scale(1.02)';
-                } else if (el.matches('.service-card, .feature-card')) {
-                    el.style.transform = 'translateY(-8px) scale(1.02)';
-                    el.style.boxShadow = '0 20px 40px rgba(154, 205, 50, 0.15)';
+                    el.style.transform = 'translateY(-2px)';
                 } else {
-                    el.style.transform = 'translateY(-2px) scale(1.01)';
+                    el.style.transform = 'translateY(-3px)';
+                    el.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
                 }
             });
 
             el.addEventListener('mouseleave', () => {
-                el.style.transform = 'translateY(0) scale(1)';
+                el.style.transform = 'translateY(0)';
                 el.style.boxShadow = '';
-                setTimeout(() => {
-                    el.style.willChange = 'auto';
-                }, 300);
             });
         });
-    }
 
-    initializeTextAnimations() {
-        // Smooth text reveal animations for headings
-        const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-
-        headings.forEach((heading, index) => {
-            heading.style.opacity = '0';
-            heading.style.transform = 'translateY(20px)';
-            heading.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
-            setTimeout(() => {
-                heading.style.opacity = '1';
-                heading.style.transform = 'translateY(0)';
-                heading.classList.add('text-revealed');
-            }, 200 + (index * 100));
+        // Reset any hidden elements to visible
+        const hiddenElements = document.querySelectorAll('[style*="opacity: 0"]');
+        hiddenElements.forEach(el => {
+            el.style.opacity = '1';
+            el.style.transform = 'none';
         });
-    }
-
-    initializeLoadingAnimations() {
-        // Staggered loading animations for page sections
-        const sections = document.querySelectorAll('.content-section, section');
-
-        sections.forEach((section, index) => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-
-            setTimeout(() => {
-                section.style.opacity = '1';
-                section.style.transform = 'translateY(0)';
-            }, 300 + (index * 150));
-        });
-    }
-
-    animateCounter(element) {
-        const numberElement = element.querySelector('.stats-number, .number, [data-count]');
-        if (!numberElement) return;
-
-        const finalNumber = parseInt(numberElement.textContent.replace(/\D/g, ''));
-        const duration = 2000;
-        let startTime = null;
-        const suffix = numberElement.textContent.replace(/[0-9]/g, '');
-
-        const animate = (currentTime) => {
-            if (!startTime) startTime = currentTime;
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-
-            const currentNumber = Math.floor(finalNumber * this.easeOutQuart(progress));
-            numberElement.textContent = currentNumber.toLocaleString() + suffix;
-
-            if (progress < 1) {
-                requestAnimationFrame(animate);
-            }
-        };
-
-        requestAnimationFrame(animate);
-    }
-
-    easeOutQuart(t) {
-        return 1 - Math.pow(1 - t, 4);
     }
 
     destroy() {
-        this.observers.forEach(observer => observer.disconnect());
-        this.observers = [];
-        this.animatedElements.clear();
         this.isInitialized = false;
     }
 }
@@ -411,8 +271,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Enhanced Feature Initialization
 function initializeEnhancedFeatures() {
-    // Initialize smooth animation controller
-    window.animationController = new SmoothAnimationController();
+    // Initialize simple animation controller
+    window.animationController = new SimpleAnimationController();
 
     // Initialize other features
     initializeOptimizedScrolling();

@@ -473,81 +473,50 @@ img, video {
     }
 }
 
-/* Animation Classes */
-.animate-fadeInUp {
-    animation: fadeInUp 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-.animate-fadeInDown {
-    animation: fadeInDown 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-.animate-fadeInLeft {
-    animation: fadeInLeft 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-.animate-fadeInRight {
-    animation: fadeInRight 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-.animate-slideInRight {
-    animation: slideInRight 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-.animate-scaleIn {
-    animation: scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-.animate-bounceIn {
-    animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-.animate-slideUp {
-    animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.animate-zoomIn {
-    animation: zoomIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
+/* Simple Animation Classes - No delays */
+.animate-fadeInUp,
+.animate-fadeInDown,
+.animate-fadeInLeft,
+.animate-fadeInRight,
+.animate-slideInRight,
+.animate-scaleIn,
+.animate-bounceIn,
+.animate-slideUp,
+.animate-zoomIn,
 .animate-rotateIn {
-    animation: rotateIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
-}
-
-/* Animation Delays */
-.animate-delay-100 { animation-delay: 0.1s; }
-.animate-delay-200 { animation-delay: 0.2s; }
-.animate-delay-300 { animation-delay: 0.3s; }
-.animate-delay-400 { animation-delay: 0.4s; }
-.animate-delay-500 { animation-delay: 0.5s; }
-.animate-delay-600 { animation-delay: 0.6s; }
-.animate-delay-700 { animation-delay: 0.7s; }
-.animate-delay-800 { animation-delay: 0.8s; }
-.animate-delay-900 { animation-delay: 0.9s; }
-.animate-delay-1000 { animation-delay: 1s; }
-
-/* Smooth Text Animations */
-h1, h2, h3, h4, h5, h6 {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    will-change: transform, opacity;
-}
-
-h1.text-revealed, h2.text-revealed, h3.text-revealed, 
-h4.text-revealed, h5.text-revealed, h6.text-revealed {
     opacity: 1;
-    transform: translateY(0);
-    will-change: auto;
+    transform: none;
+}
+
+/* No animation delays */
+.animate-delay-100,
+.animate-delay-200,
+.animate-delay-300,
+.animate-delay-400,
+.animate-delay-500,
+.animate-delay-600,
+.animate-delay-700,
+.animate-delay-800,
+.animate-delay-900,
+.animate-delay-1000 {
+    animation-delay: 0s;
+}
+
+/* Simple Text Styles */
+h1, h2, h3, h4, h5, h6 {
+    opacity: 1;
+    transform: none;
+    transition: color 0.2s ease;
 }
 
 .hero-title {
-    animation: textReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    animation-delay: 0.3s;
+    opacity: 1;
+    transform: none;
 }
 
 .section-title {
-    animation: textReveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    opacity: 1;
+    transform: none;
 }
 
 /* Enhanced Button Styles with Animations */
@@ -653,65 +622,21 @@ h4.text-revealed, h5.text-revealed, h6.text-revealed {
     }
 }
 
-/* Enhanced Card Animations with Performance Optimization */
+/* Simple Card Styles */
 .service-card,
 .feature-card,
 .contact-card,
 .testimonial-card {
-    backface-visibility: hidden;
-    transform: translate3d(0, 0, 0);
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
-    overflow: hidden;
-    will-change: transform;
 }
 
-.service-card.animated,
-.feature-card.animated,
-.contact-card.animated,
-.testimonial-card.animated {
-    animation: cardSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.service-card::before,
-.feature-card::before,
-.contact-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(154, 205, 50, 0.05), rgba(124, 179, 66, 0.02));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 1;
-}
-
-.service-card:hover::before,
-.feature-card:hover::before,
-.contact-card:hover::before {
-    opacity: 1;
-}
-
-.service-card:hover {
-    transform: translateY(-12px) rotateX(5deg) rotateY(2deg);
-    box-shadow: 0 25px 50px rgba(154, 205, 50, 0.2);
-}
-
-.feature-card:hover {
-    transform: translateY(-8px) rotateY(3deg);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.contact-card:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 25px 45px rgba(154, 205, 50, 0.25);
-}
-
+.service-card:hover,
+.feature-card:hover,
+.contact-card:hover,
 .testimonial-card:hover {
-    transform: translateY(-6px) rotateX(2deg);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* Enhanced Icon Animations */
@@ -770,16 +695,15 @@ h4.text-revealed, h5.text-revealed, h6.text-revealed {
     100% { background-position: 0% 50%; }
 }
 
-/* Scroll-triggered Animations */
+/* Simple visible elements */
 .scroll-animate {
-    opacity: 0;
-    transform: translateY(40px) scale(0.95);
-    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 1;
+    transform: none;
 }
 
 .scroll-animate.animate {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: none;
 }
 
 /* Image Loading and Hover Effects */
@@ -888,32 +812,17 @@ img:hover {
     }
 }
 
-/* Enhanced Loading States */
+/* Simple Loading States */
 .loading {
     position: relative;
-    overflow: hidden;
 }
 
-.page-loading {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.page-loaded {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.content-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
+.page-loading,
+.page-loaded,
+.content-section,
 .content-section.loaded {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
 }
 
 /* Smooth element transitions */
