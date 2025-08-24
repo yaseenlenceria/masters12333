@@ -2,14 +2,14 @@
 <section class="service-areas" style="padding: 4rem 0; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); position: relative; overflow: hidden;">
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 50% 50%, rgba(154, 205, 50, 0.05) 0%, transparent 70%); pointer-events: none;"></div>
 
-    <div class="container" style="position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+    <div class="container" style="position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 2rem; width: 100%; box-sizing: border-box;">
         <div style="text-align: center; margin-bottom: 3rem;">
             <h2 style="color: #ffffff; font-size: 2.8rem; margin-bottom: 1rem; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Service Areas Across Galway</h2>
             <p style="color: #cccccc; font-size: 1.2rem; max-width: 800px; margin: 0 auto; line-height: 1.6;">Proudly serving Galway City & County with premier home services</p>
         </div>
 
         <!-- Main Service Areas Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 4rem; max-width: 1000px; margin-left: auto; margin-right: auto; justify-items: center;">
             <!-- Galway City Centre -->
             <a href="areas-we-serve.html" style="background: linear-gradient(135deg, #9ACD32 0%, #7CB342 100%); color: #1a1a1a; padding: 2.5rem; border-radius: 20px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(154, 205, 50, 0.4); position: relative; overflow: hidden; display: block;">
                 <div style="position: absolute; bottom: -30px; right: -30px; width: 100px; height: 100px; background: rgba(255, 255, 255, 0.15); border-radius: 50%; transform: rotate(45deg);"></div>
@@ -118,13 +118,23 @@
 }
 
 /* Responsive Design */
+@media (min-width: 1201px) {
+    .service-areas [style*="grid-template-columns: repeat(auto-fit, minmax(320px"]) {
+        grid-template-columns: repeat(3, 1fr) !important;
+        max-width: 1000px !important;
+        justify-items: stretch !important;
+    }
+}
+
 @media (max-width: 1200px) {
     .service-areas .container {
         padding: 0 1.5rem !important;
     }
     
-    .service-areas [style*="grid-template-columns: repeat(auto-fit, minmax(350px"]) {
+    .service-areas [style*="grid-template-columns: repeat(auto-fit, minmax(320px"]) {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+        max-width: 900px !important;
+        justify-items: stretch !important;
     }
 }
 
