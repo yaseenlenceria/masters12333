@@ -656,6 +656,90 @@ window.addEventListener('load', function() {
     });
 });
 
+// Loading Screen Controller
+class LoadingScreen {
+    constructor() {
+        this.loadingScreen = document.getElementById('loading-screen');
+        this.progressFill = document.querySelector('.progress-fill');
+        this.loadingPercentage = document.querySelector('.loading-percentage');
+        this.progress = 0;
+        this.isComplete = false;
+        
+        if (this.loadingScreen) {
+            this.init();
+        }
+    }
+
+    init() {
+        // Only show loading screen on home page
+        if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
+            this.startLoading();
+        } else {
+            this.hideImmediately();
+        }
+    }
+
+    startLoading() {
+        this.loadingScreen.style.display = 'flex';
+        
+        // Simulate loading progress
+        const progressInterval = setInterval(() => {
+            this.progress += Math.random() * 15 + 5;
+            
+            if (this.progress >= 100) {
+                this.progress = 100;
+                clearInterval(progressInterval);
+                this.completeLoading();
+            }
+            
+            this.updateProgress();
+        }, 150);
+
+        // Ensure loading completes after maximum 3 seconds
+        setTimeout(() => {
+            if (!this.isComplete) {
+                this.progress = 100;
+                this.updateProgress();
+                this.completeLoading();
+            }
+        }, 3000);
+    }
+
+    updateProgress() {
+        if (this.progressFill && this.loadingPercentage) {
+            this.progressFill.style.width = this.progress + '%';
+            this.loadingPercentage.textContent = Math.round(this.progress) + '%';
+        }
+    }
+
+    completeLoading() {
+        this.isComplete = true;
+        
+        setTimeout(() => {
+            this.hide();
+        }, 800);
+    }
+
+    hide() {
+        if (this.loadingScreen) {
+            this.loadingScreen.classList.add('hide');
+            
+            setTimeout(() => {
+                this.loadingScreen.style.display = 'none';
+            }, 800);
+        }
+    }
+
+    hideImmediately() {
+        if (this.loadingScreen) {
+            this.loadingScreen.style.display = 'none';
+        }
+    }
+}
+
+// Initialize loading screen first
+const loadingScreen = new LoadingScreen();
+
 // Enhanced Component loading with Safari compatibility
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, initializing components...');
