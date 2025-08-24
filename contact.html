@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
@@ -28,130 +29,987 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-container">
+            <div class="loading-logo">
+                <img src="attached_assets/mainlogo.png" alt="The Masters Group" class="main-logo">
+                <div class="loading-text">
+                    <h1>Contact Us</h1>
+                    <p>Get Your Free Quote Today</p>
+                </div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="loading-percentage">0%</div>
+            </div>
+        </div>
+    </div>
+
     <!-- Load Header Component -->
     <div id="header-container"></div>
 
-    <!-- Page Header -->
-    <section class="page-header" style="background: linear-gradient(135deg, #9ACD32 0%, #7CB342 50%, #689F38 100%); color: white; padding: 9rem 0 4rem; text-align: center; margin-top: 80px; position: relative; overflow: hidden;">
-        <div class="container" style="position: relative; z-index: 2;">
-            <h1 style="font-size: 3.2rem; margin-bottom: 1rem; font-weight: 800; text-shadow: 3px 3px 6px rgba(0,0,0,0.3);">Contact The Masters Group Galway</h1>
-            <p style="font-size: 1.3rem; opacity: 0.95; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">Get your free quote today - Premier home services across Galway City & County</p>
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="hero-bg-elements">
+            <div class="bg-circle bg-circle-1"></div>
+            <div class="bg-circle bg-circle-2"></div>
+            <div class="bg-circle bg-circle-3"></div>
         </div>
-    </section>
-
-    <!-- Contact Cards -->
-    <section style="padding: 4rem 0; background: #1a1a1a;">
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
-                <div style="background: #222222; border: 2px solid #333333; padding: 1.5rem; text-align: center; transition: all 0.3s ease; position: relative; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
-                    <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters Galway Logo" style="height: 60px; margin-bottom: 1rem;">
-                    <h3 style="color: #ffffff; margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">RoofMasters Galway</h3>
-                    <p style="color: #9ACD32; margin-bottom: 0.5rem;"><i class="fas fa-phone" aria-hidden="true"></i> 087 717 1524</p>
-                    <p style="color: #cccccc; font-size: 0.85rem; margin-bottom: 1rem;">24/7 Emergency Service</p>
-                    <a href="tel:0877171524" class="btn btn-primary" style="font-size: 0.9rem; padding: 10px 20px;">Call Now</a>
-                </div>
-                <div style="background: #222222; border: 2px solid #333333; padding: 1.5rem; text-align: center; transition: all 0.3s ease; position: relative; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
-                    <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters Galway Logo" style="height: 60px; margin-bottom: 1rem;">
-                    <h3 style="color: #ffffff; margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">DirtMasters Galway</h3>
-                    <p style="color: #9ACD32; margin-bottom: 0.5rem;"><i class="fas fa-phone" aria-hidden="true"></i> 091 707 971</p>
-                    <p style="color: #cccccc; font-size: 0.85rem; margin-bottom: 1rem;">Mon-Sat: 8am-6pm</p>
-                    <a href="tel:091707971" class="btn btn-primary" style="font-size: 0.9rem; padding: 10px 20px;">Call Now</a>
-                </div>
-                <div style="background: #222222; border: 2px solid #333333; padding: 1.5rem; text-align: center; transition: all 0.3s ease; position: relative; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
-                    <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters Galway Logo" style="height: 60px; margin-bottom: 1rem;">
-                    <h3 style="color: #ffffff; margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">PaintMasters Galway</h3>
-                    <p style="color: #9ACD32; margin-bottom: 0.5rem;"><i class="fas fa-phone" aria-hidden="true"></i> 087 717 1524</p>
-                    <p style="color: #cccccc; font-size: 0.85rem; margin-bottom: 1rem;">Mon-Fri: 08:00-19:00</p>
-                    <a href="tel:0877171524" class="btn btn-primary" style="font-size: 0.9rem; padding: 10px 20px;">Call Now</a>
-                </div>
-                <div style="background: #222222; border: 2px solid #333333; padding: 1.5rem; text-align: center; transition: all 0.3s ease; position: relative; min-height: 280px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
-                    <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters Galway Logo" style="height: 60px; margin-bottom: 1rem;">
-                    <h3 style="color: #ffffff; margin-bottom: 0.5rem; font-size: 1.2rem; font-weight: 700;">PavingMasters Galway</h3>
-                    <p style="color: #9ACD32; margin-bottom: 0.5rem;"><i class="fas fa-phone" aria-hidden="true"></i> 087 108 4840</p>
-                    <p style="color: #cccccc; font-size: 0.85rem; margin-bottom: 1rem;">50+ 5-Star Reviews</p>
-                    <a href="tel:0871084840" class="btn btn-primary" style="font-size: 0.9rem; padding: 10px 20px;">Call Now</a>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title animate-fadeInUp">Contact The Masters Group Galway</h1>
+                    <p class="hero-subtitle animate-fadeInUp animate-delay-200">Get your free quote today - Premier home services across Galway City & County</p>
+                    <div class="hero-stats animate-fadeInUp animate-delay-400">
+                        <div class="stat-item">
+                            <span class="stat-number">20+</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">1000+</span>
+                            <span class="stat-label">Happy Customers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Emergency Service</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Form -->
-    <section style="padding: 4rem 0; background: #f8fafc;">
+    <!-- Contact Methods Section -->
+    <section class="contact-methods">
         <div class="container">
-            <div style="max-width: 800px; margin: 0 auto;">
-                <h2 style="text-align: center; color: #1e40af; font-size: 2.5rem; margin-bottom: 3rem;">Get Your Free Quote</h2>
-                <form style="background: white; padding: 3rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);" aria-labelledby="quote-form-heading">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-                        <div class="form-group">
-                            <label for="firstName">First Name *</label>
-                            <input type="text" id="firstName" name="firstName" required aria-required="true">
+            <h2 class="section-title animate-fadeInUp">Multiple Ways to Reach Us</h2>
+            <p class="section-subtitle animate-fadeInUp animate-delay-200">Choose your preferred contact method - we're here to help</p>
+            
+            <div class="contact-grid">
+                <div class="contact-card roofmasters-card animate-cardSlideIn animate-delay-200">
+                    <div class="card-header">
+                        <img src="attached_assets/roof masters/roof masters logo.png" alt="RoofMasters Galway Logo" class="service-logo">
+                        <div class="service-badge">Emergency 24/7</div>
+                    </div>
+                    <h3>RoofMasters Galway</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Emergency Line</strong>
+                                <a href="tel:0877171524">087 717 1524</a>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="lastName">Last Name *</label>
-                            <input type="text" id="lastName" name="lastName" required aria-required="true">
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Availability</strong>
+                                <span>24/7 Emergency Service</span>
+                            </div>
                         </div>
                     </div>
+                    <a href="tel:0877171524" class="contact-btn">
+                        <i class="fas fa-phone"></i>
+                        Call Now
+                    </a>
+                </div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
-                        <div class="form-group">
-                            <label for="email">Email Address *</label>
-                            <input type="email" id="email" name="email" required aria-required="true" autocomplete="email">
+                <div class="contact-card dirtmasters-card animate-cardSlideIn animate-delay-300">
+                    <div class="card-header">
+                        <img src="attached_assets/dirtmasters/Dirtmasters-logo.png" alt="DirtMasters Galway Logo" class="service-logo">
+                        <div class="service-badge">Power Washing</div>
+                    </div>
+                    <h3>DirtMasters Galway</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Main Line</strong>
+                                <a href="tel:0917079716">091 707 971</a>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" name="phone" required aria-required="true" autocomplete="tel">
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Hours</strong>
+                                <span>Mon-Sat: 8am-6pm</span>
+                            </div>
                         </div>
                     </div>
+                    <a href="tel:0917079716" class="contact-btn">
+                        <i class="fas fa-phone"></i>
+                        Call Now
+                    </a>
+                </div>
 
-                    <div class="form-group">
-                        <label for="service">Service Required *</label>
-                        <select id="service" name="service" required aria-required="true">
-                            <option value="">Select a service</option>
-                            <option value="roofing">RoofMasters - Roofing Services</option>
-                            <option value="power-washing">DirtMasters - Power Washing</option>
-                            <option value="painting">PaintMasters - Exterior Painting</option>
-                            <option value="paving">PavingMasters - Paving & Landscaping</option>
-                            <option value="multiple">Multiple Services</option>
-                            <option value="other">Other</option>
-                        </select>
+                <div class="contact-card paintmasters-card animate-cardSlideIn animate-delay-400">
+                    <div class="card-header">
+                        <img src="attached_assets/paintmasters/logo.png" alt="PaintMasters Galway Logo" class="service-logo">
+                        <div class="service-badge">Painting</div>
                     </div>
+                    <h3>PaintMasters Galway</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Painting Line</strong>
+                                <a href="tel:0877171524">087 717 1524</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <strong>Hours</strong>
+                                <span>Mon-Fri: 08:00-19:00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="tel:0877171524" class="contact-btn">
+                        <i class="fas fa-phone"></i>
+                        Call Now
+                    </a>
+                </div>
 
-                    <div class="form-group">
-                        <label for="address">Property Address in Galway</label>
-                        <input type="text" id="address" name="address" placeholder="Full address including area in Galway" autocomplete="street-address">
+                <div class="contact-card pavingmasters-card animate-cardSlideIn animate-delay-500">
+                    <div class="card-header">
+                        <img src="attached_assets/pavingmasters/Paving-Masters-Logo-e1750541386247.png" alt="PavingMasters Galway Logo" class="service-logo">
+                        <div class="service-badge">5★ Rated</div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="message">Project Details *</label>
-                        <textarea id="message" name="message" placeholder="Please describe your project requirements, property size, and any specific needs..." required aria-required="true"></textarea>
+                    <h3>PavingMasters Galway</h3>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <strong>Paving Line</strong>
+                                <a href="tel:0871084840">087 108 4840</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-star"></i>
+                            <div>
+                                <strong>Rating</strong>
+                                <span>50+ 5-Star Reviews</span>
+                            </div>
+                        </div>
                     </div>
-
-                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                        <button type="submit" class="btn btn-primary">Send Free Quote Request</button>
-                        <button type="reset" class="btn btn-secondary">Clear Form</button>
-                    </div>
-                </form>
+                    <a href="tel:0871084840" class="contact-btn">
+                        <i class="fas fa-phone"></i>
+                        Call Now
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Emergency Contact -->
-    <section style="background: #ef4444; color: white; padding: 4rem 0;">
-        <div class="container" style="text-align: center;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700;">Emergency Services Available 24/7</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem;">24/7 emergency roofing services and urgent home repairs across Galway</p>
-            <a href="tel:0877171524" style="display: inline-block; background: white; color: #ef4444; padding: 1rem 2rem; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.2rem;" aria-label="Call emergency roofing service">
-                <i class="fas fa-phone" aria-hidden="true"></i> Emergency: 087 717 1524
-            </a>
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+        <div class="container">
+            <div class="form-container">
+                <div class="form-content">
+                    <div class="form-header animate-fadeInUp">
+                        <h2>Get Your Free Quote</h2>
+                        <p>Tell us about your project and we'll provide a detailed, no-obligation quote within 24 hours</p>
+                    </div>
+
+                    <form class="contact-form animate-fadeInUp animate-delay-300" id="quoteForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">
+                                    <i class="fas fa-user"></i>
+                                    First Name *
+                                </label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">
+                                    <i class="fas fa-user"></i>
+                                    Last Name *
+                                </label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">
+                                    <i class="fas fa-envelope"></i>
+                                    Email Address *
+                                </label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">
+                                    <i class="fas fa-phone"></i>
+                                    Phone Number *
+                                </label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="service">
+                                <i class="fas fa-cogs"></i>
+                                Service Required *
+                            </label>
+                            <select id="service" name="service" required>
+                                <option value="">Select a service</option>
+                                <option value="roofing">🏠 RoofMasters - Roofing Services</option>
+                                <option value="power-washing">🧽 DirtMasters - Power Washing</option>
+                                <option value="painting">🎨 PaintMasters - Exterior Painting</option>
+                                <option value="paving">🚧 PavingMasters - Paving & Landscaping</option>
+                                <option value="multiple">📋 Multiple Services</option>
+                                <option value="other">❓ Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="address">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Property Address in Galway
+                            </label>
+                            <input type="text" id="address" name="address" placeholder="Full address including area in Galway">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="message">
+                                <i class="fas fa-comment"></i>
+                                Project Details *
+                            </label>
+                            <textarea id="message" name="message" placeholder="Please describe your project requirements, property size, and any specific needs..." required rows="5"></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                                Send Free Quote Request
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-undo"></i>
+                                Clear Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-sidebar animate-fadeInRight animate-delay-400">
+                    <div class="sidebar-content">
+                        <h3>Why Choose Us?</h3>
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <div>
+                                    <strong>Fully Insured</strong>
+                                    <span>Comprehensive public liability coverage</span>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-award"></i>
+                                <div>
+                                    <strong>20+ Years Experience</strong>
+                                    <span>Trusted by 1000+ Galway families</span>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <strong>Quick Response</strong>
+                                    <span>Free quotes within 24 hours</span>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-handshake"></i>
+                                <div>
+                                    <strong>Quality Guarantee</strong>
+                                    <span>All work comes with warranty</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="emergency-contact">
+                            <h4>Emergency Service</h4>
+                            <p>24/7 emergency roofing repairs available</p>
+                            <a href="tel:0877171524" class="emergency-btn">
+                                <i class="fas fa-phone"></i>
+                                Emergency: 087 717 1524
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Gallery Component -->
-    <div id="gallery-container"></div>
+    <!-- Service Areas -->
+    <section class="contact-service-areas">
+        <div class="container">
+            <h2 class="section-title animate-fadeInUp">We Serve All of Galway</h2>
+            <p class="section-subtitle animate-fadeInUp animate-delay-200">Professional home services across Galway City & County</p>
+            
+            <div class="areas-grid animate-fadeInUp animate-delay-400">
+                <div class="area-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Galway City</span>
+                </div>
+                <div class="area-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Salthill</span>
+                </div>
+                <div class="area-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Oranmore</span>
+                </div>
+                <div class="area-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Claregalway</span>
+                </div>
+                <div class="area-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Tuam</span>
+                </div>
+                <div class="area-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Loughrea</span>
+                </div>
+                <div class="area-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Athenry</span>
+                </div>
+                <div class="area-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Ballinasloe</span>
+                </div>
+            </div>
+
+            <div class="service-radius animate-fadeInUp animate-delay-600">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>50km service radius from Galway City</span>
+            </div>
+        </div>
+    </section>
 
     <!-- Load Footer Component -->
     <div id="footer-container"></div>
 
     <script src="script.js"></script>
+
+    <style>
+    /* Contact Page Specific Styles */
+    .contact-hero {
+        position: relative;
+        min-height: 70vh;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        margin-top: 80px;
+    }
+
+    .hero-bg-elements {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .bg-circle {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(154, 205, 50, 0.1) 0%, transparent 70%);
+        animation: floatCircle 20s ease-in-out infinite;
+    }
+
+    .bg-circle-1 {
+        width: 300px;
+        height: 300px;
+        top: 10%;
+        left: -10%;
+        animation-delay: 0s;
+    }
+
+    .bg-circle-2 {
+        width: 200px;
+        height: 200px;
+        top: 60%;
+        right: -5%;
+        animation-delay: -7s;
+    }
+
+    .bg-circle-3 {
+        width: 150px;
+        height: 150px;
+        top: 30%;
+        right: 20%;
+        animation-delay: -14s;
+    }
+
+    @keyframes floatCircle {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        25% { transform: translateY(-20px) rotate(90deg); }
+        50% { transform: translateY(-40px) rotate(180deg); }
+        75% { transform: translateY(-20px) rotate(270deg); }
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin-bottom: 1.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        font-size: 1.4rem;
+        color: #cccccc;
+        margin-bottom: 3rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
+
+    .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 2rem;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #9ACD32;
+        text-shadow: 0 0 10px rgba(154, 205, 50, 0.5);
+    }
+
+    .stat-label {
+        display: block;
+        font-size: 0.9rem;
+        color: #cccccc;
+        margin-top: 0.5rem;
+    }
+
+    /* Contact Methods Section */
+    .contact-methods {
+        padding: 6rem 0;
+        background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #ffffff;
+        text-align: center;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .section-subtitle {
+        font-size: 1.2rem;
+        color: #cccccc;
+        text-align: center;
+        margin-bottom: 4rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .contact-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(154, 205, 50, 0.2);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .contact-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(154, 205, 50, 0.1), transparent);
+        transition: left 0.6s ease;
+    }
+
+    .contact-card:hover::before {
+        left: 100%;
+    }
+
+    .contact-card:hover {
+        transform: translateY(-10px) scale(1.03);
+        border-color: rgba(154, 205, 50, 0.5);
+        box-shadow: 0 20px 40px rgba(154, 205, 50, 0.2);
+    }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+    }
+
+    .service-logo {
+        height: 60px;
+        width: auto;
+        filter: brightness(1.1);
+    }
+
+    .service-badge {
+        background: linear-gradient(135deg, #9ACD32, #7CB342);
+        color: #1a1a1a;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .contact-card h3 {
+        font-size: 1.4rem;
+        color: #ffffff;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+    }
+
+    .contact-details {
+        margin-bottom: 2rem;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        text-align: left;
+    }
+
+    .contact-item i {
+        color: #9ACD32;
+        font-size: 1.2rem;
+        margin-top: 0.3rem;
+    }
+
+    .contact-item strong {
+        display: block;
+        color: #ffffff;
+        font-size: 0.9rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .contact-item a,
+    .contact-item span {
+        color: #cccccc;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .contact-item a:hover {
+        color: #9ACD32;
+    }
+
+    .contact-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        background: linear-gradient(135deg, #9ACD32, #7CB342);
+        color: #1a1a1a;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        box-shadow: 0 8px 20px rgba(154, 205, 50, 0.3);
+    }
+
+    .contact-btn:hover {
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 12px 30px rgba(154, 205, 50, 0.4);
+        background: linear-gradient(135deg, #7CB342, #689F38);
+    }
+
+    /* Contact Form Section */
+    .contact-form-section {
+        padding: 6rem 0;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    }
+
+    .form-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 4rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        align-items: start;
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .form-header h2 {
+        font-size: 2.5rem;
+        color: #ffffff;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .form-header p {
+        font-size: 1.1rem;
+        color: #cccccc;
+        line-height: 1.6;
+    }
+
+    .contact-form {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 3rem;
+        border-radius: 20px;
+        border: 2px solid rgba(154, 205, 50, 0.2);
+        backdrop-filter: blur(10px);
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group.full-width {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #ffffff;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .form-group label i {
+        color: #9ACD32;
+        width: 16px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 1rem;
+        color: #ffffff;
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #9ACD32;
+        background: rgba(154, 205, 50, 0.1);
+        transform: scale(1.02);
+        box-shadow: 0 0 0 4px rgba(154, 205, 50, 0.2);
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .form-actions .btn {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1.2rem 2.5rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Form Sidebar */
+    .form-sidebar {
+        position: sticky;
+        top: 2rem;
+    }
+
+    .sidebar-content {
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(154, 205, 50, 0.2);
+        border-radius: 20px;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
+    }
+
+    .sidebar-content h3 {
+        color: #ffffff;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .feature-list {
+        margin-bottom: 2rem;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: rgba(154, 205, 50, 0.1);
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .feature-item:hover {
+        background: rgba(154, 205, 50, 0.15);
+        transform: translateX(5px);
+    }
+
+    .feature-item i {
+        color: #9ACD32;
+        font-size: 1.2rem;
+        margin-top: 0.3rem;
+    }
+
+    .feature-item strong {
+        display: block;
+        color: #ffffff;
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .feature-item span {
+        color: #cccccc;
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .emergency-contact {
+        background: rgba(239, 68, 68, 0.1);
+        border: 2px solid rgba(239, 68, 68, 0.3);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+    }
+
+    .emergency-contact h4 {
+        color: #ef4444;
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+    }
+
+    .emergency-contact p {
+        color: #cccccc;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+
+    .emergency-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #ef4444;
+        color: #ffffff;
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .emergency-btn:hover {
+        background: #dc2626;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Service Areas Section */
+    .contact-service-areas {
+        padding: 6rem 0;
+        background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    }
+
+    .areas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1rem;
+        max-width: 800px;
+        margin: 0 auto 3rem;
+    }
+
+    .area-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        background: rgba(154, 205, 50, 0.1);
+        padding: 1rem;
+        border-radius: 10px;
+        color: #ffffff;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 600;
+    }
+
+    .area-item:hover {
+        background: rgba(154, 205, 50, 0.2);
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    .area-item i {
+        color: #9ACD32;
+        font-size: 1rem;
+    }
+
+    .service-radius {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        background: rgba(154, 205, 50, 0.1);
+        border: 2px solid rgba(154, 205, 50, 0.3);
+        padding: 1.5rem 2rem;
+        border-radius: 50px;
+        color: #9ACD32;
+        font-size: 1.1rem;
+        font-weight: 600;
+        width: fit-content;
+        margin: 0 auto;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+
+    .service-radius:hover {
+        background: rgba(154, 205, 50, 0.15);
+        border-color: rgba(154, 205, 50, 0.5);
+        transform: scale(1.05);
+    }
+
+    .service-radius i {
+        font-size: 1.2rem;
+        animation: pulse 2s infinite;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+
+        .hero-stats {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-container {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .form-actions .btn {
+            width: 100%;
+        }
+
+        .areas-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+        }
+
+        .service-radius {
+            font-size: 0.9rem;
+            padding: 1rem 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-title {
+            font-size: 2rem;
+        }
+
+        .contact-card {
+            padding: 1.5rem;
+        }
+
+        .contact-form {
+            padding: 2rem;
+        }
+
+        .areas-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
 </body>
 </html>
