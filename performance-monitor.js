@@ -89,14 +89,15 @@
     window.addEventListener('load', () => {
         const navigation = performance.getEntriesByType('navigation')[0];
         
-        console.log('Page Load Metrics:', {
-            'DNS Lookup': Math.round(navigation.domainLookupEnd - navigation.domainLookupStart),
-            'TCP Handshake': Math.round(navigation.connectEnd - navigation.connectStart),
-            'Request': Math.round(navigation.responseStart - navigation.requestStart),
-            'Response': Math.round(navigation.responseEnd - navigation.responseStart),
-            'DOM Processing': Math.round(navigation.domContentLoadedEventEnd - navigation.responseEnd),
-            'Total Load Time': Math.round(navigation.loadEventEnd - navigation.navigationStart)
-        });
+        // Disable performance logs in production
+        // console.log('Page Load Metrics:', {
+        //     'DNS Lookup': Math.round(navigation.domainLookupEnd - navigation.domainLookupStart),
+        //     'TCP Handshake': Math.round(navigation.connectEnd - navigation.connectStart),
+        //     'Request': Math.round(navigation.responseStart - navigation.requestStart),
+        //     'Response': Math.round(navigation.responseEnd - navigation.responseStart),
+        //     'DOM Processing': Math.round(navigation.domContentLoadedEventEnd - navigation.responseEnd),
+        //     'Total Load Time': Math.round(navigation.loadEventEnd - navigation.navigationStart)
+        // });
     });
 
     // Image loading optimization

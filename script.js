@@ -3,7 +3,7 @@
 function loadComponent(componentPath, containerId) {
     const container = document.getElementById(containerId);
     if (!container) {
-        console.warn(`Container ${containerId} not found for component ${componentPath}`);
+        // console.warn(`Container ${containerId} not found for component ${componentPath}`);
         return Promise.resolve();
     }
 
@@ -36,13 +36,13 @@ function loadComponent(componentPath, containerId) {
                     }
                 });
 
-                console.log(`✓ Loaded: ${componentPath}`);
+                // console.log(`✓ Loaded: ${componentPath}`);
                 return true;
             }
             return false;
         })
         .catch(error => {
-            console.error(`Error loading ${componentPath}:`, error);
+            // console.error(`Error loading ${componentPath}:`, error);
             container.innerHTML = `<div class="loading-placeholder">
                 <div class="loading-spinner"></div>
                 <p>Loading content...</p>
@@ -71,7 +71,7 @@ class EnhancedAnimationController {
             this.initializeInteractionAnimations();
             this.startAnimationLoop();
             this.isInitialized = true;
-            console.log('✅ Enhanced animations initialized');
+            // console.log('✅ Enhanced animations initialized');
         });
     }
 
@@ -403,7 +403,7 @@ class ImprovedLoadingScreen {
 
 // Enhanced Component Loading with Retry Logic
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded, initializing components...');
+    // console.log('DOM loaded, initializing components...');
 
     // Initialize improved loading screen
     const loadingScreen = new ImprovedLoadingScreen();
@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: 'footer-container', file: 'footer.html', priority: 2 }
     ];
 
-    console.log('Starting component loading...');
+    // console.log('Starting component loading...');
     
     let loadedCount = 0;
     const totalComponents = components.length;
@@ -436,12 +436,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const success = await loadComponent(component.file, component.id);
                 if (success) {
                     loadedCount++;
-                    console.log(`✓ Loaded: ${component.file} (${loadedCount}/${totalComponents})`);
+                    // console.log(`✓ Loaded: ${component.file} (${loadedCount}/${totalComponents})`);
                     return true;
                 }
             } catch (error) {
                 if (i === retries) {
-                    console.warn(`⚠️ Failed to load after ${retries + 1} attempts: ${component.file}`);
+                    // console.warn(`⚠️ Failed to load after ${retries + 1} attempts: ${component.file}`);
                     loadedCount++;
                 }
                 await new Promise(resolve => setTimeout(resolve, 200 * (i + 1)));
@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(() => loadByPriority(2))
         .then(() => loadByPriority(3))
         .then(() => {
-            console.log('All components loaded, initializing animations...');
+            // console.log('All components loaded, initializing animations...');
             initializeEnhancedFeatures();
         });
 });
@@ -481,7 +481,7 @@ function initializeEnhancedFeatures() {
         initializeEnhancedForms();
         initializeFAQSystem();
         initializeImageOptimization();
-        console.log('✅ All enhanced features initialized');
+        // console.log('✅ All enhanced features initialized');
     }, 300);
 }
 
@@ -640,7 +640,7 @@ function initializeImageOptimization() {
 
 // Global error handling
 window.addEventListener('error', (e) => {
-    console.warn('Non-critical error handled:', e.message);
+    // console.warn('Non-critical error handled:', e.message);
 });
 
 // Cleanup on page unload
