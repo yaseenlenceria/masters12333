@@ -234,11 +234,42 @@
     }
 }
 
-/* Simple, clean styles without jarring animations */
+/* Smooth Animation for scroll reveal */
 .area-badge {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.service-areas.animate .area-badge,
+.area-badge.animated {
     opacity: 1;
-    transform: none;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transform: translateY(0) scale(1);
+}
+
+.service-areas.animate .area-badge {
+    animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.service-areas.animate .area-badge:nth-child(1) { animation-delay: 0.1s; }
+.service-areas.animate .area-badge:nth-child(2) { animation-delay: 0.15s; }
+.service-areas.animate .area-badge:nth-child(3) { animation-delay: 0.2s; }
+.service-areas.animate .area-badge:nth-child(4) { animation-delay: 0.25s; }
+.service-areas.animate .area-badge:nth-child(5) { animation-delay: 0.3s; }
+.service-areas.animate .area-badge:nth-child(6) { animation-delay: 0.35s; }
+.service-areas.animate .area-badge:nth-child(7) { animation-delay: 0.4s; }
+.service-areas.animate .area-badge:nth-child(8) { animation-delay: 0.45s; }
+.service-areas.animate .area-badge:nth-child(9) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 </style>
 
