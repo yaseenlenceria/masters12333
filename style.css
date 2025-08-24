@@ -64,6 +64,8 @@ body {
     will-change: opacity, visibility, transform;
     /* Force loading screen to stay visible until explicitly hidden */
     transform: scale(1) !important;
+    /* Force loading screen above everything */
+    backdrop-filter: blur(20px);
 }
 
 /* Ensure loading screen shows immediately on page load */
@@ -115,12 +117,18 @@ body {
     max-width: 500px;
     width: 90%;
     padding: 2rem;
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 20px;
-    border: 1px solid rgba(154, 205, 50, 0.2);
+    border: 2px solid rgba(154, 205, 50, 0.3);
     backdrop-filter: blur(20px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 60px rgba(154, 205, 50, 0.1);
     z-index: 2;
+    animation: containerFloat 4s ease-in-out infinite;
+}
+
+@keyframes containerFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
 }
 
 .loading-logo {

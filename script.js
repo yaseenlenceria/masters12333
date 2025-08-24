@@ -117,7 +117,8 @@ class PremiumLoadingScreen {
         this.startTime = Date.now();
         this.isMobile = window.innerWidth <= 768;
         this.loadedComponents = 0;
-        this.totalComponents = this.detectPageType();
+        this.totalComponents = 13; // Fixed count for home page
+        this.componentTracker = new Set();
         
         // Initialize elements after ensuring loading screen exists
         this.initializeElements();
@@ -216,19 +217,35 @@ class PremiumLoadingScreen {
             
             // Better component tracking for home page
             if (this.isHomePage) {
-                const containers = document.querySelectorAll('[id$="-container"]:not(:empty)');
-                this.loadedComponents = containers.length;
+                // Count actual loaded containers
+                const containers = document.querySelectorAll('[id$="-container"]');
+                let loadedCount = 0;
+                
+                containers.forEach(container => {
+                    if (container.innerHTML.trim() !== '') {
+                        const containerId = container.id;
+                        if (!this.componentTracker.has(containerId)) {
+                            this.componentTracker.add(containerId);
+                            loadedCount++;
+                            console.log(`📦 Component loaded: ${containerId} (${this.componentTracker.size}/13)`);
+                        }
+                    }
+                });
+                
+                this.loadedComponents = this.componentTracker.size;
                 
                 // Check for critical components specifically
-                const header = document.querySelector('header, .header');
+                const header = document.querySelector('header, .header, #main-header');
                 const hero = document.querySelector('#hero-container');
-                const hasHeader = header ? 1 : 0;
+                const hasHeader = header && header.innerHTML.trim() ? 1 : 0;
                 const hasHero = hero && hero.innerHTML.trim() ? 1 : 0;
                 
-                // Weight critical components more heavily
-                const criticalProgress = (hasHeader + hasHero) * 15; // 30% for header + hero
-                const regularProgress = Math.min((this.loadedComponents / this.totalComponents) * 70, 70);
-                this.progress = Math.min(criticalProgress + regularProgress, 100);
+                // Better progress calculation
+                const componentProgress = Math.min((this.loadedComponents / this.totalComponents) * 80, 80);
+                const criticalProgress = (hasHeader + hasHero) * 10; // 20% for critical components
+                this.progress = Math.min(componentProgress + criticalProgress, 100);
+                
+                console.log(`📊 Progress: ${this.progress}% (${this.loadedComponents}/${this.totalComponents} components, header: ${hasHeader}, hero: ${hasHero})`);
             } else {
                 // For other pages, check if main content is loaded
                 const mainContent = document.querySelector('main, .main-content, .page-content');
@@ -249,18 +266,18 @@ class PremiumLoadingScreen {
             this.updateProgressBar();
             
             // Improved completion logic
-            const minTime = this.isMobile ? 1500 : 1200; // Slightly longer minimum
-            const hasEnoughComponents = this.loadedComponents >= Math.max(3, this.totalComponents * 0.4);
+            const minTime = this.isMobile ? 2000 : 1500; // Longer minimum time
+            const hasEnoughComponents = this.loadedComponents >= Math.max(8, this.totalComponents * 0.6);
             const hasMinTime = timeElapsed >= minTime;
             const isDocumentReady = document.readyState === 'complete';
-            const hasHeader = document.querySelector('header, .header');
+            const hasHeader = document.querySelector('header, .header, #main-header');
             
             // For home page, ensure header is loaded before completing
             const canComplete = this.isHomePage ? 
                 (hasHeader && hasEnoughComponents && hasMinTime) :
                 (hasEnoughComponents && hasMinTime);
             
-            if (this.progress >= 100 || canComplete || (isDocumentReady && timeElapsed > minTime && hasHeader)) {
+            if (this.progress >= 95 || canComplete || (isDocumentReady && timeElapsed > minTime * 2 && hasHeader)) {
                 this.completeLoading();
             } else if (!this.isComplete) {
                 requestAnimationFrame(updateProgress);
@@ -269,8 +286,8 @@ class PremiumLoadingScreen {
         
         requestAnimationFrame(updateProgress);
         
-        // Adjusted timeout for better UX
-        const maxWait = this.isHomePage ? (this.isMobile ? 5000 : 4000) : (this.isMobile ? 2500 : 2000);
+        // Adjusted timeout for better UX - longer to ensure everything loads
+        const maxWait = this.isHomePage ? (this.isMobile ? 6000 : 5000) : (this.isMobile ? 3000 : 2500);
         setTimeout(() => {
             if (!this.isComplete) {
                 console.log('⚠️ Loading timeout reached, completing...');
@@ -715,9 +732,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Initialize header immediately when loaded
                         if (component.id === 'header-container') {
                             setTimeout(() => {
-                                initModernHeader();
+                                if (window.initModernHeader) {
+                                    window.initModernHeader();
+                                } else {
+                                    // Fallback header initialization
+                                    initializeHeaderFallback();
+                                }
                                 console.log('🔧 Header initialized immediately');
-                            }, 200);
+                            }, 300);
                         }
                         
                         console.log(`✅ Priority ${priority}: ${component.file} (${loadedCount}/${totalComponents})`);
@@ -774,6 +796,87 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Header Fallback Initialization
+function initializeHeaderFallback() {
+    console.log('🔧 Initializing header fallback');
+    
+    const header = document.querySelector('#main-header, header, .header');
+    if (!header) {
+        console.warn('⚠️ No header found for fallback initialization');
+        return;
+    }
+    
+    // Mobile menu functionality
+    const mobileMenuBtn = header.querySelector('#mobile-menu-btn, .mobile-menu-btn');
+    const mobileMenu = header.querySelector('#mobile-menu, .mobile-menu');
+    const mobileOverlay = header.querySelector('#mobile-overlay, .mobile-overlay');
+    
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            mobileMenuBtn.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            if (mobileOverlay) mobileOverlay.classList.toggle('active');
+            
+            // Prevent body scroll
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+    }
+    
+    // Mobile services toggle
+    const servicesToggle = header.querySelector('.mobile-services-toggle');
+    const servicesMenu = header.querySelector('.mobile-services-menu');
+    const servicesDiv = header.querySelector('.mobile-services');
+    
+    if (servicesToggle && servicesDiv) {
+        servicesToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            servicesDiv.classList.toggle('active');
+        });
+    }
+    
+    // Close menu on overlay click
+    if (mobileOverlay) {
+        mobileOverlay.addEventListener('click', () => {
+            if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
+            if (mobileMenu) mobileMenu.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
+    
+    // Close menu on nav link clicks
+    const navLinks = header.querySelectorAll('.mobile-nav-link, .mobile-service-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (mobileMenuBtn) mobileMenuBtn.classList.remove('active');
+            if (mobileMenu) mobileMenu.classList.remove('active');
+            if (mobileOverlay) mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+    
+    // Scroll effects
+    let lastScrollY = 0;
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+        
+        if (currentScrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        lastScrollY = currentScrollY;
+    }, { passive: true });
+    
+    console.log('✅ Header fallback initialized');
+}
+
 // Initialize Enhanced Features
 function initializeEnhancedFeatures() {
     // Initialize scroll behavior
@@ -784,6 +887,14 @@ function initializeEnhancedFeatures() {
     
     // Initialize performance optimizations
     initializePerformanceOptimizations();
+    
+    // Ensure header is working
+    setTimeout(() => {
+        const header = document.querySelector('#main-header, header, .header');
+        if (header && !window.modernHeaderController) {
+            initializeHeaderFallback();
+        }
+    }, 100);
     
     // Initialize all FAQ systems
     setTimeout(() => {
@@ -918,9 +1029,28 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
+// Global header initialization function
+window.initModernHeader = function() {
+    if (window.modernHeaderController) {
+        console.log('🔧 Header controller already exists');
+        return;
+    }
+    
+    // Try to initialize the header controller from header.html
+    if (typeof ModernHeaderController !== 'undefined') {
+        window.modernHeaderController = new ModernHeaderController();
+        console.log('✅ Modern header controller initialized');
+    } else {
+        // Use fallback
+        console.log('🔧 Using header fallback initialization');
+        initializeHeaderFallback();
+    }
+};
+
 // Expose for debugging
 window.debugInfo = {
     loadingScreen: null,
     animationController: null,
-    getLoadedComponents: () => document.querySelectorAll('[id$="-container"]:not(:empty)').length
+    getLoadedComponents: () => document.querySelectorAll('[id$="-container"]:not(:empty)').length,
+    headerController: () => window.modernHeaderController
 };
