@@ -323,15 +323,48 @@ img, video {
     }
 }
 
-/* Enhanced Animation Framework */
+/* Optimized Animation Framework */
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(40px);
+        transform: translate3d(0, 30px, 0);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes textReveal {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes cardSlideIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
@@ -493,6 +526,30 @@ img, video {
 .animate-delay-900 { animation-delay: 0.9s; }
 .animate-delay-1000 { animation-delay: 1s; }
 
+/* Smooth Text Animations */
+h1, h2, h3, h4, h5, h6 {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
+}
+
+h1.text-revealed, h2.text-revealed, h3.text-revealed, 
+h4.text-revealed, h5.text-revealed, h6.text-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    will-change: auto;
+}
+
+.hero-title {
+    animation: textReveal 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation-delay: 0.3s;
+}
+
+.section-title {
+    animation: textReveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
 /* Enhanced Button Styles with Animations */
 .btn {
     display: inline-block;
@@ -596,17 +653,24 @@ img, video {
     }
 }
 
-/* Enhanced Card Animations */
+/* Enhanced Card Animations with Performance Optimization */
 .service-card,
 .feature-card,
 .contact-card,
 .testimonial-card {
     backface-visibility: hidden;
-    perspective: 1000px;
-    transform-style: preserve-3d;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform: translate3d(0, 0, 0);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     overflow: hidden;
+    will-change: transform;
+}
+
+.service-card.animated,
+.feature-card.animated,
+.contact-card.animated,
+.testimonial-card.animated {
+    animation: cardSlideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .service-card::before,
@@ -824,10 +888,46 @@ img:hover {
     }
 }
 
-/* Loading States */
+/* Enhanced Loading States */
 .loading {
     position: relative;
     overflow: hidden;
+}
+
+.page-loading {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.page-loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.content-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.content-section.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Smooth element transitions */
+.smooth-element {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+.smooth-element:hover {
+    will-change: transform;
+}
+
+.smooth-element:not(:hover) {
+    will-change: auto;
 }
 
 .loading::after {
