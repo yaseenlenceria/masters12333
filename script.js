@@ -80,6 +80,15 @@ function initializeComponentFeatures(container) {
 // Enhanced Loading Screen Controller
 class PremiumLoadingScreen {
     constructor() {
+        this.isHomePage = window.location.pathname === '/' || window.location.pathname.includes('index.html') || window.location.pathname === '';
+        
+        // Only initialize loading screen for home page
+        if (!this.isHomePage) {
+            console.log('📄 Non-home page detected, skipping loading screen');
+            this.isComplete = true;
+            return;
+        }
+        
         this.loadingScreen = document.getElementById('loading-screen');
         this.progressFill = document.querySelector('.progress-fill');
         this.loadingPercentage = document.querySelector('.loading-percentage');
@@ -89,7 +98,6 @@ class PremiumLoadingScreen {
         this.isMobile = window.innerWidth <= 768;
         this.loadedComponents = 0;
         this.totalComponents = this.detectPageType();
-        this.isHomePage = window.location.pathname === '/' || window.location.pathname.includes('index.html');
         
         // Create loading screen if it doesn't exist
         if (!this.loadingScreen && !this.isComplete) {
@@ -97,7 +105,7 @@ class PremiumLoadingScreen {
         }
         
         if (this.loadingScreen) {
-            console.log('🚀 Initializing Premium Loading Screen');
+            console.log('🚀 Initializing Premium Loading Screen for Home Page');
             this.init();
         }
     }
@@ -540,14 +548,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 0.5s ease';
 
-    // Initialize premium loading screen
+    // Initialize premium loading screen (only for home page)
     const loadingScreen = new PremiumLoadingScreen();
     
     // Initialize animation controller
     window.animationController = new ModernAnimationController();
 
     // Detect if this is the home page
-    const isHomePage = window.location.pathname === '/' || window.location.pathname.includes('index.html');
+    const isHomePage = window.location.pathname === '/' || window.location.pathname.includes('index.html') || window.location.pathname === '';
 
     if (isHomePage) {
         // Component configuration with priorities for home page
@@ -603,23 +611,31 @@ document.addEventListener('DOMContentLoaded', function() {
         // For other pages, just wait for document ready and initialize features
         console.log('📄 Non-home page detected, using simplified loading');
         
+        // Show page content immediately for non-home pages
+        document.body.style.opacity = '1';
+        
+        // Load header and footer for service pages
+        const hasHeader = document.getElementById('header-container');
+        const hasFooter = document.getElementById('footer-container');
+        
+        if (hasHeader) {
+            loadComponent('header.html', 'header-container');
+        }
+        if (hasFooter) {
+            loadComponent('footer.html', 'footer-container');
+        }
+        
         // Simple loading for other pages
         setTimeout(() => {
             initializeEnhancedFeatures();
-        }, 500);
+        }, 300);
         
-        // Monitor document ready state
-        if (document.readyState === 'complete') {
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 800);
-        } else {
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    document.body.style.opacity = '1';
-                }, 800);
-            });
-        }
+        // Initialize animations quickly for non-home pages
+        setTimeout(() => {
+            if (window.animationController) {
+                window.animationController.init();
+            }
+        }, 500);
     }
 });
 
