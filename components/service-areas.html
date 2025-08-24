@@ -234,54 +234,32 @@
     }
 }
 
-/* Enhanced Badge Animations */
+/* Smooth Animation for scroll reveal */
 .area-badge {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    animation: none;
-}
-
-.area-badge.animate-on-scroll {
     opacity: 0;
-    transform: translateY(30px) scale(0.9);
+    transform: translateY(20px) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.area-badge.animate-on-scroll.animated {
+.service-areas.animate .area-badge,
+.area-badge.animated {
     opacity: 1;
     transform: translateY(0) scale(1);
-    animation: slideInUpBadge 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-@keyframes slideInUpBadge {
-    0% {
-        opacity: 0;
-        transform: translateY(30px) scale(0.9);
-    }
-    60% {
-        opacity: 1;
-        transform: translateY(-5px) scale(1.05);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+.service-areas.animate .area-badge {
+    animation: fadeInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-/* Improved Badge Hover States */
-.area-badge:hover {
-    background: rgba(154, 205, 50, 0.2);
-    border-color: rgba(154, 205, 50, 0.6);
-    color: #9ACD32;
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(154, 205, 50, 0.3);
-}
-
-.area-badge.primary:hover {
-    background: linear-gradient(135deg, #7CB342 0%, #689F38 100%);
-    transform: translateY(-4px) scale(1.08);
-    box-shadow: 0 12px 30px rgba(154, 205, 50, 0.5);
-}
+.service-areas.animate .area-badge:nth-child(1) { animation-delay: 0.1s; }
+.service-areas.animate .area-badge:nth-child(2) { animation-delay: 0.15s; }
+.service-areas.animate .area-badge:nth-child(3) { animation-delay: 0.2s; }
+.service-areas.animate .area-badge:nth-child(4) { animation-delay: 0.25s; }
+.service-areas.animate .area-badge:nth-child(5) { animation-delay: 0.3s; }
+.service-areas.animate .area-badge:nth-child(6) { animation-delay: 0.35s; }
+.service-areas.animate .area-badge:nth-child(7) { animation-delay: 0.4s; }
+.service-areas.animate .area-badge:nth-child(8) { animation-delay: 0.45s; }
+.service-areas.animate .area-badge:nth-child(9) { animation-delay: 0.5s; }
 
 @keyframes fadeInUp {
     from {
